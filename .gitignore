@@ -23,6 +23,9 @@ creds.js
  
 # Private Files
 *.json
+# Exclude all json files except package.json and tsconfig.json for backend
+!backend/package.json 
+!backend/tsconfig.json
 *.csv
 *.csv.gz
 *.tsv
