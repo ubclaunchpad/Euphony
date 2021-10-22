@@ -22,3 +22,13 @@ export async function reverseGeocoding(latitude: string, longitude: string) {
 		});
 	return res.data;
 }
+
+export function isLatitude(latStr: string) {
+	const lat = Number(latStr);
+	return !isNaN(lat) && isFinite(lat) && Math.abs(lat) <= 90;
+}
+
+export function isLongitude(lonStr: string) {
+	const lon = Number(lonStr);
+	return !isNaN(lon) && isFinite(lon) && Math.abs(lon) <= 180;
+}
