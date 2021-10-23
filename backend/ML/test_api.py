@@ -1,5 +1,6 @@
 import requests
 import json
+import numpy as np
 
 GET_URL = 'http://127.0.0.1:5000/'
 POST_URL = 'http://127.0.0.1:5000/recommend_playlist'
