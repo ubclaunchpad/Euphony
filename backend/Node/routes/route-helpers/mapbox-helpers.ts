@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const token = process.env.MAPBOX_TOKEN;
 
-export async function reverseGeocoding(latitude: string, longitude: string) {
+export async function reverseGeocode(latitude: string, longitude: string) {
 	const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
 		+ longitude + ', ' + latitude
 		+ '.json?types=poi&access_token=' + token;
