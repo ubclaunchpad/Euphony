@@ -17,11 +17,12 @@ def main():
     # }
 
     request = {
-        'location': "USA", # categorical variable, binary for now
-        'rainy-sunny': 0.5,
+        'location': 1, # categorical variable, binary for now
+        'clouds': 0.5,
+        'pop': 0.5,
         'temp': 20,
-        'mood': 'happy', # 7 final categories
-        'activity': 'working out', # 6 categories # 16 + 39 = 55
+        'mood': 0, # 5 final categories
+        'activity': 3, # 5 categories
         "audio_features": [
         {
             "danceability": 0.808,
