@@ -21,18 +21,6 @@
 node_modules/
 creds.js
  
-# Private Files
-*.json
-# Exclude all json files except package.json and tsconfig.json for backend
-!backend/Node/package.json
-!backend/Node/package-lock.json
-!backend/Node/tsconfig.json
-*.csv
-*.csv.gz
-*.tsv
-*.tsv.gz
-*.xlsx
- 
  
 # Mac/OSX
 .DS_Store
