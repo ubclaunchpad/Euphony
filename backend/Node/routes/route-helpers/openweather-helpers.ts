@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-//TODO: Need to create account and add OpenWeather key to ENV VARS
 const API_KEY = process.env.OPEN_WEATHER_KEY;
 
 export async function currentWeatherData(lat: String, lon: String) {

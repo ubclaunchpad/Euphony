@@ -22,6 +22,7 @@ router.get('/reverseWeather/:latLon', async (req, res) => {
         weatherData.main.humidity,
         weatherData.clouds.all,
     );
+
     res.send(relevantData !== null ? relevantData : []);
 });
 
