@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+//TODO: Need to create account and add OpenWeather key to ENV VARS
 const API_KEY = process.env.OPEN_WEATHER_KEY;
 
 export async function currentWeatherData(lat: String, lon: String) {
-    const url = `api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+    //Need HTTPS prefix in endpoint
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
     const result: any = await axios.get(url)
         .catch((error: any) => {
