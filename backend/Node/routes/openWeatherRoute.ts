@@ -23,7 +23,7 @@ router.get('/reverseWeather/:latLon', async (req, res) => {
         weatherData.clouds.all,
     );
 
-    res.send(relevantData !== null ? relevantData : []);
+    res.send(relevantData ? relevantData : []);
 });
 
 module.exports = router;
