@@ -1,3 +1,4 @@
+import Icon from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
