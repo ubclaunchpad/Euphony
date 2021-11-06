@@ -45,7 +45,10 @@ function RootNavigator() {
       <Stack.Screen
         name="TabOneScreen"
         component={HomeScreen}
-        options={{ headerTitle: 'Home' }}
+        options={{ headerTitle: 'Home',
+          headerStyle:{ backgroundColor: '#FFF'},
+          headerTitleStyle:{ color: 'green'},
+        }}
       />
 
       <Stack.Screen

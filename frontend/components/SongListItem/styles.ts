@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
         padding: 10
     },
     image: {
-        width: 50,
-        height: 50,
+        width: 55,
+        height: 55,
         borderRadius: 12,
     },
     rightContainer: {

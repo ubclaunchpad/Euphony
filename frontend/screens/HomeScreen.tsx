@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, Text, View } from 'react-native';
+import { StyleSheet, FlatList, View } from 'react-native';
 
 import AlbumCategory from '../components/AlbumCategory';
 import albumCategories from '../data/albumCategories';
@@ -7,7 +7,6 @@ import albumCategories from '../data/albumCategories';
 export default function HomeScreen() {
   return (
     <View style={styles.container} lightColor="#eee" darkColor="rgba(255,255,255,0.1)">
-      <Text>Please</Text>
       <FlatList
         data={albumCategories}
         renderItem={({ item }) => (
