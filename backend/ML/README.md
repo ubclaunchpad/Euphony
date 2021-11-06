@@ -32,7 +32,7 @@ Activate the virtual env as above
 run the following:
 
 ```
-pip install -r requirements.txt
+make install
 ```
 pip is the python equivalent of npm, requirements.txt is the equivalent of package.json
 
@@ -42,9 +42,7 @@ pip is the python equivalent of npm, requirements.txt is the equivalent of packa
 Run the following commands
 
 ```
-export FLASK_APP=server.py
-export FLASK_ENV=<venv_name>
-flask run
+make server
 ```
 
 Check that the server is working:
