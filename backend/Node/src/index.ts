@@ -1,6 +1,7 @@
 import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
+import bodyParser from 'body-parser';
 const testRoute = require('../routes/testRoute');
 const mapboxRoute = require('../routes/mapboxRoute');
 const spotifyRoute = require('../routes/spotifyRoute');
@@ -9,6 +10,12 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORTNUM;
+
+// support parsing of application/json type post data
+app.use(bodyParser.json());
+
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // set up swagger UI
 const options = {

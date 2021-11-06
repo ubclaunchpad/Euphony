@@ -83,29 +83,26 @@ router.get('/getMe/:access_token', async (req: any, res: any) => {
 });
 
 // get user top tracks
-router.get(
-	'/getMyTopTracksManual/:access_token',
-	async (req: any, res: any) => {
-		try {
-			if (!req.params.access_token)
-				return res.status(400).send('failed to authenticate');
+router.get('/getMyTopTracks/:access_token', async (req: any, res: any) => {
+	try {
+		if (!req.params.access_token)
+			return res.status(400).send('failed to authenticate');
 
-			const url = 'https://api.spotify.com/v1/me/top/tracks';
+		const url = 'https://api.spotify.com/v1/me/top/tracks';
 
-			const topTracks: any = await axios.get(url, {
-				headers: { Authorization: `Bearer ${req.params.access_token}` },
-			});
+		const topTracks: any = await axios.get(url, {
+			headers: { Authorization: `Bearer ${req.params.access_token}` },
+		});
 
-			if (topTracks) {
-				console.log(topTracks.data);
-				return res.status(200).send(topTracks.data);
-			}
-		} catch (error) {
-			console.log(error);
-			return res.status(404).send(error);
+		if (topTracks) {
+			console.log(topTracks.data);
+			return res.status(200).send(topTracks.data);
 		}
+	} catch (error) {
+		console.log(error);
+		return res.status(404).send(error);
 	}
-);
+});
 
 // get audio features for a track
 router.get(
@@ -116,7 +113,34 @@ router.get(
 				return res.status(400).send('failed to authenticate');
 
 			spotifyApi.setAccessToken(req.params.access_token);
+
 			const data = await spotifyApi.getAudioFeaturesForTrack(req.body.trackId);
+			if (data) {
+				console.log(data);
+				return res.status(200).send(data);
+			} else {
+				return res.status(204).send('error getting audio features');
+			}
+		} catch (error) {
+			return res.status(404).send(error);
+		}
+	}
+);
+
+// get audio features for many tracks
+router.get(
+	'/getAudioFeaturesForTracks/:access_token',
+	async (req: any, res: any) => {
+		try {
+			if (!req.params.access_token || !req.body.trackIdArray)
+				return res.status(400).send('failed to authenticate');
+
+			spotifyApi.setAccessToken(req.params.access_token);
+			console.log(req.body.trackIdArray);
+			// req.body.trackIdArray.forEach((element: any) => {});
+			const data = await spotifyApi.getAudioFeaturesForTracks(
+				req.body.trackIdArray
+			);
 			if (data) {
 				console.log(data);
 				return res.status(200).send(data);
