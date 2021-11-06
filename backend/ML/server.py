@@ -15,7 +15,7 @@ class NeuralNetwork(nn.Module):
     def __init__(self):
         super(NeuralNetwork, self).__init__()
         self.linear_relu_stack = nn.Sequential(
-            nn.Linear(32, 512),
+            nn.Linear(40, 512),
             nn.ReLU(),
             nn.Linear(512, 512),
             nn.ReLU(),
@@ -50,7 +50,14 @@ def parse_audio_features(audio_features):
     tempo_arr = []
     valence_arr = []
 
+    key_arr = []
+    mode_arr = []
+    popularity_arr = []
+    time_signature_arr = []
+    
+
     for audio_feature in audio_features:
+        
         acousticness_arr.append(audio_feature['acousticness'])
         danceability_arr.append(audio_feature['danceability'])
         energy_arr.append(audio_feature['energy'])
@@ -60,6 +67,11 @@ def parse_audio_features(audio_features):
         speechiness_arr.append(audio_feature['speechiness'])
         tempo_arr.append(audio_feature['tempo'])
         valence_arr.append(audio_feature['valence'])
+
+        key_arr.append(audio_feature['key'])
+        mode_arr.append(audio_feature['mode'])
+        popularity_arr.append(audio_feature['popularity'])
+        time_signature_arr.append(audio_feature['time_signature'])
 
     mean_arr.append(statistics.mean(acousticness_arr))
     stdev_arr.append(statistics.stdev(acousticness_arr))
@@ -87,6 +99,18 @@ def parse_audio_features(audio_features):
 
     mean_arr.append(statistics.mean(valence_arr))
     stdev_arr.append(statistics.stdev(valence_arr))
+
+    mean_arr.append(statistics.mean(key_arr))
+    stdev_arr.append(statistics.stdev(key_arr))
+
+    mean_arr.append(statistics.mean(mode_arr))
+    stdev_arr.append(statistics.stdev(mode_arr))
+
+    mean_arr.append(statistics.mean(popularity_arr))
+    stdev_arr.append(statistics.stdev(popularity_arr))
+
+    mean_arr.append(statistics.mean(time_signature_arr))
+    stdev_arr.append(statistics.stdev(time_signature_arr))
 
     feature_arr = []
 
@@ -145,8 +169,8 @@ def get_recommended_playlist():
     req = request.json # pass this data to ML later on :)
 
     parsed_req = parse_request(req)
-    # print(f"parsed request: {parsed_req}")
-    # print(f"tensor shape: {parsed_req.shape}")
+    print(f"parsed request: {parsed_req}")
+    print(f"tensor shape: {parsed_req.shape}")
 
     predictions = model(parsed_req)
     # print(f"prediction shape: {predictions.shape}")
