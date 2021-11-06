@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     },
     creatorContainer: {
         flex: 1,
-        justifyContent: 'space-between',
         flexDirection: 'row',
+        alignItems: 'center',
     },
     headerInfo: {
         flex: 1, 
@@ -103,7 +103,12 @@ const styles = StyleSheet.create({
     },
     findContents: {
         justifyContent: 'flex-start',
-        padding: 5
+        padding: 5,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    gapAfterIcon: {
+        marginLeft: 10
     }
 });
 

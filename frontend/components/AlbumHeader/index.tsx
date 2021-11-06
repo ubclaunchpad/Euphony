@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Text, View, Image, TouchableOpacity, Switch, Alert } from 'react-native';
 import { Album } from '../../types';
 import styles from './styles';
-import { MaterialCommunityIcons, Entypo, AntDesign } from 'react-native-vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
 
 export type AlbumHeaderProps = {
     album: Album;
@@ -53,12 +56,14 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                                 <TouchableOpacity>
                                     <View style={styles.title}>
                                         <Text style={styles.name}>{album.name}</Text>
+                                        <AntDesign name="edit" size={18} color={'hsl(0, 0%, 15%)'} style={styles.edit}/>
                                         {/* <AntDesign name="edit" size={18} color={'hsl(0, 0%, 15%)'} style={styles.edit}/> */}
                                     </View>
                                 </TouchableOpacity>
                                 <View style={styles.creatorContainer}>
                                         {/* TODO: need to rename style names*/}
                                         <Text style={styles.likes}>{album.songs.length} songs</Text>
+                                        <Entypo name="dot-single" size={15} color={"hsl(0, 0%, 46%)"}/>
                                         { /* <Entypo name="dot-single" size={15} color={"hsl(0, 0%, 46%)"}/> */}
                                         <Text style={styles.creator}>{album.duration}</Text>
                                         
@@ -90,6 +95,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                 <TouchableOpacity onPress={createThreeButtonAlert}>
                     <View style={styles.button}>
                         { /* <MaterialCommunityIcons name="spotify" size={30} color={"white"}/> */}
+                        <MaterialCommunityIcons name="spotify" size={30} color={"white"}/>
                         <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>
                     </View>
                 </TouchableOpacity>
@@ -99,7 +105,8 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
             <View style={styles.findInPlaylist}>
                 <View style={styles.findContents}>
-                    <Text style={styles.promptText}>Find in playlist</Text>
+                    <Feather name="search" size={25} color={"black"}/>
+                    <Text style={[styles.promptText, styles.gapAfterIcon]}>Find in playlist</Text>
                 </View>
             </View>
             

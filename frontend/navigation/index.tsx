@@ -3,7 +3,10 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome, Entypo, MaterialCommunityIcons, MaterialIcons } from 'react-native-vector-icons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -82,38 +85,61 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: 'black',
       }}>
       <BottomTab.Screen
         name="TabOne"
         component={HomeScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Home'
+          title: 'Home',
+          tabBarIcon: ({ color }) => <Entypo name="home" size={30} style={{marginBottom: -3 }} color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Modal')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="info-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          )
         })}
       />
       <BottomTab.Screen
         name="Custom Login"
         component={LoginScreen}
         options={{
-          title: 'Custom Login'}}
+          title: 'Custom Login',
+          tabBarIcon: ({ color }) => <MaterialIcons name="login" size={30} style={{marginBottom: -3}} color={color}/>,
+        }}
       />
       <BottomTab.Screen
         name="Spotify OAuth"
         component={SpotifyScreen}
         options={{
-          title: 'OAuth?',}}
+          title: 'OAuth?',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="spotify" size={30} style={{marginBottom: -3}} color={color}/>,
+        }}
       />
       <BottomTab.Screen
         name="Weather"
         component={WeatherScreen}
         options={{
-          title: 'Weather',}}
+          title: 'Weather',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="weather-partly-cloudy" size={30} style={{marginBottom: -3}} color={color}/>,
+        }}
       />
       <BottomTab.Screen
         name="Geolocation"
         component={LocationScreen}
         options={{
-          title: 'Geolocation',}}
+          title: 'Geolocation',
+          tabBarIcon: ({ color }) => <MaterialIcons name="my-location" size={30} style={{marginBottom: -3}} color={color}/>,
+        }}
       />
     </BottomTab.Navigator>
   );
