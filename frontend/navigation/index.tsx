@@ -56,9 +56,6 @@ function RootNavigator() {
         component={AlbumScreen}
         options={{ 
           headerTitle: '',
-          headerStyle: {
-            backgroundColor: 'transparent',
-          },
           headerTintColor: '#000',
           headerTitleStyle: {
             fontWeight: 'bold',

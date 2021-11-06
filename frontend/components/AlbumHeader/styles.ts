@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     promptText: {
-        fontWeight: "bold"
+        fontWeight: "bold",
+        color: 'black'
     },
     rightContainer: {
         flex: 1,
