@@ -17,7 +17,7 @@ router.get('/login', (req: any, res: any) => {
 });
 
 // call back api with access token and refresh token
-router.get('/callback', (req: any, res: any) => {
+router.get('/callback', async (req: any, res: any) => {
 	const error = req.query.error;
 	const code = req.query.code;
 	const state = req.query.state;
@@ -28,9 +28,10 @@ router.get('/callback', (req: any, res: any) => {
 		return;
 	}
 
-	spotifyApi
-		.authorizationCodeGrant(code)
-		.then((data: any) => {
+	try {
+		const data = await spotifyApi.authorizationCodeGrant(code);
+
+		if (data) {
 			const access_token = data.body['access_token'];
 			const refresh_token = data.body['refresh_token'];
 			const expires_in = data.body['expires_in'];
@@ -54,11 +55,13 @@ router.get('/callback', (req: any, res: any) => {
 				console.log('access_token:', access_token);
 				spotifyApi.setAccessToken(access_token);
 			}, (expires_in / 2) * 1000);
-		})
-		.catch((error: any) => {
-			console.error('Error getting Tokens:', error);
-			res.send(`Error getting Tokens: ${error}`);
-		});
+		} else {
+			res.send('Authorization granted, but no tokens were returned');
+		}
+	} catch (error: any) {
+		console.error('Error getting Tokens:', error);
+		res.send(`Error getting Tokens: ${error}`);
+	}
 });
 
 // get user basic information
@@ -71,12 +74,10 @@ router.get('/getMe/:access_token', async (req: any, res: any) => {
 		const me = await spotifyApi.getMe();
 		console.log(me);
 
-		if (me) {
-			console.log(me);
-			return res.status(200).json(me.body);
-		} else {
+		if (!me) {
 			return res.status(204).send('error while retrieving user info');
 		}
+		return res.status(200).json(me.body);
 	} catch (error) {
 		return res.status(404).send(error);
 	}
@@ -112,8 +113,9 @@ router.get(
 	'/getAudioFeaturesForTrack/:access_token',
 	async (req: any, res: any) => {
 		try {
-			if (!req.params.access_token || !req.body.trackId)
+			if (!req.params.access_token)
 				return res.status(400).send('failed to authenticate');
+			if (!req.body.trackId) return res.status(400).send('trackId is missing');
 
 			spotifyApi.setAccessToken(req.params.access_token);
 			const data = await spotifyApi.getAudioFeaturesForTrack(req.body.trackId);
