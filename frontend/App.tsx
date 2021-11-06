@@ -7,7 +7,7 @@
  *
  * @format
  */
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
 import {
   SafeAreaView,
@@ -33,6 +33,7 @@ const Section: React.FC<{
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
+
       <Text
         style={[
           styles.sectionTitle,
@@ -40,7 +41,8 @@ const Section: React.FC<{
             color: isDarkMode ? Colors.white : Colors.black,
           },
         ]}>
-        {title}
+        <Icon name="rocket" size={30} color="#900" />;
+
       </Text>
       <Text
         style={[
