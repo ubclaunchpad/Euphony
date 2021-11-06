@@ -169,8 +169,8 @@ def get_recommended_playlist():
     req = request.json # pass this data to ML later on :)
 
     parsed_req = parse_request(req)
-    print(f"parsed request: {parsed_req}")
-    print(f"tensor shape: {parsed_req.shape}")
+    # print(f"parsed request: {parsed_req}")
+    # print(f"tensor shape: {parsed_req.shape}")
 
     predictions = model(parsed_req)
     # print(f"prediction shape: {predictions.shape}")
