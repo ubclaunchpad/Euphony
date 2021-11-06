@@ -51,7 +51,17 @@ function RootNavigator() {
       <Stack.Screen
         name="AlbumScreen"
         component={AlbumScreen}
-        options={{ headerTitle: 'Playlist Preview' }}
+        options={{ 
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          shadowOpacity: 0,
+          borderBottomWidth: 0, }}
       />
     </Stack.Navigator>
       

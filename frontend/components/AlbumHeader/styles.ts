@@ -14,16 +14,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     },
-    title: {
-        flexDirection: "row",
-        justifyContent: 'center',
-    },
-    creatorContainer: {
-        flexDirection: "row",
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 5
-    },
     edit: {
         margin: 10,
     },
@@ -59,48 +49,61 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
     },
+    title: {
+        flexDirection: "row",
+        marginBottom: 3,
+    },
+    headerText: {
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+    creatorContainer: {
+        flex: 1,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+    },
+    headerInfo: {
+        flex: 1, 
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 40,
+        marginRight: 40,
+    },
     visibility: {
         flex: 1, 
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
-    visibilitySectionAlpha: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    leftContainer: {
         flex: 1,
-        borderTopLeftRadius: 25,
-        borderBottomLeftRadius: 25,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
     },
-    visibilitySectionBeta: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    promptText: {
+        fontWeight: "bold"
+    },
+    rightContainer: {
         flex: 1,
-        backgroundColor: '#3386ff',
-        borderTopRightRadius: 25,
-        borderBottomRightRadius: 25,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
-    visibilityTextAlpha: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#3386ff',
+    findInPlaylist: {
+        marginTop: 20,
+        margin: 6,
+        marginLeft: 20,
+        marginRight: 20,
+        backgroundColor: 'hsl(0, 0%, 85%)',
+        borderRadius: 11,
+        padding: 10,
+        justifyContent: 'space-around',
     },
-    visibilityTextBeta: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: 'white'
-    },
-    visibilityButton: {
-        borderColor: '#3386ff',
-        borderWidth: 2,
-        height: 50,
-        width: 200,
-        justifyContent: 'center',
-        alignContent: 'stretch',
-        margin: 5,
-        flexDirection: "row",
-        borderRadius: 25
-    },
+    findContents: {
+        justifyContent: 'flex-start',
+        padding: 5
+    }
 });
 
 export default styles;

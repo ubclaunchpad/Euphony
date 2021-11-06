@@ -3,15 +3,17 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        margin: 8,
+        margin: 6,
+        marginLeft: 20,
+        marginRight: 20,
         backgroundColor: 'hsl(0, 0%, 85%)',
-        borderRadius: 50,
+        borderRadius: 19,
         padding: 10
     },
     image: {
         width: 50,
         height: 50,
-        borderRadius: 50
+        borderRadius: 12,
     },
     rightContainer: {
         justifyContent: 'space-around',
