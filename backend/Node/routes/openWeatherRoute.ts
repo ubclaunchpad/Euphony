@@ -15,15 +15,23 @@ router.get('/reverseWeather/:latLon', async (req, res) => {
     }
     const weatherData = await currentWeatherData(latLon[0], latLon[1]);
 
-    const relevantData = [];
-    relevantData.push(
-        weatherData.main.temp,
-        weatherData.main.feels_like,
-        weatherData.main.humidity,
-        weatherData.clouds.all,
-    );
+    const mainTempC = weatherData.main.temp - 273.15;
+    const mainTempF = (weatherData.main.temp - 273.15) * (9 / 5) + 32;
+    const mainFeelsLikeC = weatherData.main.feels_like - 273.15;
+    const mainFeelsLikeF = (weatherData.main.feels_like - 273.15) * (9 / 5) + 32;
+    const mainHumidity = weatherData.main.humidity / 100;
+    const mainClouds = weatherData.clouds.all / 100;
 
-    res.send(relevantData ? relevantData : []);
+    const relevantData = {
+        temp_c: mainTempC,
+        temp_f: mainTempF,
+        feels_like_c: mainFeelsLikeC,
+        feels_like_f: mainFeelsLikeF,
+        humidity: mainHumidity,
+        clouds: mainClouds
+    };
+
+    res.send(relevantData ? relevantData : {});
 });
 
 module.exports = router;
