@@ -4,20 +4,22 @@ const router = express.Router();
 import { scopes } from './route-helpers/spotify-helpers';
 import axios from 'axios';
 
-// credentials are optional
-var spotifyApi = new SpotifyWebApi({
-	clientId: process.env.SPOTIFY_CLIENT_ID,
-	clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-	redirectUri: 'http://localhost:4000/spotify/callback',
-});
-
+const createSpotifyWebApi = () => {
+	return new SpotifyWebApi({
+		clientId: process.env.SPOTIFY_CLIENT_ID,
+		clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+		redirectUri: 'http://localhost:4000/spotify/callback',
+	});
+}
 // login
 router.get('/login', (req: any, res: any) => {
+	var spotifyApi = createSpotifyWebApi();
 	res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
 
 // call back api with access token and refresh token
 router.get('/callback', async (req: any, res: any) => {
+	var spotifyApi = createSpotifyWebApi();
 	const error = req.query.error;
 	const code = req.query.code;
 	const state = req.query.state;
@@ -39,6 +41,7 @@ router.get('/callback', async (req: any, res: any) => {
 			spotifyApi.setAccessToken(access_token);
 			spotifyApi.setRefreshToken(refresh_token);
 
+			// development purposes
 			console.log('access_token:', access_token);
 			console.log('refresh_token:', refresh_token);
 
@@ -66,13 +69,13 @@ router.get('/callback', async (req: any, res: any) => {
 
 // get user basic information
 router.get('/getMe/:access_token', async (req: any, res: any) => {
+	var spotifyApi = createSpotifyWebApi();
 	try {
 		if (!req.params.access_token)
 			return res.status(400).send('failed to authenticate');
 
 		spotifyApi.setAccessToken(req.params.access_token);
 		const me = await spotifyApi.getMe();
-		console.log(me);
 
 		if (!me) {
 			return res.status(204).send('error while retrieving user info');
@@ -85,8 +88,9 @@ router.get('/getMe/:access_token', async (req: any, res: any) => {
 
 // get user top tracks
 router.get(
-	'/getMyTopTracksManual/:access_token',
+	'/getMyTopTracks/:access_token',
 	async (req: any, res: any) => {
+		var spotifyApi = createSpotifyWebApi();
 		try {
 			if (!req.params.access_token)
 				return res.status(400).send('failed to authenticate');
@@ -98,7 +102,6 @@ router.get(
 			});
 
 			if (topTracks) {
-				console.log(topTracks.data);
 				return res.status(200).send(topTracks.data);
 			}
 		} catch (error) {
@@ -112,6 +115,7 @@ router.get(
 router.get(
 	'/getAudioFeaturesForTrack/:access_token',
 	async (req: any, res: any) => {
+		var spotifyApi = createSpotifyWebApi();
 		try {
 			if (!req.params.access_token)
 				return res.status(400).send('failed to authenticate');
@@ -120,10 +124,9 @@ router.get(
 			spotifyApi.setAccessToken(req.params.access_token);
 			const data = await spotifyApi.getAudioFeaturesForTrack(req.body.trackId);
 			if (data) {
-				console.log(data);
 				return res.status(200).send(data);
 			} else {
-				return res.status(204).send('error getting audio features');
+				return res.status(204).send('no audio features returned');
 			}
 		} catch (error) {
 			return res.status(404).send(error);
