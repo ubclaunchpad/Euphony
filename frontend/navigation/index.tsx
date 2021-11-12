@@ -18,11 +18,12 @@ import useColorScheme from '../hooks/useColorScheme';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import HomeScreen from '../screens/HomeScreen';
 import AlbumScreen from '../screens/AlbumScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
 import WeatherScreen from '../screens/WeatherScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SpotifyScreen from '../screens/SpotifyScreen';
 import LocationScreen from '../screens/LocationScreen';
+import PlaylistInfo from '../screens/PlaylistInfo';
+
 import { RootStackParamList, RootTabParamList, RootTabScreenProps, TabOneParamList } from '../types';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -57,6 +58,20 @@ function RootNavigator() {
       <Stack.Screen
         name="AlbumScreen"
         component={AlbumScreen}
+        options={{ 
+          headerTitle: '',
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          shadowOpacity: 0,
+          borderBottomWidth: 0, 
+          headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="PlaylistInfo"
+        component={PlaylistInfo}
         options={{ 
           headerTitle: '',
           headerTintColor: '#000',

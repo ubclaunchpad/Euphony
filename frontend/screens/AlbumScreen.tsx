@@ -10,7 +10,6 @@ import albumDetails from '../data/albumDetails';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -56,6 +55,7 @@ const AlbumScreen = ({navigation}) => {
             size={18}
             color={'hsl(0, 0%, 85%)'}
             style={styles.headerIcon}
+            onPress={() => navigation.navigate("PlaylistInfo", albumDetails)}
           />
           </TouchableOpacity>
         </View>
