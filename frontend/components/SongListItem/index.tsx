@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Image, View } from 'react-native';
+import { Text, Image, View, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 import {Song} from "../../types";
@@ -11,7 +11,7 @@ export type SongListItemProps = {
 const SongListItem = (props: SongListItemProps) => {
     const { song } = props;
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container}>
             <Image source={{ uri: song.imageUri }} style={styles.image}/>
             <View style={styles.rightContainer}>
                 <Text style={styles.title}>{song.title}</Text>
@@ -20,7 +20,7 @@ const SongListItem = (props: SongListItemProps) => {
                     <Text style={styles.duration}>{song.duration}</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
