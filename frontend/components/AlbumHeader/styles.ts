@@ -1,6 +1,33 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+    subHeader: {
+        width: '100%',
+        paddingHorizontal: 10,
+        backgroundColor: '#1c1c1c',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    conversation: {
+        color: 'white', fontSize: 16, fontWeight: 'bold'
+    },
+    searchText: {
+        color: '#8B8B8B',
+        fontSize: 17,
+        lineHeight: 22,
+        marginLeft: 8,
+    },
+    searchBox: {
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        backgroundColor: '#0F0F0F',
+        borderRadius: 10,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+    },
     container: {
         alignItems: "center",
     },
@@ -50,8 +77,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     title: {
-        flexDirection: "row",
-        marginBottom: 3,
+        flexDirection: "row"
     },
     headerText: {
         flexDirection: 'row',
@@ -63,7 +89,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headerInfo: {
-        flex: 1, 
+        flex: 1,
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 10,
@@ -71,7 +97,7 @@ const styles = StyleSheet.create({
         marginRight: 40,
     },
     visibility: {
-        flex: 1, 
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

@@ -50,7 +50,7 @@ function RootNavigator() {
         component={HomeScreen}
         options={{ headerTitle: 'Home',
           headerStyle:{ backgroundColor: '#FFF'},
-          headerTitleStyle:{ color: 'green'},
+          headerTitleStyle:{ color: 'green'}
         }}
       />
 
@@ -64,7 +64,8 @@ function RootNavigator() {
             fontWeight: 'bold',
           },
           shadowOpacity: 0,
-          borderBottomWidth: 0, }}
+          borderBottomWidth: 0, 
+          headerShown: false}}
       />
     </Stack.Navigator>
       
