@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     title: {
-        flexDirection: "row"
+        flexDirection: "row",
+        alignItems: 'center'
     },
     headerText: {
         flexDirection: 'row',

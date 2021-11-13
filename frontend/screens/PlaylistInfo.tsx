@@ -12,12 +12,12 @@ export default function PlaylistScreen({route, navigation}) {
   const info = route.params;
   return (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="dark-content" backgroundColor={'white'} />
       <View style={styles.subHeader}>
         <View style={{flex: 1, backgroundColor: 'transparent'}}>
           <Ionicons
             name="chevron-back"
-            size={18}
+            size={23}
             color={'hsl(0, 0%, 15%)'}
             onPress={() => navigation.goBack()}
           />

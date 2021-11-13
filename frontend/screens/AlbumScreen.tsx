@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import {View, Text, FlatList, TouchableOpacity, StatusBar } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 
@@ -37,12 +37,12 @@ const AlbumScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#1c1c1c' }}>
-        <StatusBar barStyle="light-content" backgroundColor="#ecf0f1" />
+        <StatusBar barStyle="light-content" backgroundColor="#1c1c1c" />
       <View style={styles.subHeader}>
         <View style={{flex: 1}}>
           <Ionicons
             name="chevron-back"
-            size={18}
+            size={23}
             color={'hsl(0, 0%, 85%)'}
             style={styles.edit}
             onPress={() => navigation.goBack()}
@@ -55,7 +55,7 @@ const AlbumScreen = ({navigation}) => {
             <TouchableOpacity onPress={() => {}}>
           <AntDesign
             name="reload1"
-            size={18}
+            size={23}
             color={'hsl(0, 0%, 85%)'}
             style={styles.headerIcon}
             onPress = {() => shuffleSongs(albumDetails.songs)}
@@ -64,7 +64,7 @@ const AlbumScreen = ({navigation}) => {
           <TouchableOpacity onPress={() => {}}>
           <Feather
             name="settings"
-            size={18}
+            size={23}
             color={'hsl(0, 0%, 85%)'}
             style={styles.headerIcon}
             onPress={() => navigation.navigate("PlaylistInfo", albumDetails)}
