@@ -24,6 +24,17 @@ const AlbumScreen = ({navigation}) => {
     console.log(route);
   }, []);
 
+  const shuffleSongs = (array) => {
+    let i = array.length - 1;
+    for (; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: '#1c1c1c' }}>
         <StatusBar barStyle="light-content" backgroundColor="#ecf0f1" />
@@ -47,6 +58,7 @@ const AlbumScreen = ({navigation}) => {
             size={18}
             color={'hsl(0, 0%, 85%)'}
             style={styles.headerIcon}
+            onPress = {() => shuffleSongs(albumDetails.songs)}
           />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
