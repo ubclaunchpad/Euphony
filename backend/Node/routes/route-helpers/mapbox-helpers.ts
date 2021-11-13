@@ -4,22 +4,25 @@ require('dotenv').config();
 const token = process.env.MAPBOX_TOKEN;
 
 export async function reverseGeocoding(latitude: string, longitude: string) {
-	const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
-		+ longitude + ', ' + latitude
-		+ '.json?types=poi&access_token=' + token;
+	const url =
+		'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
+		longitude +
+		', ' +
+		latitude +
+		'.json?types=poi&access_token=' +
+		token;
 
-	const res: any = await axios.get(url)
-		.catch(function (error) {
-			if (error.response) {
-				console.log(error.response.data);
-				console.log(error.response.status);
-				console.log(error.response.headers);
-			} else if (error.request) {
-				console.log(error.request);
-			} else {
-				console.log('Error', error.message);
-			}
-		});
+	const res: any = await axios.get(url).catch(function (error: any) {
+		if (error.response) {
+			console.log(error.response.data);
+			console.log(error.response.status);
+			console.log(error.response.headers);
+		} else if (error.request) {
+			console.log(error.request);
+		} else {
+			console.log('Error', error.message);
+		}
+	});
 	return res.data;
 }
 
