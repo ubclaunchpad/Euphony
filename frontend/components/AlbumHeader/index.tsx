@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {Text, View, Image, TouchableOpacity, Switch, Alert} from 'react-native';
+import {
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+  Switch,
+  Alert,
+} from 'react-native';
 import {Album} from '../../types';
 import styles from './styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,6 +26,10 @@ const AlbumHeader = (props: AlbumHeaderProps, y) => {
 
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const [title, setTitle] = useState(album.name);
+  const [isEditing, setIsEditing] = useState(false);
+  const toggleEditing = () => setIsEditing(previousState => !previousState);
 
   const createThreeButtonAlert = () => Alert.alert('Added to Spotify!');
 
@@ -52,14 +64,36 @@ const AlbumHeader = (props: AlbumHeaderProps, y) => {
             <View>
               <View style={styles.columnStack}>
                 <TouchableOpacity style={styles.title}>
-                  <Text style={styles.name}>{album.name}</Text>
+                  <TextInput
+                    placeholder={title}
+                    onChangeText={title => setTitle(title)}
+                    onFocus={toggleEditing}
+                    onEndEditing={toggleEditing}
+                    defaultValue={title}
+                    style={[styles.name]}
+                  />
+
+                    {isEditing?
+                  <AntDesign
+                    name="edit"
+                    size={18}
+                    color={'dodgerblue'}
+                    style={styles.edit}
+                  />: 
                   <AntDesign
                     name="edit"
                     size={18}
                     color={'hsl(0, 0%, 15%)'}
                     style={styles.edit}
-                  />
+                  />}
+                  
+                  
+                  
                 </TouchableOpacity>
+
+                <View style={styles.divider}>
+                  {isEditing? <View style={styles.line} />:<View style={styles.lineOff} />}
+                  </View>
                 <View style={styles.creatorContainer}>
                   {/* TODO: need to rename style names*/}
                   <Text style={styles.likes}>{album.songs.length} songs</Text>

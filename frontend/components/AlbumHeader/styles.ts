@@ -135,7 +135,27 @@ const styles = StyleSheet.create({
     },
     gapAfterIcon: {
         marginLeft: 10
-    }
+    },
+
+  input: {
+    width: 350,
+    height: 40,
+    padding: 5,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: 'grey',
+    borderStyle: 'solid',
+    borderRadius: 3
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+},
+  line: {
+    flex: 1, 
+    height: 1, 
+    backgroundColor: 'black'
+},
 });
 
 export default styles;
