@@ -1,20 +1,8 @@
 import * as React from 'react';
-import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FilterScreen  from './screens/FilterScreen';
-
-function LoginScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Login Screen</Text>
-      <Button
-        title="Go to Filter"
-        onPress={() => navigation.navigate('Filter')}
-      />
-    </View>
-  );
-}
+import LoginScreen from './screens/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
