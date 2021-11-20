@@ -16,6 +16,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import NotFoundScreen from '../screens/NotFoundScreen';
+import FilterInfoScreen from '../screens/FilterInfoScreen';
 import HomeScreen from '../screens/HomeScreen';
 import AlbumScreen from '../screens/AlbumScreen';
 import WeatherScreen from '../screens/WeatherScreen';
@@ -54,7 +55,14 @@ function RootNavigator() {
           headerTitleStyle:{ color: 'green'}
         }}
       />
-
+      <Stack.Screen
+        name="FilterInfoScreen"
+        component={FilterInfoScreen}
+        options={{ headerTitle: 'Filter Info',
+            headerStyle:{ backgroundColor: '#FFF'},
+            headerTitleStyle:{ color: 'green'}
+        }}
+      />
       <Stack.Screen
         name="AlbumScreen"
         component={AlbumScreen}
@@ -124,6 +132,14 @@ function BottomTabNavigator() {
             </Pressable>
           )
         })}
+      />
+      <BottomTab.Screen
+        name="Filter Info"
+        component={FilterInfoScreen}
+        options={{
+            title: 'Filter Info',
+            tabBarIcon: ({ color }) => <MaterialIcons name="login" size={30} style={{marginBottom: -3}} color={color}/>,
+        }}
       />
       <BottomTab.Screen
         name="Custom Login"
