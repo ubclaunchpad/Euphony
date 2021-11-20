@@ -1,16 +1,13 @@
-const SpotifyWebApi = require('spotify-web-api-node');
 const express = require('express');
 const router = express.Router();
-import { scopes } from './route-helpers/spotify-helpers';
 import axios from 'axios';
+import {
+	createSpotifyWebApi,
+	getInputForML,
+	getPopularityForTracks,
+	scopes,
+} from './route-helpers/spotify-helpers';
 
-const createSpotifyWebApi = () => {
-	return new SpotifyWebApi({
-		clientId: process.env.SPOTIFY_CLIENT_ID,
-		clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-		redirectUri: 'http://localhost:4000/spotify/callback',
-	});
-}
 // login
 router.get('/login', (req: any, res: any) => {
 	var spotifyApi = createSpotifyWebApi();
@@ -46,7 +43,7 @@ router.get('/callback', async (req: any, res: any) => {
 			console.log('refresh_token:', refresh_token);
 
 			console.log(
-				`Sucessfully retreived access token. Expires in ${expires_in} s.`
+				`Successfully retrieved access token. Expires in ${expires_in} s.`
 			);
 			res.send('Success! You can now close the window.');
 
@@ -99,8 +96,9 @@ router.get('/getMyTopTracks/:access_token', async (req: any, res: any) => {
 		});
 
 		if (topTracks) {
-			console.log(topTracks.data);
-			return res.status(200).send(topTracks.data);
+			let topTracksIds = topTracks.data.items;
+			topTracksIds = topTracksIds.map((track: any) => track.id);
+			return res.status(200).send(topTracksIds);
 		}
 	} catch (error) {
 		console.log(error);
@@ -140,7 +138,8 @@ router.get(
 		try {
 			if (!req.params.access_token)
 				return res.status(400).send('failed to authenticate');
-			if (!req.body.trackIdArray) return res.status(400).send('trackIdArray is missing');
+			if (!req.body.trackIdArray)
+				return res.status(400).send('trackIdArray is missing');
 
 			spotifyApi.setAccessToken(req.params.access_token);
 			console.log(req.body.trackIdArray);
@@ -149,7 +148,7 @@ router.get(
 				req.body.trackIdArray
 			);
 			if (data) {
-				return res.status(200).send(data);
+				return res.status(200).send(data.body.audio_features);
 			} else {
 				return res.status(204).send('no audio features returned');
 			}
@@ -158,5 +157,9 @@ router.get(
 		}
 	}
 );
+
+router.get('/getPopularityForTracks/:access_token', getPopularityForTracks);
+
+router.get('/getInputForML/:access_token', getInputForML);
 
 module.exports = router;
