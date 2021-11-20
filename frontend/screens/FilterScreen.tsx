@@ -5,7 +5,7 @@ import LengthPicker from '../components/filter/LengthPicker';
 import Carousel from '../components/filter/Carousel/Carousel';
 import LoginScreen from './LoginScreen';
 
-function FilterScreen() {
+function FilterScreen({navigation}) {
   const [text, onChangeText] = React.useState("");
   const [loginPresented, setLoginPresented] = React.useState(true);
   const moodChoices: Array<Object> = [{ label: 'Happy' }, { label: "Melancholy" }, { label: "Compassion" }, { label: "Loneliness" }];
@@ -71,6 +71,7 @@ function FilterScreen() {
         />
         <Button
           title="Okay, leggo"
+          onPress={() => navigation.navigate('Playlist')}
         />
       </ScrollView>
     </SafeAreaView>
@@ -80,7 +81,6 @@ function FilterScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
     marginHorizontal: 20,

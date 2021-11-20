@@ -1,19 +1,12 @@
-import React, { useState, useEffect} from 'react';
-import {View, Text, FlatList, TouchableOpacity, StatusBar } from 'react-native';
+import React, { useEffect} from 'react';
+import {View, FlatList,  StatusBar, SafeAreaView } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 
 import {Animated} from 'react-native';
 
 import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
-import albumDetails from '../data/albumDetails';
-import {SafeAreaView} from 'react-native-safe-area-context';
-
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import styles from './styles';
+import albumDetails from '../mockData/albumDetails';
 
 const {Value} = Animated;
 const AlbumScreen = ({navigation}) => {
@@ -36,42 +29,9 @@ const AlbumScreen = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#1c1c1c' }}>
+    <SafeAreaView style={{ backgroundColor: 'transparent' }}>
         <StatusBar barStyle="light-content" backgroundColor="#1c1c1c" />
-      <View style={styles.subHeader}>
-        <View style={{flex: 1}}>
-          <Ionicons
-            name="chevron-back"
-            size={23}
-            color={'hsl(0, 0%, 85%)'}
-            style={styles.edit}
-            onPress={() => navigation.goBack()}
-          />
-        </View>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <Text style={styles.conversation}>{albumDetails.name}</Text>
-        </View>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-            <TouchableOpacity onPress={() => {}}>
-          <AntDesign
-            name="reload1"
-            size={23}
-            color={'hsl(0, 0%, 85%)'}
-            style={styles.headerIcon}
-            onPress = {() => shuffleSongs(albumDetails.songs)}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-          <Feather
-            name="settings"
-            size={23}
-            color={'hsl(0, 0%, 85%)'}
-            style={styles.headerIcon}
-            onPress={() => navigation.navigate("PlaylistInfo", albumDetails)}
-          />
-          </TouchableOpacity>
-        </View>
-      </View>
+      
       <View style={{backgroundColor: '#ecf0f1'}}>
       <FlatList
         data={albumDetails.songs}
