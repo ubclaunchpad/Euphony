@@ -1,29 +1,48 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, Pressable, StyleSheet, Button, Text } from 'react-native';
 
-import { Text, View } from '../components/Themed';
 
-export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>bruh</Text>
-    </View>
-  );
+export default function LoginScreen({ dismissAction }: { dismissAction: () => void }) {
+    return (
+        <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Pressable
+                style={styles.button}
+                onPress={() => dismissAction()}
+            >
+                <Text style={styles.underlinedText}>Skip</Text>
+
+            </Pressable>
+            <Text style={styles.baseText}>For more personalized results, we recommend that you connect your Spotify account</Text>
+            <Button
+                title="Login"
+                onPress={() => dismissAction()}
+            />
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    baseText: {
+        fontFamily: "Roboto",
+        fontSize: 24,
+        fontWeight: "normal",
+        marginHorizontal: 40,
+        lineHeight: 35,
+        marginTop: -100,
+        textAlign: "center",
+    },
+    underlinedText: {
+        textDecorationLine: "underline",
+        fontSize: 20,
+    },
+    button: {
+        marginHorizontal: 40,
+        lineHeight: 35,
+        textAlign: "center",
+        position: "absolute",
+        top: 50,
+        right: 0,
+    }
 });
+
+

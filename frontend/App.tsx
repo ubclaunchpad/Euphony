@@ -1,13 +1,26 @@
-import Icon from 'react-native-vector-icons/FontAwesome';
-import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FilterScreen from './screens/FilterScreen';
 
-import Navigation from './navigation';
+const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   return (
-  <SafeAreaProvider>
-    <Navigation />
-  </SafeAreaProvider>
-  )
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{
+        headerTransparent: true,
+        headerLargeTitle: true,
+        headerTitleStyle: {
+          fontFamily: 'Roboto',
+        },
+        headerLargeTitleStyle: {
+          fontFamily: 'Roboto',
+        }
+      }}>
+        <Stack.Screen name="Filter" component={FilterScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
+export default App;
