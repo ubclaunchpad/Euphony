@@ -4,6 +4,8 @@ import swaggerJsDoc from 'swagger-jsdoc';
 const testRoute = require('../routes/testRoute');
 const mapboxRoute = require('../routes/mapboxRoute');
 const openWeatherRoute = require('../routes/openWeatherRoute');
+const spotifyRoute = require('../routes/spotifyRoute');
+
 require('dotenv').config();
 
 const app = express();
@@ -43,3 +45,4 @@ app.listen(port, () => {
 app.use('/test', testRoute);
 app.use('/mapbox', mapboxRoute);
 app.use('/openWeather', openWeatherRoute);
+app.use('/spotify', spotifyRoute);
