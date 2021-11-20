@@ -27,7 +27,7 @@ router.get('/reverseWeather/:latLon', async (req, res) => {
         temp_f: mainTempF,
         feels_like_c: mainFeelsLikeC,
         feels_like_f: mainFeelsLikeF,
-        humidity: mainHumidity,
+        pop: mainHumidity,
         clouds: mainClouds
     };
 
