@@ -8,7 +8,7 @@ const createSpotifyWebApi = () => {
 	return new SpotifyWebApi({
 		clientId: process.env.SPOTIFY_CLIENT_ID,
 		clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-		redirectUri: 'http://localhost:4000/spotify/callback',
+		redirectUri: 'http://localhost:' + process.env.PORTNUM + '/spotify/callback',
 	});
 }
 // login
@@ -19,6 +19,7 @@ router.get('/login', (req: any, res: any) => {
 
 // call back api with access token and refresh token
 router.get('/callback', async (req: any, res: any) => {
+	console.log('callback');
 	var spotifyApi = createSpotifyWebApi();
 	const error = req.query.error;
 	const code = req.query.code;

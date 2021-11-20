@@ -21,7 +21,7 @@ const options = {
 		},
 		servers: [
 			{
-				url: 'http://localhostL4000',
+				url: 'http://localhost:' + port,
 			},
 		],
 	},
