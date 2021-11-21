@@ -1,17 +1,20 @@
 import * as React from 'react';
-import { View, Button, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import LoginScreen from './LoginScreen';
+import { Modal, Button, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import LocationPicker from '../components/filter/LocationPicker';
 import Carousel from '../components/filter/Carousel';
 
 import { moodChoices, activityChoices, weatherChoices } from '../data/filterChoices';
 import LengthPicker from '../components/filter/LengthPicker';
 
-function submit() {
-  //
-}
-
-function FilterScreen() {
+function FilterScreen({navigation}) {
     const [text, onChangeText] = React.useState("");
+    const [loginPresented, setLoginPresented] = React.useState(true);
+
+    const dismissModal = React.useCallback(() => {
+      setLoginPresented(false);
+    }, [loginPresented]);
+
     
     var isSpotifyConnected = false;
     var messageText;
@@ -20,6 +23,15 @@ function FilterScreen() {
     }
     return (
          <SafeAreaView style={styles.container}>
+           <Modal
+            animationType="slide"
+            visible={loginPresented}
+            onRequestClose={() => {
+              setLoginPresented(!loginPresented);
+            }}
+          >
+            <LoginScreen dismissAction={dismissModal} ></LoginScreen>
+          </Modal>
          <ScrollView style={styles.scrollView}>
           <Text style={styles.header}>Filters</Text>
           <Text style={styles.text}>{messageText}</Text>
@@ -61,7 +73,7 @@ function FilterScreen() {
           />
           <Button
             title="Okay, leggo"
-            onPress={submit}
+            onPress={() => navigation.navigate('Playlist')}
           />
            </ScrollView>
         </SafeAreaView>
@@ -89,6 +101,5 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
-
 
 export default FilterScreen;
