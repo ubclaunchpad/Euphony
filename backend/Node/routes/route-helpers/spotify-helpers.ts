@@ -33,7 +33,7 @@ export const createSpotifyWebApi = () => {
 };
 
 export async function getPopularityForTracks(req: any, res: any) {
-	var spotifyApi = createSpotifyWebApi();
+	let spotifyApi = createSpotifyWebApi();
 	try {
 		if (!req.params.access_token)
 			return res.status(400).send('failed to authenticate');
@@ -41,13 +41,13 @@ export async function getPopularityForTracks(req: any, res: any) {
 			return res.status(400).send('trackIdArray is missing');
 
 		spotifyApi.setAccessToken(req.params.access_token);
-		console.log(req.body.trackIdArray);
 
 		const data = await spotifyApi.getTracks(req.body.trackIdArray);
 
 		if (data) {
-			var popularityArr = data.body.tracks;
-			popularityArr = popularityArr.map((track: any) => track.popularity);
+			const popularityArr = data.body.tracks.map(
+				(track: any) => track.popularity
+			);
 
 			return res.status(200).send(popularityArr);
 		} else {
@@ -59,7 +59,7 @@ export async function getPopularityForTracks(req: any, res: any) {
 }
 
 export async function getInputForML(req: any, res: any, next: any) {
-	var spotifyApi = createSpotifyWebApi();
+	let spotifyApi = createSpotifyWebApi();
 	try {
 		if (!req.params.access_token)
 			return res.status(400).send('failed to authenticate');
@@ -71,6 +71,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 		});
 
 		let topTracksIds = [];
+		let popularityArr: any[] = [];
 		if (topTracks) {
 			topTracksIds = topTracks.data.items;
 			topTracksIds = topTracksIds.map((track: any) => track.id);
@@ -82,23 +83,23 @@ export async function getInputForML(req: any, res: any, next: any) {
 
 		spotifyApi.setAccessToken(req.params.access_token);
 
-		const data1 = await spotifyApi.getAudioFeaturesForTracks(
+		const audioFeaturesData = await spotifyApi.getAudioFeaturesForTracks(
 			req.body.trackIdArray ? req.body.trackIdArray : topTracksIds
 		);
 
-		const data2 = await spotifyApi.getTracks(
+		const tracksData = await spotifyApi.getTracks(
 			req.body.trackIdArray ? req.body.trackIdArray : topTracksIds
 		);
 
-		if (data2) {
-			var popularityArr = data2.body.tracks;
+		if (tracksData) {
+			popularityArr = tracksData.body.tracks;
 			popularityArr = popularityArr.map((track: any) => track.popularity);
 		} else {
 			return res.status(204).send('no popularity returned');
 		}
 
-		if (data1) {
-			var inputForMl = data1.body.audio_features;
+		if (audioFeaturesData && tracksData) {
+			let inputForMl = audioFeaturesData.body.audio_features;
 			inputForMl.forEach((feature: any, index: number) => {
 				feature.popularity = popularityArr[index];
 			});
