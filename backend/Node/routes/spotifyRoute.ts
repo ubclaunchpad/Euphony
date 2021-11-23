@@ -160,6 +160,21 @@ router.get(
 
 router.get('/getPopularityForTracks/:access_token', getPopularityForTracks);
 
-router.get('/getInputForML/:access_token', getInputForML);
+router.get(
+	'/getInputForML/:access_token',
+	getInputForML,
+	getPopularityForTracks
+);
+
+router.get('/hello', async (req: any, res: any) => {
+	try {
+		console.log(req.cookies);
+		console.log(res.cookies);
+		res.status(200).send('hello world');
+	} catch (error) {
+		console.log(error);
+		return res.status(404).send(error);
+	}
+});
 
 module.exports = router;
