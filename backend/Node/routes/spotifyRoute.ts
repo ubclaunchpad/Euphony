@@ -19,10 +19,8 @@ router.get('/callback', async (req: any, res: any) => {
 	let spotifyApi = createSpotifyWebApi();
 	const error = req.query.error;
 	const code = req.query.code;
-	const state = req.query.state;
 
 	if (error) {
-		console.error('Callback Error:', error);
 		res.send(`Callback Error: ${error}`);
 		return;
 	}
@@ -33,28 +31,14 @@ router.get('/callback', async (req: any, res: any) => {
 		if (data) {
 			const access_token = data.body['access_token'];
 			const refresh_token = data.body['refresh_token'];
-			const expires_in = data.body['expires_in'];
 
-			spotifyApi.setAccessToken(access_token);
-			spotifyApi.setRefreshToken(refresh_token);
+			const tokens = {
+				field: 'successfully login',
+				access_token: access_token,
+				refresh_token: refresh_token,
+			};
 
-			// development purposes
-			console.log('access_token:', access_token);
-			console.log('refresh_token:', refresh_token);
-
-			console.log(
-				`Successfully retrieved access token. Expires in ${expires_in} s.`
-			);
-			res.send('Success! You can now close the window.');
-
-			setInterval(async () => {
-				const data = await spotifyApi.refreshAccessToken();
-				const access_token = data.body['access_token'];
-
-				console.log('The access token has been refreshed!');
-				console.log('access_token:', access_token);
-				spotifyApi.setAccessToken(access_token);
-			}, (expires_in / 2) * 1000);
+			res.status(200).send(tokens);
 		} else {
 			res.send('Authorization granted, but no tokens were returned');
 		}
@@ -97,7 +81,8 @@ router.get('/getMyTopTracks/:access_token', async (req: any, res: any) => {
 
 		if (topTracks) {
 			let topTracksIds = topTracks.data.items.map((track: any) => track.id);
-			return res.status(200).send(topTracksIds);
+			// return res.status(200).send(topTracksIds);
+			return res.status(200).send(topTracks.data.items);
 		}
 	} catch (error) {
 		return res.status(404).send(error);
