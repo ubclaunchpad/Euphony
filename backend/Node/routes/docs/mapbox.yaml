@@ -1,0 +1,50 @@
+paths:
+  /mapbox/reverseLocation/{lat},{long}:
+    get:
+      tags:
+        - Mapbox
+      summary: reverse (lat, long) into location
+      description: reverse (lat, long) into location
+      parameters:
+        - name: lat
+          in: path
+          required: true
+          description: latitude
+          schema:
+            type: number
+        - name: long
+          in: path
+          required: true
+          description: longitude
+          schema:
+            type: number
+      responses:
+        '400':
+          description: bad input
+        '200':
+          description: successful! Return user list of addresses at the lat, long
+
+  /mapbox/reverseCountry/{lat},{long}:
+    get:
+      tags:
+        - Mapbox
+      summary: reverse (lat, long) into country
+      description: reverse (lat, long) into country
+      parameters:
+        - name: lat
+          in: path
+          required: true
+          description: latitude
+          schema:
+            type: number
+        - name: long
+          in: path
+          required: true
+          description: longitude
+          schema:
+            type: number
+      responses:
+        '400':
+          description: bad input
+        '200':
+          description: successful! Return country object
