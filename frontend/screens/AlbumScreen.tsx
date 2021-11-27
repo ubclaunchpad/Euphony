@@ -1,6 +1,5 @@
-import React, { useEffect} from 'react';
-import {View, FlatList,  StatusBar, SafeAreaView } from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import React from 'react';
+import {View, FlatList,  StatusBar, SafeAreaView, TextInput } from 'react-native';
 
 import {Animated} from 'react-native';
 
@@ -9,14 +8,7 @@ import AlbumHeader from '../components/AlbumHeader';
 import albumDetails from '../mockData/albumDetails';
 
 const {Value} = Animated;
-const AlbumScreen = ({navigation}) => {
-  const route = useRoute();
-  const y = new Value(0);
-
-  useEffect(() => {
-    console.log(route);
-  }, []);
-
+const AlbumScreen = () => {
   const shuffleSongs = (array) => {
     let i = array.length - 1;
     for (; i > 0; i--) {
@@ -30,16 +22,14 @@ const AlbumScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: 'transparent' }}>
-        <StatusBar barStyle="light-content" backgroundColor="#1c1c1c" />
+        <StatusBar barStyle="dark-content" backgroundColor="#1c1c1c" />
       
-      <View style={{backgroundColor: '#ecf0f1'}}>
       <FlatList
         data={albumDetails.songs}
         renderItem={({item}) => <SongListItem song={item} />}
         keyExtractor={item => item.id}
-        ListHeaderComponent={() => <AlbumHeader album={albumDetails} />}
+        ListHeaderComponent={() => <AlbumHeader album={albumDetails}/>}
       />
-      </View>
     </SafeAreaView>
   );
 };
