@@ -19,7 +19,7 @@ export type AlbumHeaderProps = {
   album: Album;
 };
 
-const AlbumHeader = (props: AlbumHeaderProps, y) => {
+const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: route) => {
   const {album} = props;
 
   const [toggle, setToggle] = useState(false);
@@ -115,7 +115,7 @@ const AlbumHeader = (props: AlbumHeaderProps, y) => {
             </View>
             <View style={styles.rightContainer}>
               <Switch
-                trackColor={{false: '#767577', true: '#1CD05D'}}
+                trackColor={{false: '#767577', true: '#7432FF'}}
                 thumbColor={isEnabled ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 85%)'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}

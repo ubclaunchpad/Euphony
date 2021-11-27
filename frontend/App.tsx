@@ -4,10 +4,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FilterScreen from './screens/FilterScreen';
 import AlbumScreen from './screens/AlbumScreen';
+import PlaylistInfo from './screens/PlaylistInfo';
+import albumDetails from './mockData/albumDetails';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 
 const Stack = createNativeStackNavigator();
+
 
 function App() {
   return (
