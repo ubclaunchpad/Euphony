@@ -1,26 +1,21 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
+import FilterHeader from './FilterHeader';
 
 export type Props = {
     title: string;
     description: string;
 }
 
-// Formed after https://reactnative.dev/docs/typescript
-const LengthPicker: React.FC<Props> = ({
-    title, 
-    description
-}) => {
+const LengthPicker = (props: Props) => {
     return (
         <View>
-          <Text>{title}</Text>
-          <Text>{description}</Text>
-          <Button
-            title="clear"
-            onPress={() => console.log("Cleared")}
+          <FilterHeader
+            title={props.title}
+            description={props.description}
+            callback={() => 1}
           />
           <Button
-           // like choices...
             title="10"
             onPress={() => console.log("10")}
           />
