@@ -9,20 +9,20 @@ paths:
         - name: lat
           in: path
           required: true
-          description: latitude
+          description: __latitude__ *for 37.7614°N input 37.7614*
           schema:
             type: number
         - name: long
           in: path
           required: true
-          description: longitude
+          description: __longitude__ *for 122.4241°W input -122.4241*
           schema:
             type: number
       responses:
         '400':
-          description: bad input
+          description: bad input, invalid lat/lon value(s)
         '200':
-          description: successful! Return user list of addresses at the lat, long
+          description: Successful! Returns array of locations at the given coordinates, from the most granular to least (i.e. neighborhood, postcode, place, district, region, country)
 
   /mapbox/reverseCountry/{lat},{long}:
     get:
@@ -34,17 +34,20 @@ paths:
         - name: lat
           in: path
           required: true
-          description: latitude
+          description: __latitude__ *for 37.7614°N input 37.7614*
           schema:
             type: number
         - name: long
           in: path
           required: true
-          description: longitude
+          description: __longitude__ *for 122.4241°W input -122.4241*
           schema:
             type: number
       responses:
         '400':
-          description: bad input
+          description: bad input, invalid lat/lon value(s)
         '200':
-          description: successful! Return country object
+          description: |
+            Successful! Returns the country object \
+            **text** full country name \
+            **short_code** country short code
