@@ -1,51 +1,51 @@
 paths:
-  /mapbox/reverseLocation/{lat},{long}:
+  /mapbox/reverseLocation/{latitude},{longitude}:
     get:
       tags:
         - Mapbox
-      summary: reverse (lat, long) into location
-      description: reverse (lat, long) into location
+      summary: return location data given (latitude,longitude) values
+      description: return location data given (latitude,longitude) values
       parameters:
-        - name: lat
+        - name: latitude
           in: path
           required: true
-          description: __latitude__ *for 37.7614°N input 37.7614*
+          description: __latitude__ *for 37.7614°N, input 37.7614*
           schema:
             type: number
-        - name: long
+        - name: longitude
           in: path
           required: true
-          description: __longitude__ *for 122.4241°W input -122.4241*
+          description: __longitude__ *for 122.4241°W, input -122.4241*
           schema:
             type: number
       responses:
         '400':
-          description: bad input, invalid lat/lon value(s)
+          description: bad input, invalid latitude/lon value(s)
         '200':
           description: Successful! Returns array of locations at the given coordinates, from the most granular to least (i.e. neighborhood, postcode, place, district, region, country)
 
-  /mapbox/reverseCountry/{lat},{long}:
+  /mapbox/reverseCountry/{latitude},{longitude}:
     get:
       tags:
         - Mapbox
-      summary: reverse (lat, long) into country
-      description: reverse (lat, long) into country
+      summary: return country data given (latitude,longitude) values
+      description: return country data given (latitude,longitude) values
       parameters:
-        - name: lat
+        - name: latitude
           in: path
           required: true
-          description: __latitude__ *for 37.7614°N input 37.7614*
+          description: __latitude__ *for 37.7614°N, input 37.7614*
           schema:
             type: number
-        - name: long
+        - name: longitude
           in: path
           required: true
-          description: __longitude__ *for 122.4241°W input -122.4241*
+          description: __longitude__ *for 122.4241°W, input -122.4241*
           schema:
             type: number
       responses:
         '400':
-          description: bad input, invalid lat/lon value(s)
+          description: bad input, invalid latitude/lon value(s)
         '200':
           description: |
             Successful! Returns the country object \
