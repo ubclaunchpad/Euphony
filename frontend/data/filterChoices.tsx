@@ -1,4 +1,23 @@
 import { Choice } from "../types";
+export const genreChoices: [Choice] = [ //TODO update
+  {
+    id: '1',
+    label: 'Happy'
+  },
+  {
+    id: '2',
+    label: "Melancholy"
+  },
+  {
+    id: '3',
+    label: "Compassion"
+  },
+  {
+    id: '4',
+    label: "Loneliness"
+  }
+];
+
 export const moodChoices: [Choice] = [
     {
       id: '1',
