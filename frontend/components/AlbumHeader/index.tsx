@@ -15,6 +15,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
+import { Shadow } from 'react-native-shadow-2';
+
 export type AlbumHeaderProps = {
   album: Album;
 };
@@ -51,9 +53,11 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
     <View>
       <View style={styles.container}>
         {/* cover image */}
-        <TouchableOpacity onPress={notSaved}>
-          <Image source={{uri: album.imageUri}} style={styles.image} />
-        </TouchableOpacity>
+        <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} size={[200, 200]} radius={3} offset={[0, 0]}>
+          <TouchableOpacity onPress={notSaved}>
+            <Image source={{uri: album.imageUri}} style={styles.image} />
+          </TouchableOpacity>
+        </Shadow>
 
         {/* Header text */}
 

@@ -1,17 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    subHeader: {
-        width: '100%',
-        paddingHorizontal: 10,
-        backgroundColor: '#1c1c1c',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    conversation: {
-        color: 'white', fontSize: 16, fontWeight: 'bold'
-    },
     searchText: {
         color: '#8B8B8B',
         fontSize: 17,
@@ -34,7 +23,6 @@ const styles = StyleSheet.create({
     image: {
         width: 200,
         height: 200,
-        margin: 15,
     },
     name: {
         color: 'hsl(0, 0%, 15%)',
