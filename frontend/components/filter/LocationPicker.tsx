@@ -1,24 +1,19 @@
-import * as React from 'react';
+import React from 'react';
 import { View, Text, Button } from 'react-native';
+import FilterHeader from './FilterHeader';
 
 export type Props = {
     title: string;
     description: string;
 }
 
-// Formed after https://reactnative.dev/docs/typescript
-const LocationPicker: React.FC<Props> = ({
-    title, 
-    description
-}) => {
+const LocationPicker = (props: Props) => {
     return (
         <View>
-          <Text>Location begin</Text>
-          <Text>{title}</Text>
-          <Text>{description}</Text>
-          <Button
-            title="clear"
-            onPress={() => console.log("Cleared")}
+          <FilterHeader 
+            title={props.title}
+            description={props.description}
+            callback={() => 1}
           />
           <Button 
             title="CURRENT LOCATION"
@@ -30,14 +25,10 @@ const LocationPicker: React.FC<Props> = ({
         </View>
       );
 
-      // Parts:
-      // Title
-      // Description 
-      // X choices with icons
-      // each icon has a selected and unselected state
-      // can scroll through choices
-      // tap to select a choice
-      // clear button that deselects everything
+      // TODO
+      // retrieve current location
+      // checks to see if current location is not supported
+      // give option of US and Canada
 }
 
 export default LocationPicker;

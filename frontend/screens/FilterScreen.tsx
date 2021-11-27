@@ -1,57 +1,71 @@
 import * as React from 'react';
-import { View, Button, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import LoginScreen from './LoginScreen';
+import { Modal, Button, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import LocationPicker from '../components/filter/LocationPicker';
+import Carousel from '../components/filter/Carousel';
+
+import { moodChoices, activityChoices, weatherChoices } from '../data/filterChoices';
 import LengthPicker from '../components/filter/LengthPicker';
-import Carousel from '../components/filter/Carousel/Carousel';
 
-function FilterScreen() {
+function FilterScreen({navigation}) {
     const [text, onChangeText] = React.useState("");
+    const [loginPresented, setLoginPresented] = React.useState(true);
 
-    const moodChoices: Array<Object> =[{label: 'Happy'}, {label: "Melancholy"}, {label: "Compassion"}, {label: "Loneliness"}];
-    const activityChoices: Array<Object> = [{label: "Chill"}, {label: "Study"}, {label: "Party"}, {label: "Work out"}, {label: "Bed"}];
-    const weatherChoices: Array<Object> = [{label: "Current weather"}, {label: "Rainy"}, {label: "(something else)"}];
+    const dismissModal = React.useCallback(() => {
+      setLoginPresented(false);
+    }, [loginPresented]);
 
-    var isSpotifyConnected;
+    
+    var isSpotifyConnected = false;
     var messageText;
-    if (isSpotifyConnected) {
-      messageText = <Text>Connect your Spotify account for mroe personalized results.</Text>;
+    if (!isSpotifyConnected) {
+      messageText = <Text>Connect your Spotify account for more personalized results.</Text>;
     }
     return (
          <SafeAreaView style={styles.container}>
-           
-           {/*options in branch 32 */}
-        
+           <Modal
+            animationType="slide"
+            visible={loginPresented}
+            onRequestClose={() => {
+              setLoginPresented(!loginPresented);
+            }}
+          >
+            <LoginScreen dismissAction={dismissModal} ></LoginScreen>
+          </Modal>
          <ScrollView style={styles.scrollView}>
-          <Text>FilterScreen</Text>
-          <Text>Header: Filters</Text>
-          {messageText}
+          <Text style={styles.header}>Filters</Text>
+          <Text style={styles.text}>{messageText}</Text>
           <Button title="Clear all"/>
           <TextInput
             onChangeText={onChangeText}
             value = {text}
+            style = {styles.textInput}
             placeholder = "Enter playlist name"
+            placeholderTextColor = {'black'}
           /> 
           <Carousel 
-            title="Mood"
-            description="Choose a mood from the ones below"
-            items={moodChoices}
-            />
+            title={"Genre"}
+            description={"Choose a mood from the ones below"}
+            choices={moodChoices}
+          />
+          <Carousel 
+            title={"Mood"}
+            description={"Choose a mood from the ones below"}
+            choices={moodChoices}
+          />
            <Carousel
             title="Activity"
             description="Choose an activity that fits your playlist best." 
-            items={activityChoices}
+            choices={activityChoices}
             />
           <LocationPicker
             title="Location"
             description="See what people are listening to in your area"
           />
-          {
-          // how do we hook up the Location picker?
-          }
           <Carousel
             title="Weather"
             description="Select your current weather or from our choices"
-            items={weatherChoices}
+            choices={weatherChoices} // TODO make current weather be dependent on location
           />
           <LengthPicker
             title="Playlist length"
@@ -59,6 +73,7 @@ function FilterScreen() {
           />
           <Button
             title="Okay, leggo"
+            onPress={() => navigation.navigate('Playlist')}
           />
            </ScrollView>
         </SafeAreaView>
@@ -74,9 +89,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   text: {
-    fontSize: 42,
+    color: 'black',
+    fontSize: 15,
+  },
+  textInput: {
+    color: 'black',
+    fontSize: 15,
+  },
+  header: {
+    fontSize: 32,
+    color: 'black',
   },
 });
-
 
 export default FilterScreen;
