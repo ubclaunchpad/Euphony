@@ -53,58 +53,78 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
     <View>
       <View style={styles.container}>
         {/* cover image */}
-        <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} size={[200, 200]} radius={3} offset={[0, 0]}>
-          <TouchableOpacity onPress={notSaved}>
-            <Image source={{uri: album.imageUri}} style={styles.image} />
-          </TouchableOpacity>
-        </Shadow>
+        <View style={styles.center}>
+          <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
+            <TouchableOpacity onPress={notSaved}>
+              <View style={styles.image}>
+                <View style={{flexDirection: 'row'}}>
+                  <Image source={{uri: album.songs[0].imageUri}} style={styles.miniImage}/>
+                  <Image source={{uri: album.songs[1].imageUri}} style={styles.miniImage}/>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Image source={{uri: album.songs[2].imageUri}} style={styles.miniImage}/>
+                  <Image source={{uri: album.songs[3].imageUri}} style={styles.miniImage}/>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </Shadow>
+        </View>
 
         {/* Header text */}
+
+      <View style={styles.title}>
+        <TouchableOpacity style={[styles.title]}>
+          <View style={styles.leftContainer}>
+          <TextInput
+            placeholder={title}
+            onChangeText={title => setTitle(title)}
+            onFocus={toggleEditing}
+            onEndEditing={toggleEditing}
+            defaultValue={title}
+            style={[styles.name]}
+          />
+          </View>
+
+          <View style={styles.rightContainer}>
+              {isEditing?
+            <AntDesign
+              name="edit"
+              size={25}
+              color={'dodgerblue'}
+              style={styles.edit}
+            />: 
+            <AntDesign
+              name="edit"
+              size={25}
+              color={'#3700AB'}
+              style={styles.edit}
+            />}
+          </View>
+          
+          
+          
+        </TouchableOpacity>
+
+        
+      </View>
+      <View style={styles.divider}>
+        {isEditing? <View style={styles.line} />:<View style={styles.lineOff} />}
+      </View>
 
         {/* public or private toggle*/}
         <View style={styles.headerInfo}>
           <View style={styles.headerText}>
             {/* Name */}
             <View>
-              <View style={styles.columnStack}>
-                <TouchableOpacity style={styles.title}>
-                  <TextInput
-                    placeholder={title}
-                    onChangeText={title => setTitle(title)}
-                    onFocus={toggleEditing}
-                    onEndEditing={toggleEditing}
-                    defaultValue={title}
-                    style={[styles.name]}
-                  />
-
-                    {isEditing?
-                  <AntDesign
-                    name="edit"
-                    size={18}
-                    color={'dodgerblue'}
-                    style={styles.edit}
-                  />: 
-                  <AntDesign
-                    name="edit"
-                    size={18}
-                    color={'hsl(0, 0%, 15%)'}
-                    style={styles.edit}
-                  />}
-                  
-                  
-                  
-                </TouchableOpacity>
-
-                <View style={styles.divider}>
-                  {isEditing? <View style={styles.line} />:<View style={styles.lineOff} />}
-                  </View>
+              <View>
+                
                 <View style={styles.creatorContainer}>
                   {/* TODO: need to rename style names*/}
                   <Text style={styles.likes}>{album.songs.length} songs</Text>
                   <Entypo
                     name="dot-single"
-                    size={15}
-                    color={'hsl(0, 0%, 46%)'}
+                    size={25}
+                    color={'#867CC0'}
                   />
                   <Text style={styles.creator}>{album.duration}</Text>
                 </View>
@@ -119,9 +139,9 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
             </View>
             <View style={styles.rightContainer}>
               <Switch
-                trackColor={{false: '#767577', true: '#7432FF'}}
-                thumbColor={isEnabled ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 85%)'}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{false: 'white', true: '#7432FF'}}
+                thumbColor={isEnabled ? 'hsl(0, 0%, 95%)' : 'hsl(0, 0%, 95%)'}
+                ios_backgroundColor="#C4C4C4"
                 onValueChange={toggleSwitch}
                 value={isEnabled}
               />
@@ -130,7 +150,7 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
         </View>
 
         {/* play button */}
-        <TouchableOpacity onPress={createThreeButtonAlert}>
+        <TouchableOpacity onPress={createThreeButtonAlert} style={{flexDirection: 'row'}}>
           <View style={styles.button}>
             <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
             <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>
@@ -141,7 +161,7 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
       <View style={styles.findInPlaylist}>
         <TouchableOpacity onPress={() => {}}>
           <View style={styles.findContents}>
-            <Feather name="search" size={25} color={'black'} />
+            <Feather name="search" size={25} color={'#3700AB'} />
             <Text style={[styles.promptText, styles.gapAfterIcon]}>
               Find in playlist
             </Text>

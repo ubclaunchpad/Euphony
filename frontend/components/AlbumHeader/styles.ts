@@ -19,26 +19,42 @@ const styles = StyleSheet.create({
     },
     container: {
         alignItems: "center",
+        backgroundColor: '#EEEAFF',
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 150,
+        paddingBottom: 10,
+        borderRadius: 10,
+        borderWidth: 0.5,
+        borderColor: '#CDC4F2'
+    },
+    center: {
+        alignItems: "center",
+        marginTop: -150,
     },
     image: {
         width: 200,
         height: 200,
     },
+    miniImage: {
+        width: 100,
+        height: 100,
+    },
     name: {
-        color: 'hsl(0, 0%, 15%)',
-        fontSize: 30,
+        color: '#3700AB',
+        fontSize: 25,
         fontWeight: 'bold',
     },
     edit: {
         margin: 10,
     },
     creator: {
-        color: 'hsl(0, 0%, 46%)',
+        color: '#867CC0',
         margin: 3,
         fontSize: 14
     },
     likes: {
-        color: 'hsl(0, 0%, 46%)',
+        color: '#867CC0',
         margin: 3,
         fontSize: 14
     },
@@ -49,8 +65,10 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 5,
+        marginLeft: 20,
+        marginRight: 20,
         flexDirection: "row",
+        flex: 1,
     },
     buttonText: {
         color: 'white',
@@ -66,7 +84,10 @@ const styles = StyleSheet.create({
     },
     title: {
         flexDirection: "row",
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        marginLeft: 13,
+        marginRight: 13,
     },
     headerText: {
         flexDirection: 'row',
@@ -80,10 +101,9 @@ const styles = StyleSheet.create({
     headerInfo: {
         flex: 1,
         alignItems: 'center',
-        marginTop: 10,
         marginBottom: 10,
-        marginLeft: 40,
-        marginRight: 40,
+        marginLeft: 25,
+        marginRight: 25,
     },
     visibility: {
         flex: 1,
@@ -92,13 +112,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     leftContainer: {
-        flex: 1,
+        flex: 4,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-    },
-    promptText: {
-        fontWeight: "bold",
-        color: 'black'
     },
     rightContainer: {
         flex: 1,
@@ -111,19 +127,25 @@ const styles = StyleSheet.create({
         margin: 6,
         marginLeft: 20,
         marginRight: 20,
-        backgroundColor: 'hsl(0, 0%, 85%)',
+        backgroundColor: 'hsla(251, 100%, 82%, 0.31)',
         borderRadius: 11,
-        padding: 10,
+        padding: 6,
+        paddingLeft: 10,
         justifyContent: 'space-around',
+    },
+    promptText: {
+        fontWeight: "bold",
+        color: '#3700AB',
+        fontSize: 16
     },
     findContents: {
         justifyContent: 'flex-start',
-        padding: 5,
+        padding: 3,
         flexDirection: "row",
         alignItems: "center",
     },
     gapAfterIcon: {
-        marginLeft: 10
+        marginLeft: 20
     },
 
   input: {
@@ -141,8 +163,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 },
   line: {
+    marginLeft: 20,
+    marginRight: 20,
     flex: 1, 
-    height: 1, 
+    height: 0.5, 
     backgroundColor: 'black'
 },
 });

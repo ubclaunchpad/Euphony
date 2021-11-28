@@ -36,15 +36,16 @@ function App() {
             <View style={{flexDirection: 'row', justifyContent: 'center'}}> 
               <AntDesign
                 name="reload1"
-                size={23}
+                size={26}
                 color={'hsl(0, 0%, 15%)'}
+                style={{paddingRight:20}}
               />
               <Feather
-                name="settings"
-                size={23}
+                name="info"
+                size={26}
                 color={'hsl(0, 0%, 15%)'}
                 onPress={() => navigation.navigate("PlaylistInfo", albumDetails)}
-                style={{paddingLeft:10}}
+                style={{paddingRight:10}}
               />
             </View>
             ), })} />

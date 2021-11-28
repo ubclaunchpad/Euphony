@@ -1,6 +1,6 @@
 export default {
     id: '1',
-    name: 'Mood.',
+    name: 'My Playlist',
     by: 'Spotify',
     numberOfLikes: 30,
     imageUri: 'https://imgs.capitalfm.com/images/254365?crop=16_9&width=660&relax=1&signature=HwbA-DKlZAgbrSBHqyCJAUd2SeY=',
