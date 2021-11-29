@@ -7,7 +7,7 @@ import AlbumScreen from './screens/AlbumScreen';
 import PlaylistInfo from './screens/PlaylistInfo';
 import albumDetails from './mockData/albumDetails';
 
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
 const Stack = createNativeStackNavigator();
@@ -20,30 +20,34 @@ function App() {
         headerTransparent: true,
         headerLargeTitle: true,
         headerTitleStyle: {
-          fontFamily: 'Roboto',
-          fontWeight: 'bold',
+          fontFamily: 'Raleway',
+          fontWeight: '800',
+          fontSize: 22
         },
         headerLargeTitleStyle: {
-          fontFamily: 'Roboto',
-          fontWeight: 'bold',
+          fontFamily: 'Raleway',
+          fontWeight: '800',
         }
       }}>
         <Stack.Screen name="Filter" component={FilterScreen} />
         <Stack.Screen name="Playlist" component={AlbumScreen}
           options={({navigation, route}) => ({ 
             title: "Results",
+            headerStyle: {
+              backgroundColor: 'hsla(0, 0%, 100%, 0.8)',
+            },
             headerRight: () => (
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}> 
-              <AntDesign
-                name="reload1"
-                size={26}
-                color={'hsl(0, 0%, 15%)'}
+            <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 5}}> 
+              <MaterialIcons
+                name="refresh"
+                size={24}
+                color={'hsl(0, 0%, 0%)'}
                 style={{paddingRight:20}}
               />
-              <Feather
-                name="info"
-                size={26}
-                color={'hsl(0, 0%, 15%)'}
+              <MaterialIcons
+                name="info-outline"
+                size={24}
+                color={'hsl(0, 0%, 0%)'}
                 onPress={() => navigation.navigate("PlaylistInfo", albumDetails)}
                 style={{paddingRight:10}}
               />

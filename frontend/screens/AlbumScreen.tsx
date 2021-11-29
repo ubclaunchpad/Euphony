@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {View, FlatList,  StatusBar, SafeAreaView, TextInput } from 'react-native';
 
 import {Animated} from 'react-native';
@@ -20,16 +20,16 @@ const AlbumScreen = () => {
     return array;
   };
 
+
   return (
-    <SafeAreaView style={{ backgroundColor: 'transparent' }}>
-        <StatusBar barStyle="dark-content" backgroundColor="#1c1c1c" />
-      
-      <FlatList
-        data={albumDetails.songs}
-        renderItem={({item}) => <SongListItem song={item} />}
-        keyExtractor={item => item.id}
-        ListHeaderComponent={() => <AlbumHeader album={albumDetails}/>}
-      />
+    <SafeAreaView style={{ backgroundColor: 'white' }}>
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
+        <FlatList
+          data={albumDetails.songs}
+          renderItem={({item}) => <SongListItem song={item} />}
+          keyExtractor={item => item.id}
+          ListHeaderComponent={() => <AlbumHeader album={albumDetails}/>}
+        />
     </SafeAreaView>
   );
 };

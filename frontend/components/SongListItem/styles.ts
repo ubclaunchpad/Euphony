@@ -17,26 +17,29 @@ const styles = StyleSheet.create({
         borderColor: 'hsla(252, 64%, 86%, 0.6)'
     },
     rightContainer: {
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         marginLeft: 10,
     },
     title: {
         color: '#3700AB',
         fontSize: 16,
         fontWeight: 'bold',
+        fontFamily: 'Avenir'
     },
     artist: {
         color: '#867CC0',
         marginRight: 5,
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: 'Avenir-Medium'
     },
     sub: {
         flexDirection: "row",
-        alignItems: 'center'
+        alignItems: 'center',
     },
     duration: {
         marginLeft: 5,
-        color: '#867CC0'
+        color: '#867CC0',
+        fontFamily: 'Avenir-Medium'
     },
     divider: {
         flexDirection: 'row',

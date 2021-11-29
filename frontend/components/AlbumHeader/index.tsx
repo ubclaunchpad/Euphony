@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Album} from '../../types';
 import styles from './styles';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -87,14 +87,14 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
 
           <View style={styles.rightContainer}>
               {isEditing?
-            <AntDesign
-              name="edit"
+            <MaterialIcons
+              name="mode-edit"
               size={25}
               color={'dodgerblue'}
               style={styles.edit}
             />: 
-            <AntDesign
-              name="edit"
+            <MaterialIcons
+              name="mode-edit"
               size={25}
               color={'#3700AB'}
               style={styles.edit}
@@ -120,13 +120,13 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
                 
                 <View style={styles.creatorContainer}>
                   {/* TODO: need to rename style names*/}
-                  <Text style={styles.likes}>{album.songs.length} songs</Text>
+                  <Text style={styles.middleText}>{album.songs.length} songs</Text>
                   <Entypo
                     name="dot-single"
                     size={25}
                     color={'#867CC0'}
                   />
-                  <Text style={styles.creator}>{album.duration}</Text>
+                  <Text style={styles.middleText}>{album.duration}</Text>
                 </View>
               </View>
             </View>
@@ -150,7 +150,7 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
         </View>
 
         {/* play button */}
-        <TouchableOpacity onPress={createThreeButtonAlert} style={{flexDirection: 'row'}}>
+        <TouchableOpacity onPress={createThreeButtonAlert} style={{flexDirection: 'row', marginTop: 10}}>
           <View style={styles.button}>
             <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
             <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>

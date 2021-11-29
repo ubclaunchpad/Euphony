@@ -22,41 +22,40 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEEAFF',
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 150,
+        marginTop: 180,
+        paddingTop: 40,
         paddingBottom: 10,
         borderRadius: 10,
-        borderWidth: 0.5,
+        borderWidth: 0.4,
         borderColor: '#CDC4F2'
     },
     center: {
         alignItems: "center",
-        marginTop: -150,
+        marginTop: -200,
     },
     image: {
-        width: 200,
-        height: 200,
+        width: 250,
+        height: 250,
     },
     miniImage: {
-        width: 100,
-        height: 100,
+        width: 250/2,
+        height: 250/2,
     },
     name: {
         color: '#3700AB',
         fontSize: 25,
-        fontWeight: 'bold',
+        fontWeight: '800',
+        fontFamily: 'Raleway',
     },
     edit: {
         margin: 10,
     },
-    creator: {
+    middleText: {
         color: '#867CC0',
         margin: 3,
-        fontSize: 14
-    },
-    likes: {
-        color: '#867CC0',
-        margin: 3,
-        fontSize: 14
+        fontSize: 16,
+        fontFamily: 'Avenir',
+        fontWeight: 'bold'
     },
     button: {
         backgroundColor: '#7432FF',
@@ -88,6 +87,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         marginLeft: 13,
         marginRight: 13,
+        marginTop: 6,
     },
     headerText: {
         flexDirection: 'row',
@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
     promptText: {
         fontWeight: "bold",
         color: '#3700AB',
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: 'Avenir'
     },
     findContents: {
         justifyContent: 'flex-start',

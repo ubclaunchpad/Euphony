@@ -19,17 +19,18 @@ const SongListItem = (props: SongListItemProps) => {
         <View>
             <TouchableOpacity style={styles.container}>
                 <View style={styles.leftXContainer}>
-                    <Image source={{ uri: song.imageUri }} style={styles.image}/>
+                    <Shadow paintInside={false} distance={5} offset={[0, 3]} startColor={'hsla(267, 100%, 41%, 0.2)'} paintInside={true}>
+                        <Image source={{ uri: song.imageUri }} style={styles.image}/>
+                    </Shadow>
                     <View style={styles.rightContainer}>
                         <Text style={styles.title}>{song.title}</Text>
                         <View style={styles.sub}>
                             <Text style={styles.artist}>{song.artist}</Text>
-
-                  <Entypo
-                    name="dot-single"
-                    size={18}
-                    color={'#867CC0'}
-                  />
+                            <Entypo
+                                name="dot-single"
+                                size={18}
+                                color={'#867CC0'}
+                            />
                             <Text style={styles.duration}>{song.duration}</Text>
                         </View>
                     </View>

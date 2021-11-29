@@ -26,6 +26,9 @@
 		6172F2D35A4C3AA820D92908 /* libPods-frontend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-frontend.a */; };
 		7EF68E3733C33B6898317E18 /* libPods-frontend-frontendTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-frontend-frontendTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		971A5EAA2754959900BFE757 /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA72754959900BFE757 /* Raleway-Black.ttf */; };
+		971A5EAB2754959900BFE757 /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */; };
+		971A5EAC2754959900BFE757 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA92754959900BFE757 /* Raleway-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +66,9 @@
 		6423831EA8574132BED9D8CC /* libPods-frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-frontend-frontendTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend-frontendTests.debug.xcconfig"; path = "Target Support Files/Pods-frontend-frontendTests/Pods-frontend-frontendTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = frontend/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		971A5EA72754959900BFE757 /* Raleway-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Black.ttf"; sourceTree = "<group>"; };
+		971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
+		971A5EA92754959900BFE757 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		979762BE274997BC00C863D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = frontend/Info.plist; sourceTree = "<group>"; };
 		ABFE59519B596E51CEFDCCC0 /* libPods-frontend-frontendTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-frontend-frontendTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A881CF5CF3F2B244570E2A /* Pods-frontend.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend.debug.xcconfig"; path = "Target Support Files/Pods-frontend/Pods-frontend.debug.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +130,9 @@
 		2533BDCB27478967002D723A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				971A5EA72754959900BFE757 /* Raleway-Black.ttf */,
+				971A5EA92754959900BFE757 /* Raleway-Bold.ttf */,
+				971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */,
 				2533BDCD27478979002D723A /* Roboto-Black.ttf */,
 				2533BDCE27478979002D723A /* Roboto-BlackItalic.ttf */,
 				2533BDD227478979002D723A /* Roboto-Bold.ttf */,
@@ -302,12 +311,15 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2533BDDA27478979002D723A /* Roboto-BlackItalic.ttf in Resources */,
 				2533BDDC27478979002D723A /* Roboto-MediumItalic.ttf in Resources */,
+				971A5EAB2754959900BFE757 /* Raleway-ExtraBold.ttf in Resources */,
 				2533BDE127478979002D723A /* Roboto-BoldItalic.ttf in Resources */,
 				2533BDDE27478979002D723A /* Roboto-Bold.ttf in Resources */,
 				2533BDD827478979002D723A /* Roboto-Thin.ttf in Resources */,
 				2533BDDF27478979002D723A /* Roboto-Italic.ttf in Resources */,
+				971A5EAC2754959900BFE757 /* Raleway-Bold.ttf in Resources */,
 				2533BDDD27478979002D723A /* Roboto-Light.ttf in Resources */,
 				2533BDD927478979002D723A /* Roboto-Black.ttf in Resources */,
+				971A5EAA2754959900BFE757 /* Raleway-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
