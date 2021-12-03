@@ -1,0 +1,55 @@
+paths:
+  /spotify/login:
+    get:
+      tags:
+        - Spotify
+      summary: Oauth 2.0 for Spotify
+      description: Actually go to the following link http://localhost:4000/spotify/login on a new tab and save the access_token somewhere, you'll need it for other endpoints
+
+  /spotify/getMe/{access_token}:
+    get:
+      tags:
+        - Spotify
+      summary: Info about your spotify account
+      description: Nothing much here, probably your Spotify display name, your image url if you have profile pic, etc.
+      parameters:
+        - name: access_token
+          in: path
+          required: true
+          description: access_token for spotify, get it from the spotify/login endpoint
+          schema:
+            type: string
+      responses:
+        '400':
+          description: bad input
+        '404':
+          description: errors happened while getting data from spotify
+        '204':
+          description: user has empty body
+        '200':
+          description: successful! Return user json
+
+  /spotify/getMyTopTracks/{access_token}:
+    get:
+      tags:
+        - Spotify
+      summary: Get your top tracks
+      description: This endpoint will return a list of all your favorite tracks.
+        Track is an object contains fields like who the artist is, what album does the track belong to, etc.
+        This will likely be the form of the tracks returned from the ML server.
+      parameters:
+        - name: access_token
+          in: path
+          required: true
+          description: access_token for spotify, get it from the spotify/login endpoint
+          schema:
+            type: string
+      responses:
+        '400':
+          description: bad input
+        '404':
+          description: errors happened while getting data from spotify
+        '204':
+          description: no tracks found, you gotta listen to more music man~
+        '200':
+          description: successful! Return list of tracks

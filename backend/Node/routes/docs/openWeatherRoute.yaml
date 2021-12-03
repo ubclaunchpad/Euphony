@@ -1,0 +1,33 @@
+paths:
+  /openWeather/reverseWeather/{latitude},{longitude}:
+    get:
+      tags:
+        - OpenWeather
+      summary: return weather data given (latitude,longitude) values
+      description: return weather data given (latitude,longitude) values
+      parameters:
+        - name: latitude
+          in: path
+          required: true
+          description: __latitude__ *for 37.7614°N, input 37.7614*
+          schema:
+            type: number
+        - name: longitude
+          in: path
+          required: true
+          description: __longitude__ *for 122.4241°W, input -122.4241*
+          schema:
+            type: number
+      responses:
+        '400':
+          description: bad input, invalid latitude/lon value(s)
+        '200':
+          description: |
+            Successful! Returns weather object with properties
+              - __temp_c__: temp in °C (number),
+              - __temp_f__: temp in °F (number),
+              - __feels_like_c__,
+              - __feels_like_f__,
+              - __pop__: probability of precipitation (0 to 1),
+              - __clouds__: % of clouds (0 to 1)
+

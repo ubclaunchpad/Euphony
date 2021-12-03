@@ -9,6 +9,9 @@ router.get('/', (_, res) => {
 
 router.get('/reverseLocation/:latLon', async (req, res) => {
 	const latLon = req.params.latLon.split(',');
+	if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
+		res.status(400).send('Invalid lat/lon value(s)');
+	}
 	const result: any = await reverseGeocoding(latLon[0], latLon[1]);
 	res.send(result.features.length ? result.features[0].context : []);
 });
