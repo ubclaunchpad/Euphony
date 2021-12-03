@@ -5,28 +5,35 @@ const testRoute = require('../routes/testRoute');
 const mapboxRoute = require('../routes/mapboxRoute');
 const openWeatherRoute = require('../routes/openWeatherRoute');
 const spotifyRoute = require('../routes/spotifyRoute');
+const bodyParser = require('body-parser');
 
 require('dotenv').config();
 
-const app = express();
 const port = process.env.PORTNUM;
+const app = express();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 // set up swagger UI
 const options = {
 	definition: {
 		openapi: '3.0.0',
 		info: {
-			title: 'Library API',
+			title: 'Spotify Gen API Documentation',
 			version: '1.0.0',
-			descrition: 'A simple Express Library API',
+			description: 'Spotify Gen Library API',
 		},
 		servers: [
 			{
-				url: 'http://localhostL4000',
+				url: 'http://localhost:4000',
 			},
 		],
 	},
-	apis: ['.routes/*.js'],
+	apis: ['./routes/docs/*.yaml'],
 };
 
 const specs = swaggerJsDoc(options);
