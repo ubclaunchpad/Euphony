@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { SafeAreaView, Pressable, StyleSheet, Button, Text } from 'react-native';
-
-
+import authHandler from '../networking/AppAuth';
+import AppContext from '../AppContext';
 export default function LoginScreen({ dismissAction }: { dismissAction: () => void }) {
+    const authContext = React.useContext(AppContext);
+
     return (
         <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Pressable
@@ -15,7 +17,11 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
             <Text style={styles.baseText}>For more personalized results, we recommend that you connect your Spotify account</Text>
             <Button
                 title="Login"
-                onPress={() => dismissAction()}
+                onPress={async () => {
+                    let result = await authHandler.onLogin();
+                    console.log(result);
+                    result?.accessToken && authContext.setAuthToken(result.accessToken);
+                }}
             />
         </SafeAreaView>
     );
