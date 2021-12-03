@@ -164,11 +164,14 @@ router.get('/getPopularityForTracks/:access_token', getPopularityForTracks);
 
 router.get('/getInputForML/:access_token', getInputForML);
 
-// router.get('/', (req: any, res: any) => {
+/**
+ * TODO: this doesn't have to be its own API endpoint, could just go into
+ * 			a function call for after we finish steps 1-4
+ */
 router.get('/recs/:access_token', async(req: any, res: any) => {
 	/**
 	 * TODO: hi Hung! I just hardcoded these fields below to isolate this part
-	 * 			you can populate these you link it to the other work in steps 1-4 that we have
+	 * 			you can populate these with values from the work in steps 1-4 that we have
 	 */
 	const location = Location.CA;
 	const mood = Mood.HAPPY;
@@ -220,7 +223,8 @@ router.get('/recs/:access_token', async(req: any, res: any) => {
     56,
     50
   ];
-
+  // TODO: validate limit (Spotify's range: 1 to 100 inclusive)
+  const limit = 20;
   /* END OF HARDCODED VALUES */
 
   // TODO: move thiese endpoints somewhere nice, ML server port num should be set and loaded
@@ -246,7 +250,7 @@ router.get('/recs/:access_token', async(req: any, res: any) => {
 	 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
 	 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
 	**/ 
-	let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_artists=${seedArtistIds}&seed_genres=${seedGenre}&$seed_tracks=${seedTracksIds}`;
+	let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_artists=${seedArtistIds}&seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
 	Object.keys(MLServerRes.data).forEach((property: string) => recommendationsUrl += `&${property}=${MLServerRes.data[property]}`);
 	// TODO: consolidate calls to Spotify API
 	const spotifyRecommendationsRes: any = await axios.get(recommendationsUrl, {
