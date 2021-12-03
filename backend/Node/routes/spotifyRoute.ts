@@ -81,6 +81,7 @@ router.get('/getMyTopTracks/:access_token', async (req: any, res: any) => {
 
 		if (topTracks) {
 			let topTracksIds = topTracks.data.items.map((track: any) => track.id);
+
 			// return res.status(200).send(topTracksIds);
 			return res.status(200).send(topTracks.data.items);
 		}

@@ -1,3 +1,4 @@
+
 /**
  * Learn more about using TypeScript with React Navigation:
  * https://reactnavigation.org/docs/typescript/
@@ -53,3 +54,8 @@ export type Song = {
   artist: string,
   duration: string,
 }
+
+export type Choice = {
+    id: string;
+    label: string; //TODO add API filter value
+};
