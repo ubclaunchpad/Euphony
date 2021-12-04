@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import {View, FlatList,  StatusBar, SafeAreaView, TextInput } from 'react-native';
+import React from 'react';
+import {FlatList,  StatusBar, SafeAreaView} from 'react-native';
 
 import {Animated} from 'react-native';
 
@@ -7,20 +7,7 @@ import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
 import albumDetails from '../mockData/albumDetails';
 
-const {Value} = Animated;
 const AlbumScreen = () => {
-  const shuffleSongs = (array) => {
-    let i = array.length - 1;
-    for (; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-    return array;
-  };
-
-
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />

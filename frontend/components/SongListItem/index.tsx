@@ -19,9 +19,7 @@ const SongListItem = (props: SongListItemProps) => {
         <View>
             <TouchableOpacity style={styles.container}>
                 <View style={styles.leftXContainer}>
-                    <Shadow paintInside={false} distance={5} offset={[0, 3]} startColor={'hsla(267, 100%, 41%, 0.2)'} paintInside={true}>
-                        <Image source={{ uri: song.imageUri }} style={styles.image}/>
-                    </Shadow>
+                    <Image source={{ uri: song.imageUri }} style={styles.image}/>
                     <View style={styles.rightContainer}>
                         <Text style={styles.title}>{song.title}</Text>
                         <View style={styles.sub}>
