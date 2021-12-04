@@ -1,5 +1,11 @@
 const SpotifyWebApi = require('spotify-web-api-node');
+import { Activity, genres, Location, Mood } from '../../src/interfaces';
 import axios from 'axios';
+import {
+	getSeedArtistIdsFromTopTracks,
+	parseTrack,
+	Track,
+} from './spotify-mapper';
 
 // scopes for spotify
 export const scopes = [
@@ -81,6 +87,8 @@ export async function getInputForML(req: any, res: any, next: any) {
 				.send('users need to use spotify more to get top tracks');
 		}
 
+		res.locals.trackIds = topTracksIds;
+
 		spotifyApi.setAccessToken(req.params.access_token);
 
 		const audioFeaturesData = await spotifyApi.getAudioFeaturesForTracks(
@@ -99,17 +107,91 @@ export async function getInputForML(req: any, res: any, next: any) {
 		}
 
 		if (audioFeaturesData && tracksData) {
-			let inputForMl = audioFeaturesData.body.audio_features;
-			inputForMl.forEach((feature: any, index: number) => {
+			let inputForML = audioFeaturesData.body.audio_features;
+			inputForML.forEach((feature: any, index: number) => {
 				feature.popularity = popularityArr[index];
 			});
-      
-			console.log(topTracksIds);
-			return next();
+
+			if (res.locals.theOne) {
+				res.locals.audio_features_w_popularity = inputForML;
+				next();
+			} else {
+				res.send(inputForML);
+			}
 		} else {
 			return res.status(204).send('no audio features returned');
 		}
 	} catch (error) {
 		return res.status(404).send(error);
 	}
+}
+
+export async function getRecommendations(req: any, res: any) {
+	const location =
+		res.locals.location.short_code == 'ca' ? Location.CA : Location.USA;
+	const pop = res.locals.weather?.pop;
+	const clouds = res.locals.weather?.cloud;
+	const temp = res.locals.weather?.temp_c;
+	const audio_features = res.locals.audio_features_w_popularity;
+	const trackIds = res.locals.trackIds;
+	const mood = req.body.mood;
+	const activity = req.body.activity;
+	const limit = req.body.limit;
+
+	// const everything = {
+	// 	location,
+	// 	pop,
+	// 	clouds,
+	// 	temp,
+	// 	mood,
+	// 	activity,
+	// 	audio_features,
+	// 	trackIds,
+	// 	limit,
+	// };
+
+	// res.send(everything);
+	// // TODO: move thiese endpoints somewhere nice, ML server port num should be set and loaded
+	const MLServerRes = await axios.post(
+		`http://localhost:5000/recommend_playlist`,
+		{
+			location,
+			pop,
+			clouds,
+			temp,
+			mood,
+			activity,
+			audio_features,
+		}
+	);
+
+	// Get the first 2 track ids to pass as seed_tracks into the recommendation API
+	const seedTracksIds = trackIds.slice(0, 2).join(',');
+	// Get the seed genre from the user
+	const seedGenre = genres[activity];
+	// Get the top 2 artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
+	const seedArtistIds = await getSeedArtistIdsFromTopTracks(
+		trackIds,
+		req.params.access_token
+	);
+
+	/**
+	 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
+	 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
+	 **/
+	let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_artists=${seedArtistIds}&seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
+	Object.keys(MLServerRes.data).forEach(
+		(property: string) =>
+			(recommendationsUrl += `&${property}=${MLServerRes.data[property]}`)
+	);
+	// TODO: consolidate calls to Spotify API
+	const spotifyRecommendationsRes: any = await axios.get(recommendationsUrl, {
+		headers: { Authorization: `Bearer ${req.params.access_token}` },
+	});
+
+	// Format data returned from the API, only send what the front-end needs
+	const formattedTracks: Track[] = spotifyRecommendationsRes.data.tracks.map(
+		(t: { [key: string]: any }) => parseTrack(t)
+	);
+	res.send(formattedTracks);
 }
