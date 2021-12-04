@@ -21,7 +21,8 @@ export type AlbumHeaderProps = {
   album: Album;
 };
 
-const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: route) => {
+const AlbumHeader = (props: AlbumHeaderProps) => {
+
   const {album} = props;
 
   const [toggle, setToggle] = useState(false);
@@ -31,11 +32,18 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
 
   const [title, setTitle] = useState(album.name);
   const [isEditing, setIsEditing] = useState(false);
-  const toggleEditing = () => setIsEditing(previousState => !previousState);
+  const toggleEditing = () => { 
+    setIsEditing(previousState => !previousState); 
+    if (isEditing) {
+      props.setName(title);
+    }
+  }
 
-  const createThreeButtonAlert = () => Alert.alert('Added to Spotify!');
+  const createThreeButtonAlert = () => { 
+    props.updateSaved();
+  }
 
-  const notSaved = () =>
+  const notSaved = () => { if (props.saved == true) {
     Alert.alert(
       'Go Back?',
       'You have not saved this playlist yet. Are you sure you want to abandon it?',
@@ -47,7 +55,22 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
         },
         {text: 'Leave', onPress: () => console.log('OK Pressed')},
       ],
-    );
+    );}
+    else {
+      Alert.alert(
+        'lol',
+        'You have not saved this playlist yet. Are you sure you want to abandon it?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Leave', onPress: () => console.log('OK Pressed')},
+        ],
+      ); 
+    } 
+  }
 
   return (
     <View>
@@ -55,18 +78,16 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
         {/* cover image */}
         <View style={styles.center}>
           <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
-            <TouchableOpacity onPress={notSaved}>
-              <View style={styles.image}>
-                <View style={{flexDirection: 'row'}}>
-                  <Image source={{uri: album.songs[0].imageUri}} style={styles.miniImage}/>
-                  <Image source={{uri: album.songs[1].imageUri}} style={styles.miniImage}/>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Image source={{uri: album.songs[2].imageUri}} style={styles.miniImage}/>
-                  <Image source={{uri: album.songs[3].imageUri}} style={styles.miniImage}/>
-                </View>
+            <View style={styles.image}>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={{uri: album.songs[0].imageUri}} style={styles.miniImage}/>
+                <Image source={{uri: album.songs[1].imageUri}} style={styles.miniImage}/>
               </View>
-            </TouchableOpacity>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={{uri: album.songs[2].imageUri}} style={styles.miniImage}/>
+                <Image source={{uri: album.songs[3].imageUri}} style={styles.miniImage}/>
+              </View>
+            </View>
           </Shadow>
         </View>
 
@@ -76,11 +97,10 @@ const AlbumHeader = (props: AlbumHeaderProps, navigation: navigation, route: rou
         <TouchableOpacity style={[styles.title]}>
           <View style={styles.leftContainer}>
           <TextInput
-            placeholder={title}
-            onChangeText={title => setTitle(title)}
+            onChangeText={t => setTitle(t)}
             onFocus={toggleEditing}
             onEndEditing={toggleEditing}
-            defaultValue={title}
+            defaultValue={props.name}
             style={[styles.name]}
           />
           </View>
