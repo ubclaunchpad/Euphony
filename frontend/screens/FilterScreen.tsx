@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LoginScreen from './LoginScreen';
+import LoginScreen from './login/LoginScreen';
 import { Modal, Button, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import LocationPicker from '../components/filter/LocationPicker';
 import Carousel from '../components/filter/Carousel';
@@ -10,13 +10,7 @@ import LengthPicker from '../components/filter/LengthPicker';
 
 function FilterScreen({ navigation }) {
   const [text, onChangeText] = React.useState("");
-  const [loginPresented, setLoginPresented] = React.useState(true);
   const authContext = React.useContext(AppContext);
-
-  const dismissModal = React.useCallback(() => {
-    setLoginPresented(false);
-  }, [loginPresented]);
-
 
   var isSpotifyConnected = false;
   var messageText;
@@ -29,12 +23,14 @@ function FilterScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <Modal
         animationType="slide"
-        visible={authContext.authToken === null}
+        visible={authContext.authToken === undefined}
         onRequestClose={() => {
-          authContext.setAuthToken(null);
+          authContext.setAuthToken("");
         }}
       >
-        <LoginScreen dismissAction={dismissModal} ></LoginScreen>
+        <LoginScreen dismissAction={() => {
+          authContext.setAuthToken("")
+        }} ></LoginScreen>
       </Modal>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.header}>Filters</Text>
@@ -42,7 +38,7 @@ function FilterScreen({ navigation }) {
         <Button title="Clear all" />
         <Button
           title="logout"
-          onPress={() => authContext.setAuthToken(null)}
+          onPress={() => authContext.setAuthToken(undefined)}
         />
         <TextInput
           onChangeText={onChangeText}

@@ -8,11 +8,11 @@ import AppContext from './AppContext';
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [token, setAuthToken] = React.useState(null);
+  const [token, setAuthToken] = React.useState(undefined);
 
   const userSettings = {
     authToken: token,
-    setAuthToken,
+    setAuthToken: setAuthToken,
   };
   return (
     <AppContext.Provider value={userSettings}>
