@@ -97,6 +97,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         <TouchableOpacity style={[styles.title]}>
           <View style={styles.leftContainer}>
           <TextInput
+            autoCorrect={false}
             onChangeText={t => setTitle(t)}
             onFocus={toggleEditing}
             onEndEditing={toggleEditing}
