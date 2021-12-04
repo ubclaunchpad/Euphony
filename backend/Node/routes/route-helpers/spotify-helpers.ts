@@ -58,7 +58,7 @@ export async function getPopularityForTracks(req: any, res: any) {
 	}
 }
 
-export async function getInputForML(req: any, res: any) {
+export async function getInputForML(req: any, res: any, next: any) {
 	let spotifyApi = createSpotifyWebApi();
 	try {
 		if (!req.params.access_token)
@@ -103,8 +103,9 @@ export async function getInputForML(req: any, res: any) {
 			inputForMl.forEach((feature: any, index: number) => {
 				feature.popularity = popularityArr[index];
 			});
-
-			return res.status(200).send(inputForMl);
+      
+			console.log(topTracksIds);
+			return next();
 		} else {
 			return res.status(204).send('no audio features returned');
 		}

@@ -7,9 +7,14 @@
 - NodeJS latest v
 
 **Environment Variable**
-create a .env file in ./backend/Node folder:
+
+Create a .env file in ./backend/Node folder, ask backend devs for them:
 
 - PORTNUM=4000
+- SPOTIFY_CLIENT_ID=
+- SPOTIFY_CLIENT_SECRET=
+- MAPBOX_TOKEN=
+- OPEN_WEATHER_KEY=
 
 **Install**
 Run `npm install` to install all dependencies
@@ -24,5 +29,5 @@ Run `npm install` to install all dependencies
 
 ## Swagger API Documentation
 
-after running `npm start`, API documatation can be accessed here:
+after running `npm start`, API documentation can be accessed here:
 http://localhost:4000/api-docs/

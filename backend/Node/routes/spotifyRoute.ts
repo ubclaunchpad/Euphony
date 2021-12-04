@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
 import axios from 'axios';
+
 import { Activity, genres, Location, Mood } from '../src/interfaces';
+
 import {
 	createSpotifyWebApi,
 	getInputForML,
 	getPopularityForTracks,
 	scopes,
 } from './route-helpers/spotify-helpers';
+
 import { getSeedArtistIdsFromTopTracks, parseTrack, Track } from './route-helpers/spotify-mapper';
 
 router.get('/', (req: any, res: any) => {
@@ -25,10 +28,8 @@ router.get('/callback', async (req: any, res: any) => {
 	let spotifyApi = createSpotifyWebApi();
 	const error = req.query.error;
 	const code = req.query.code;
-	const state = req.query.state;
 
 	if (error) {
-		console.error('Callback Error:', error);
 		res.send(`Callback Error: ${error}`);
 		return;
 	}
@@ -39,28 +40,15 @@ router.get('/callback', async (req: any, res: any) => {
 		if (data) {
 			const access_token = data.body['access_token'];
 			const refresh_token = data.body['refresh_token'];
-			const expires_in = data.body['expires_in'];
 
-			spotifyApi.setAccessToken(access_token);
-			spotifyApi.setRefreshToken(refresh_token);
+			const tokens = {
+				field: 'successfully login',
+				access_token: access_token,
+				refresh_token: refresh_token,
+			};
 
-			// development purposes
-			console.log('access_token:', access_token);
-			console.log('refresh_token:', refresh_token);
+			res.status(200).send(tokens);
 
-			console.log(
-				`Successfully retrieved access token. Expires in ${expires_in} s.`
-			);
-			res.send('Success! You can now close the window.');
-
-			setInterval(async () => {
-				const data = await spotifyApi.refreshAccessToken();
-				const access_token = data.body['access_token'];
-
-				console.log('The access token has been refreshed!');
-				console.log('access_token:', access_token);
-				spotifyApi.setAccessToken(access_token);
-			}, (expires_in / 2) * 1000);
 		} else {
 			res.send('Authorization granted, but no tokens were returned');
 		}
@@ -103,7 +91,8 @@ router.get('/getMyTopTracks/:access_token', async (req: any, res: any) => {
 
 		if (topTracks) {
 			let topTracksIds = topTracks.data.items.map((track: any) => track.id);
-			return res.status(200).send(topTracksIds);
+
+			return res.status(200).send(topTracks.data.items);
 		}
 	} catch (error) {
 		return res.status(404).send(error);
@@ -162,7 +151,24 @@ router.get(
 
 router.get('/getPopularityForTracks/:access_token', getPopularityForTracks);
 
+router.get(
+	'/getInputForML/:access_token',
+	getInputForML,
+	getPopularityForTracks
+);
+
 router.get('/getInputForML/:access_token', getInputForML);
+
+router.get('/hello', async (req: any, res: any) => {
+	try {
+		console.log(req.cookies);
+		console.log(res.cookies);
+		res.status(200).send('hello world');
+	} catch (error) {
+		console.log(error);
+		return res.status(404).send(error);
+	}
+});
 
 /**
  * TODO: this doesn't have to be its own API endpoint, could just go into
