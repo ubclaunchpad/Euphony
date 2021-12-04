@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 
 data_path = "data/rainy_workout.csv"
-train_save_path = "processed_data/train_rainy_workout.csv"
-test_save_path = "processed_data/test_rainy_workout.csv"
+train_save_path = "processed_data/feature_rainy_workout.csv"
+test_save_path = "processed_data/target_rainy_workout.csv"
 
 ACTIVITY_ENUM = ["CHILL", "STUDY", "PARTY", "WORK_OUT", "BED"]
 
@@ -107,7 +107,7 @@ def main():
     train_df.to_csv(path_or_buf = train_save_path, index=False)
     test_df.to_csv(path_or_buf = test_save_path, index=False)
 
-    print(train_df.columns)
+    print(train_df.shape)
 
 if __name__ == '__main__':
     main()
