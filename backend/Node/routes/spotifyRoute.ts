@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
 import axios from 'axios';
+
 import {
 	createSpotifyWebApi,
 	getInputForML,
 	getPopularityForTracks,
 	scopes,
 } from './route-helpers/spotify-helpers';
+
+router.get('/', (req: any, res: any) => {
+	res.send('Spotify API');
+});
 
 // login
 router.get('/login', (req: any, res: any) => {
@@ -82,7 +87,6 @@ router.get('/getMyTopTracks/:access_token', async (req: any, res: any) => {
 		if (topTracks) {
 			let topTracksIds = topTracks.data.items.map((track: any) => track.id);
 
-			// return res.status(200).send(topTracksIds);
 			return res.status(200).send(topTracks.data.items);
 		}
 	} catch (error) {
@@ -142,21 +146,6 @@ router.get(
 
 router.get('/getPopularityForTracks/:access_token', getPopularityForTracks);
 
-router.get(
-	'/getInputForML/:access_token',
-	getInputForML,
-	getPopularityForTracks
-);
-
-router.get('/hello', async (req: any, res: any) => {
-	try {
-		console.log(req.cookies);
-		console.log(res.cookies);
-		res.status(200).send('hello world');
-	} catch (error) {
-		console.log(error);
-		return res.status(404).send(error);
-	}
-});
+router.get('/getInputForML/:access_token', getInputForML);
 
 module.exports = router;
