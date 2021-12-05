@@ -127,71 +127,69 @@ export async function getInputForML(req: any, res: any, next: any) {
 }
 
 export async function getRecommendations(req: any, res: any) {
+	// default value location = CA, pop = 0.5, clouds = 0.5, temp = 10, mood = HAPPY, activity = CHILL, limit = 10
+
+	// data from location and weather
 	const location =
-		res.locals.location.short_code == 'ca' ? Location.CA : Location.USA;
-	const pop = res.locals.weather?.pop;
-	const clouds = res.locals.weather?.cloud;
-	const temp = res.locals.weather?.temp_c;
+		res.locals.location.short_code == 'us' ? Location.USA : Location.CA;
+	const pop = res.locals.weather?.pop ? res.locals.weather?.pop : 0.5;
+	const clouds = res.locals.weather?.clouds ? res.locals.weather?.clouds : 0.4;
+	const temp = res.locals.weather?.temp_c ? res.locals.weather?.temp_c : 10;
+
+	// custom fields from frontend
+	const mood = req.body.mood ? req.body.mood : Mood.HAPPY;
+	const activity = req.body.activity ? req.body.activity : Activity.CHILL;
+	const limit = req.body.limit ? req.body.limit : 10;
+
+	// data from spotify API
 	const audio_features = res.locals.audio_features_w_popularity;
 	const trackIds = res.locals.trackIds;
-	const mood = req.body.mood;
-	const activity = req.body.activity;
-	const limit = req.body.limit;
 
-	// const everything = {
-	// 	location,
-	// 	pop,
-	// 	clouds,
-	// 	temp,
-	// 	mood,
-	// 	activity,
-	// 	audio_features,
-	// 	trackIds,
-	// 	limit,
-	// };
+	try {
+		// TODO: move these endpoints somewhere nice, ML server port num should be set and loaded
+		const MLServerRes = await axios.post(
+			`http://localhost:5000/recommend_playlist`,
+			{
+				location,
+				pop,
+				clouds,
+				temp,
+				mood,
+				activity,
+				audio_features,
+			}
+		);
 
-	// res.send(everything);
-	// // TODO: move thiese endpoints somewhere nice, ML server port num should be set and loaded
-	const MLServerRes = await axios.post(
-		`http://localhost:5000/recommend_playlist`,
-		{
-			location,
-			pop,
-			clouds,
-			temp,
-			mood,
-			activity,
-			audio_features,
-		}
-	);
+		// Get the first 2 track ids to pass as seed_tracks into the recommendation API
+		const seedTracksIds = trackIds.slice(0, 2).join(',');
+		// Get the seed genre from the user
+		const seedGenre = genres[activity];
+		// Get the top 2 artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
+		const seedArtistIds = await getSeedArtistIdsFromTopTracks(
+			trackIds,
+			req.params.access_token
+		);
 
-	// Get the first 2 track ids to pass as seed_tracks into the recommendation API
-	const seedTracksIds = trackIds.slice(0, 2).join(',');
-	// Get the seed genre from the user
-	const seedGenre = genres[activity];
-	// Get the top 2 artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
-	const seedArtistIds = await getSeedArtistIdsFromTopTracks(
-		trackIds,
-		req.params.access_token
-	);
+		/**
+		 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
+		 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
+		 **/
+		let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_artists=${seedArtistIds}&seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
+		Object.keys(MLServerRes.data).forEach(
+			(property: string) =>
+				(recommendationsUrl += `&${property}=${MLServerRes.data[property]}`)
+		);
+		// TODO: consolidate calls to Spotify API
+		const spotifyRecommendationsRes: any = await axios.get(recommendationsUrl, {
+			headers: { Authorization: `Bearer ${req.params.access_token}` },
+		});
 
-	/**
-	 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
-	 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
-	 **/
-	let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_artists=${seedArtistIds}&seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
-	Object.keys(MLServerRes.data).forEach(
-		(property: string) =>
-			(recommendationsUrl += `&${property}=${MLServerRes.data[property]}`)
-	);
-	// TODO: consolidate calls to Spotify API
-	const spotifyRecommendationsRes: any = await axios.get(recommendationsUrl, {
-		headers: { Authorization: `Bearer ${req.params.access_token}` },
-	});
-
-	// Format data returned from the API, only send what the front-end needs
-	const formattedTracks: Track[] = spotifyRecommendationsRes.data.tracks.map(
-		(t: { [key: string]: any }) => parseTrack(t)
-	);
-	res.send(formattedTracks);
+		// Format data returned from the API, only send what the front-end needs
+		const formattedTracks: Track[] = spotifyRecommendationsRes.data.tracks.map(
+			(t: { [key: string]: any }) => parseTrack(t)
+		);
+		res.status(200).send(formattedTracks);
+	} catch (err) {
+		res.status(404).send(err);
+	}
 }

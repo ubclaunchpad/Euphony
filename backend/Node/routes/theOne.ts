@@ -7,7 +7,7 @@ import {
 } from './route-helpers/spotify-helpers';
 const router = express.Router();
 
-router.get(
+router.post(
 	'/:latLon/:access_token/',
 	(_, res: any, next: any) => {
 		res.locals.theOne = true;
