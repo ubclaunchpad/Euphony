@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         width: '75%'
     },
     properties: {
-        marginBottom: 25,
+        marginBottom: 15,
     },
     h2: {
         color: 'hsl(0, 0%, 15%)',
