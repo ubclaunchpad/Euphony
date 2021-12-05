@@ -35,3 +35,37 @@ export function isLongitude(lonStr: string) {
 	const lon = Number(lonStr);
 	return !isNaN(lon) && isFinite(lon) && Math.abs(lon) <= 180;
 }
+
+export async function reverseLocation(req: any, res: any) {
+	const latLon = req.params.latLon.split(',');
+	if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
+		res.status(400).send('Invalid lat/lon value(s)');
+	}
+	const result: any = await reverseGeocoding(latLon[0], latLon[1]);
+	res.send(result.features.length ? result.features[0].context : []);
+}
+
+export async function reverseCountry(req: any, res: any, next: any) {
+	try {
+		const latLon = req.params.latLon.split(',');
+		if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
+			res.status(400).send('Invalid lat/lon value(s)');
+		}
+		const result: any = await reverseGeocoding(latLon[0], latLon[1]);
+		const features = result.features;
+
+		const country =
+			features.length && features[0].context.length
+				? features[0].context[features[0].context.length - 1]
+				: {};
+
+		if (res.locals.theOne) {
+			res.locals.location = country;
+			next();
+		} else {
+			res.send(country);
+		}
+	} catch (err) {
+		return res.status(404).send(err);
+	}
+}
