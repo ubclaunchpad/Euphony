@@ -25,7 +25,7 @@ const AlbumScreen = ({navigation}) => {
     setModalVisible(!isModalVisible);
   };
 
-  const [name, setName] = useState(albumDetails.name);
+  const [name, setName] = useState("My Playlist");
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
