@@ -1,0 +1,55 @@
+paths:
+  /theOne/{latitude},{longitude}/{access_token}:
+    post:
+      tags:
+        - TheOne
+      summary: get the recommended tracks from our backend algorithm
+      description: get the weather, location, mood, activity, user's spotify preferences and input that to the ML server. The ML server will return the best recommended tracks.
+
+      parameters:
+        - name: access_token
+          in: path
+          required: true
+          description: access_token for spotify, get it from the spotify/login endpoint
+          schema:
+            type: string
+        - name: latitude
+          in: path
+          required: true
+          description: __latitude__ *for 37.7614°N, input 37.7614*
+          schema:
+            type: number
+        - name: longitude
+          in: path
+          required: true
+          description: __longitude__ *for 122.4241°W, input -122.4241*
+          schema:
+            type: number
+
+      requestBody:
+        description: All fields are optional <br>
+          mood = enum [HAPPY(0), MELANCHOLY(1), COMPASSION(2), LONELINESS(3), ANGER(4)] <br>
+          activity = enum [WORK_OUT(0), STUDY(1), RELAX(2), PARTY(3), CHILL(4), BED(5)] <br>
+          limit = the number of songs you want to get back, if not specified, will default to 10
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mood:
+                  type: integer
+                  example: 0
+                activity:
+                  type: integer
+                  example: 2
+                limit:
+                  type: integer
+                  example: 5
+
+      responses:
+        '400':
+          description: bad input
+        '404':
+          description: errors happened while getting recommend tracks
+        '200':
+          description: successful! Return array of recommend tracks
