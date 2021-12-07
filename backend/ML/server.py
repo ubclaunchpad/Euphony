@@ -4,29 +4,12 @@ from flask import Flask, request, jsonify
 import numpy as np
 import statistics
 import torch
-from torch import nn
+from model import load_model
 
 app = Flask(__name__)
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
-# Define model
-class NeuralNetwork(nn.Module):
-    def __init__(self):
-        super(NeuralNetwork, self).__init__()
-        self.linear_relu_stack = nn.Sequential(
-            nn.Linear(40, 512),
-            nn.ReLU(),
-            nn.Linear(512, 512),
-            nn.ReLU(),
-            nn.Linear(512, 13) # 4 categorical
-        )
-
-    def forward(self, x):
-        logits = self.linear_relu_stack(x)
-        return logits
-
-model = NeuralNetwork().to(device)
+model = load_model()
+model.eval()
 
 @app.route("/")
 def initialize_server():
@@ -139,9 +122,13 @@ def parse_request(req):
 
     parsed_audio_features = parse_audio_features(audio_features)
 
-    feature_arr = [location, clouds, pop, temp]
+    # feature_arr = [location, clouds, pop, temp]
 
-    feature_arr = feature_arr + mood + activity + parsed_audio_features
+    # feature_arr = feature_arr + mood + activity + parsed_audio_features
+
+    feature_arr = [clouds, pop, temp]
+
+    feature_arr = feature_arr + activity + parsed_audio_features
 
     print(feature_arr)
     print(len(feature_arr))
