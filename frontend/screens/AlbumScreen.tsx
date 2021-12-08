@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator} from 'react-native';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator, Alert, Button} from 'react-native';
 
 import AppContext from '../AppContext';
 
@@ -9,9 +9,9 @@ import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
 import AddedModal from '../components/AddedModal';
 
-import albumDetails from '../mockData/albumDetails';
-
 import Modal from "react-native-modal";
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const AlbumScreen = ({route, navigation}) => {
   const { obj, coords, initName } = route.params;
@@ -48,6 +48,44 @@ const AlbumScreen = ({route, navigation}) => {
 
   // above, constants are init
 
+  // set Navigation Screen options leaving
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: name === '' ? 'No title' : name,
+        headerStyle: {
+          backgroundColor: 'hsla(0, 0%, 100%, 0.8)',
+        },
+      headerLeft: () => (
+        <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 5}}> 
+          <MaterialIcons
+            name="arrow-back-ios"
+            size={24}
+            color={'hsl(0, 0%, 0%)'}
+            onPress={() => navigation.goBack()}
+            style={{paddingLeft:10}}
+          />
+        </View>
+      ),
+      headerRight: () => (
+        <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 5}}> 
+          <MaterialIcons
+            name="refresh"
+            size={24}
+            color={'hsl(0, 0%, 0%)'}
+            style={{paddingRight:20}}
+          />
+          <MaterialIcons
+            name="info-outline"
+            size={24}
+            color={'hsl(0, 0%, 0%)'}
+            onPress={() => navigation.navigate("PlaylistInfo", albumDetails)}
+            style={{paddingRight:10}}
+          />
+        </View>
+      ),
+    });
+  }, [navigation, name]);
+
   // fetch from API
   useEffect(() => {
     setIsLoading(true);
@@ -64,6 +102,35 @@ const AlbumScreen = ({route, navigation}) => {
         setError(err);
       });
   }, []);
+
+  // prevent going back
+  React.useEffect(
+    () => navigation.addListener('beforeRemove', (e) => {
+        if (saved) {
+          // If we don't have unsaved changes, then we don't need to do anything
+          return;
+        }
+
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+
+        // Prompt the user before leaving the screen
+        Alert.alert(
+          'Discard changes?',
+          'You have unsaved changes. Are you sure to discard them and leave the screen?',
+          [
+            { text: "Don't leave", style: 'cancel', onPress: () => {} },
+            {
+              text: 'Discard',
+              style: 'destructive',
+              // If the user confirmed, then we dispatch the action we blocked earlier
+              // This will continue the action that had triggered the removal of the screen
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ]
+        );
+      }), [navigation, saved]
+  );
 
   if (isLoading) {
     return (
