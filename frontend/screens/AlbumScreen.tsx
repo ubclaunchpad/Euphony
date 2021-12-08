@@ -74,6 +74,7 @@ const AlbumScreen = ({route, navigation}) => {
             name="refresh"
             size={24}
             color={'hsl(0, 0%, 0%)'}
+            onPress={() => genPlaylist()}
             style={{paddingRight:20}}
           />
           <MaterialIcons
@@ -88,10 +89,9 @@ const AlbumScreen = ({route, navigation}) => {
     });
   }, [navigation, name]);
 
-  // fetch from API
-  useEffect(() => {
+  // generate playlist with props from FilterScreen, fetch from API
+  const genPlaylist = () => {
     setIsLoading(true);
-
     fetch(API_ENDPOINT, REQUEST_OPTIONS)
       .then(response => response.json())
       .then(results => {
@@ -103,6 +103,11 @@ const AlbumScreen = ({route, navigation}) => {
         console.error(err);
         setError(err);
       });
+  }
+
+  // immediately call to generate playlist upon entering screen
+  useEffect(() => {
+    genPlaylist();
   }, []);
 
   const [i, setI] = useState(null);
