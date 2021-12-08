@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator} from 'react-native';
 
+import AppContext from '../AppContext';
+
 import {Animated} from 'react-native';
 
 import SongListItem from '../components/SongListItem';
@@ -12,9 +14,11 @@ import albumDetails from '../mockData/albumDetails';
 import Modal from "react-native-modal";
 
 const AlbumScreen = ({route, navigation}) => {
-  const { obj, token, initName } = route.params;
+  const { obj, initName } = route.params;
 
-  const API_ENDPOINT = `http://localhost:4000/theOne/37.7614,-122.4241/${token}`;
+  const { authToken } = React.useContext(AppContext);
+
+  const API_ENDPOINT = `http://localhost:4000/theOne/37.7614,-122.4241/${authToken}`;
   const REQUEST_OPTIONS = {
     method: 'POST',
     body: JSON.stringify(obj),
@@ -65,16 +69,6 @@ const AlbumScreen = ({route, navigation}) => {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="#5500dc" />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontSize: 18}}>
-          Error fetching data... Check your network connection!
-        </Text>
       </View>
     );
   }

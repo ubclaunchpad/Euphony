@@ -17,7 +17,7 @@ function FilterScreen({ navigation }) {
   if (!isSpotifyConnected) {
     messageText = <Text>Connect your Spotify account for more personalized results.</Text>;
   }
-  console.log(authContext.authToken);
+
   return (
 
     <SafeAreaView style={styles.container}>
@@ -77,15 +77,16 @@ function FilterScreen({ navigation }) {
         />
         <Button
           title="Okay, leggo"
-          onPress={() => navigation.navigate('Playlist', {
-            obj: {
-              "mood": 1,
-              "activity": 3,
-              "limit": 20
-            },
-            initName: "My Playlist",
-            token: "BQByqVrY7gPOHECngXpglcGxlPCZQYWZpT6V2ztnowVNAgvVnfOa4BYuDyOSD0V-9npVRkOZF53kiCXB_QwdcINGoTcjuV9URsCemk-oFtPBi8Tonlltz22PkusDi-3JzT2gcMmiXAAcWLv8uElpkCasoT6juvg94U3xkmZnZ28163rmr0AgJFlejQkHi73_RAShVLFHCK0CEG_4re-q54an5HApZLOLGy2vbQV5A5ZBMRqOb9-LCTZBxr-Bp_PJhzfzF6r5E2eHQEv40nFs3ZZeAWHh"
-          })}
+          onPress={() => { 
+            if (authContext.authToken) 
+               navigation.navigate('Playlist', {
+                obj: {
+                  "mood": 1,
+                  "activity": 3,
+                  "limit": 20
+                },
+                initName: "My Playlist",})
+            else { console.log("bruh") }} }
         />
       </ScrollView>
     </SafeAreaView>
