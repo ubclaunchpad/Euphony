@@ -105,6 +105,11 @@ const AlbumScreen = ({route, navigation}) => {
       });
   }
 
+  const deleteSong = (id) => {
+    if (data.length != 1) setData(data.filter(song => song.id !== id));
+    else Alert.alert("You can't remove all the songs in the playlist! To make a new playlist, use the regenerate button.")
+  }
+
   // immediately call to generate playlist upon entering screen
   useEffect(() => {
     genPlaylist();
@@ -197,7 +202,7 @@ const AlbumScreen = ({route, navigation}) => {
 
           <FlatList
             data={data}
-            renderItem={({item}) => <SongListItem song={item} />}
+            renderItem={({item}) => <SongListItem song={item} deleteSong={deleteSong} />}
             keyExtractor={item => item.id}
             ListHeaderComponent={() => <AlbumHeader album={data} saved={saved} updateSaved={updateSaved} name={name} setName={setName}/>}
           />

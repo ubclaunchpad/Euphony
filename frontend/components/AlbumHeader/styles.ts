@@ -35,6 +35,10 @@ const styles = StyleSheet.create({
         width: 250/2,
         height: 250/2,
     },
+    largeImage: {
+        width: 250,
+        height: 250,
+    },
     name: {
         color: '#3700AB',
         fontSize: 25,
