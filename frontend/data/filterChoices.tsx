@@ -1,4 +1,23 @@
 import { Choice } from "../types";
+export const genreChoices: [Choice] = [ //TODO update
+  {
+    id: '1',
+    label: 'Pop'
+  },
+  {
+    id: '2',
+    label: "R&B"
+  },
+  {
+    id: '3',
+    label: "Indie"
+  },
+  {
+    id: '4',
+    label: "Hip-Hop"
+  }
+];
+
 export const moodChoices: [Choice] = [
     {
       id: '1',
@@ -6,34 +25,38 @@ export const moodChoices: [Choice] = [
     },
     {
       id: '2',
-      label: "Melancholy"
+      label: "Melancholic"
     },
     {
       id: '3',
-      label: "Compassion"
+      label: "Lonely"
     },
     {
       id: '4',
-      label: "Loneliness"
+      label: "Angry"
+    },
+    {
+      id: '5',
+      label: "Compassionate"
     }
   ];
 
 export const activityChoices: [Choice] = [
   {
     id: '1',
-    label: "Chill"
+    label: "Shower"
   },
   {
     id: '2',
-    label: "Study"
+    label: "Gym"
   },
   {
     id: '3',
-    label: "Party"
+    label: "Study"
   },
   {
     id: '4',
-    label: "Work out"
+    label: "Party"
   },
   {
     id: '5',
@@ -43,7 +66,7 @@ export const activityChoices: [Choice] = [
 export const weatherChoices: [Choice] = [
   {
     id: '1',
-    label: "Current weather"
+    label: "Current Weather"
   },
   {
     id: '2',
@@ -51,6 +74,10 @@ export const weatherChoices: [Choice] = [
   },
   {
     id: '3',
-    label: "(something else)"
+    label: "Sunny"
+  },
+  {
+    id: '4',
+    label: "Stormy"
   }
 ];

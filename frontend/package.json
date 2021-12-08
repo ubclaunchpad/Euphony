@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/slider": "^4.1.12",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
@@ -23,6 +24,7 @@
     "react-native-screens": "^3.8.0",
     "react-native-shadow-2": "^5.1.2",
     "react-native-svg": "^12.1.1",
+    "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {

@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     },
     clearButton: {
         // TODO
+    },
+    requiredText: {
+        // TODO
     }
 });
 
