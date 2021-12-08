@@ -19,19 +19,13 @@ const styles = StyleSheet.create({
     },
     container: {
         alignItems: "center",
-        backgroundColor: '#EEEAFF',
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 180,
-        paddingTop: 40,
         paddingBottom: 10,
-        borderRadius: 10,
-        borderWidth: 0.4,
-        borderColor: '#CDC4F2'
+        paddingTop: 10,
     },
     center: {
         alignItems: "center",
-        marginTop: -200,
     },
     image: {
         width: 250,
@@ -48,11 +42,10 @@ const styles = StyleSheet.create({
         fontFamily: 'Raleway',
     },
     edit: {
-        margin: 10,
+        margin: 0,
     },
     middleText: {
         color: '#867CC0',
-        margin: 3,
         fontSize: 16,
         fontFamily: 'Avenir',
         fontWeight: 'bold'
@@ -85,9 +78,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginLeft: 13,
+        marginLeft: 12,
         marginRight: 13,
         marginTop: 6,
+        marginBottom: 2
     },
     headerText: {
         flexDirection: 'row',

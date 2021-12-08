@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#CDC4F2'
     },
     leftContainer: {
-        flex: 4,
+        flex: 3,
         flexDirection: 'row',
         justifyContent: 'flex-start',
     },

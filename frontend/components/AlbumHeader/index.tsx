@@ -149,7 +149,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                     size={25}
                     color={'#867CC0'}
                   />
-                  <Text style={styles.middleText}>{props.album.duration}</Text>
+                  <Text style={styles.middleText}>1h 28m</Text>
                 </View>
               </View>
             </View>
