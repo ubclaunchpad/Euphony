@@ -85,6 +85,10 @@ function FilterScreen({ navigation }) {
                   "activity": 3,
                   "limit": 20
                 },
+                coords: {
+                  lat: "37.7614", 
+                  long: "-122.4241"
+                },
                 initName: "My Playlist",})
             else { authContext.setAuthToken(undefined); }} }
         />

@@ -14,11 +14,11 @@ import albumDetails from '../mockData/albumDetails';
 import Modal from "react-native-modal";
 
 const AlbumScreen = ({route, navigation}) => {
-  const { obj, initName } = route.params;
+  const { obj, coords, initName } = route.params;
 
   const { authToken } = React.useContext(AppContext);
 
-  const API_ENDPOINT = `http://localhost:4000/theOne/37.7614,-122.4241/${authToken}`;
+  const API_ENDPOINT = `http://localhost:4000/theOne/${coords.lat},${coords.long}/${authToken}`;
   const REQUEST_OPTIONS = {
     method: 'POST',
     body: JSON.stringify(obj),
