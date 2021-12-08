@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import FilterHeader from './FilterHeader';
+import Slider from '@react-native-community/slider';
 
 export type Props = {
     title: string;
@@ -8,6 +9,7 @@ export type Props = {
 }
 
 const LengthPicker = (props: Props) => {
+    const [value, setValue] = React.useState(1);
     return (
         <View>
           <FilterHeader
@@ -15,26 +17,16 @@ const LengthPicker = (props: Props) => {
             description={props.description}
             callback={() => 1}
           />
-          <Button
-            title="10"
-            onPress={() => console.log("10")}
+          <Slider
+            style={{height: 40, width: 300}}
+            minimumValue={1}
+            maximumValue={50}
+            minimumTrackTintColor="#7432FF"
+            maximumTrackTintColor="#FFFFFF"
+            step={1}
+            onValueChange={setValue}
           />
-          <Button
-            title="20"
-            onPress={() => console.log("20")}
-          />
-          <Button
-            title="30"
-            onPress={() => console.log("30")}
-          />
-          <Button
-            title="40"
-            onPress={() => console.log("40")}
-          />
-          <Button 
-            title="50"
-            onPress={() => console.log("50")}
-          />
+          <Text>{value}</Text>
         </View>
       );
 }
