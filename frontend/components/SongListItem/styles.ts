@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'hsla(252, 64%, 86%, 0.6)'
     },
-    rightContainer: {
+    info: {
         justifyContent: 'space-evenly',
         marginLeft: 10,
     },
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
         height: 0.5, 
         backgroundColor: '#CDC4F2'
     },
-    leftXContainer: {
+    leftContainer: {
         flex: 4,
         flexDirection: 'row',
         justifyContent: 'flex-start',
     },
-    rightXContainer: {
+    rightContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-end',

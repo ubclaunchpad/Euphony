@@ -17,7 +17,7 @@ function FilterScreen({ navigation }) {
   if (!isSpotifyConnected) {
     messageText = <Text>Connect your Spotify account for more personalized results.</Text>;
   }
-  console.log(authContext.authToken);
+
   return (
 
     <SafeAreaView style={styles.container}>
@@ -77,7 +77,20 @@ function FilterScreen({ navigation }) {
         />
         <Button
           title="Okay, leggo"
-          onPress={() => navigation.navigate('Playlist')}
+          onPress={() => { 
+            if (authContext.authToken) 
+               navigation.navigate('Playlist', {
+                obj: {
+                  "mood": 1,
+                  "activity": 3,
+                  "limit": 20
+                },
+                coords: {
+                  lat: "37.7614", 
+                  long: "-122.4241"
+                },
+                initName: "My Playlist",})
+            else { authContext.setAuthToken(undefined); }} }
         />
       </ScrollView>
     </SafeAreaView>

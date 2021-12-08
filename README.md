@@ -12,3 +12,6 @@ Generates playlists based on a list of filters and specifications
 1. Run `yarn install`
 2. Run `cd ios && pod install`
 3. Return to the frontend folder `cd ..`, run on your device using `npx react-native run-ios`
+
+## General
+0. Setup the .env file with SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET
