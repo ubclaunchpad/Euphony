@@ -8,6 +8,7 @@ import {Animated} from 'react-native';
 import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
 import AddedModal from '../components/AddedModal';
+import LeaveModal from '../components/LeaveModal';
 
 import Modal from "react-native-modal";
 
@@ -35,13 +36,14 @@ const AlbumScreen = ({route, navigation}) => {
 
   const updateSaved = () => {
     setSaved(true);
-    setModalVisible(true);
+    setAddModalVisible(true);
   }
 
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isAddModalVisible, setAddModalVisible] = useState(false);
+  const [isLeaveModalVisible, setLeaveModalVisible] = useState(false);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+  const toggleAddModal = () => {
+    setAddModalVisible(false);
   };
 
   const [name, setName] = useState(initName);
@@ -103,6 +105,19 @@ const AlbumScreen = ({route, navigation}) => {
       });
   }, []);
 
+  const [i, setI] = useState(null);
+  // storing e event from listener below
+
+  const onLeave = (e) => {
+    setLeaveModalVisible(false);
+    navigation.dispatch(e.data.action)
+  };
+
+  const onCancel = () => {
+    setLeaveModalVisible(false);
+    // no other actions needed: modal goes away, stay on screen
+  };
+
   // prevent going back
   React.useEffect(
     () => navigation.addListener('beforeRemove', (e) => {
@@ -114,27 +129,18 @@ const AlbumScreen = ({route, navigation}) => {
         // Prevent default behavior of leaving the screen
         e.preventDefault();
 
+        // define e in local scope as variable i. TODO: this is probably very inefficient
+        setI(e);
+
         // Prompt the user before leaving the screen
-        Alert.alert(
-          'Discard changes?',
-          'You have unsaved changes. Are you sure to discard them and leave the screen?',
-          [
-            { text: "Don't leave", style: 'cancel', onPress: () => {} },
-            {
-              text: 'Discard',
-              style: 'destructive',
-              // If the user confirmed, then we dispatch the action we blocked earlier
-              // This will continue the action that had triggered the removal of the screen
-              onPress: () => navigation.dispatch(e.data.action),
-            },
-          ]
-        );
+        setLeaveModalVisible(true);
+
       }), [navigation, saved]
   );
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="#5500dc" />
       </View>
     );
@@ -142,7 +148,7 @@ const AlbumScreen = ({route, navigation}) => {
 
   if (error) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ fontSize: 18}}>
           Error fetching data... Check your network connection!
         </Text>
@@ -165,9 +171,21 @@ const AlbumScreen = ({route, navigation}) => {
         <SafeAreaView style={{ backgroundColor: 'white' }}>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
           
-          <Modal isVisible={isModalVisible} backdropOpacity={0.4} animationInTiming={1000}>
+          <Modal isVisible={isAddModalVisible} backdropOpacity={0.4} animationInTiming={700}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <AddedModal toggle={isModalVisible} onPress={toggleModal} name={name}></AddedModal>
+              <AddedModal toggle={isAddModalVisible} onPress={toggleAddModal} name={name}></AddedModal>
+            </View>
+          </Modal>
+
+          <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationInTiming={500}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              <LeaveModal 
+                toggle={isLeaveModalVisible} 
+                onLeave={onLeave} 
+                onCancel={onCancel}
+                e={i} 
+                name={name}>
+              </LeaveModal>
             </View>
           </Modal>
 
