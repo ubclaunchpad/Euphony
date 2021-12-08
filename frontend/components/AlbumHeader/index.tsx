@@ -17,6 +17,8 @@ import Feather from 'react-native-vector-icons/Feather';
 
 import { Shadow } from 'react-native-shadow-2';
 
+import FastImage from 'react-native-fast-image';
+
 export type AlbumHeaderProps = {
   album: Album;
 };
@@ -30,7 +32,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  const [title, setTitle] = useState(album.name);
+  const [title, setTitle] = useState("My Playlist");
   const [isEditing, setIsEditing] = useState(false);
   const toggleEditing = () => { 
     setIsEditing(previousState => !previousState); 
@@ -80,12 +82,12 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
           <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
             <View style={styles.image}>
               <View style={{flexDirection: 'row'}}>
-                <Image source={{uri: album.songs[0].imageUri}} style={styles.miniImage}/>
-                <Image source={{uri: album.songs[1].imageUri}} style={styles.miniImage}/>
+                <FastImage source={{uri: props.album[0].imageUrl}} style={styles.miniImage}/>
+                <FastImage source={{uri: props.album[1].imageUrl}} style={styles.miniImage}/>
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Image source={{uri: album.songs[2].imageUri}} style={styles.miniImage}/>
-                <Image source={{uri: album.songs[3].imageUri}} style={styles.miniImage}/>
+                <FastImage source={{uri: props.album[2].imageUrl}} style={styles.miniImage}/>
+                <FastImage source={{uri: props.album[3].imageUrl}} style={styles.miniImage}/>
               </View>
             </View>
           </Shadow>
@@ -97,6 +99,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         <TouchableOpacity style={[styles.title]}>
           <View style={styles.leftContainer}>
           <TextInput
+            autoCorrect={false}
             onChangeText={t => setTitle(t)}
             onFocus={toggleEditing}
             onEndEditing={toggleEditing}
@@ -140,13 +143,13 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                 
                 <View style={styles.creatorContainer}>
                   {/* TODO: need to rename style names*/}
-                  <Text style={styles.middleText}>{album.songs.length} songs</Text>
+                  <Text style={styles.middleText}>{props.album.length} songs</Text>
                   <Entypo
                     name="dot-single"
                     size={25}
                     color={'#867CC0'}
                   />
-                  <Text style={styles.middleText}>{album.duration}</Text>
+                  <Text style={styles.middleText}>{props.album.duration}</Text>
                 </View>
               </View>
             </View>

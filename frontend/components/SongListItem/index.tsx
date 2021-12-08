@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, Image, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
+import FastImage from 'react-native-fast-image'
 
 import styles from './styles';
 import {Song} from "../../types";
@@ -18,12 +19,12 @@ const SongListItem = (props: SongListItemProps) => {
     return (
         <View>
             <TouchableOpacity style={styles.container}>
-                <View style={styles.leftXContainer}>
-                    <Image source={{ uri: song.imageUri }} style={styles.image}/>
-                    <View style={styles.rightContainer}>
-                        <Text style={styles.title}>{song.title}</Text>
+                <View style={styles.leftContainer}>
+                    <FastImage source={{ uri: song.imageUrl }} style={styles.image}/>
+                    <View style={styles.info}>
+                        <Text style={styles.title}>{song.name}</Text>
                         <View style={styles.sub}>
-                            <Text style={styles.artist}>{song.artist}</Text>
+                            <Text style={styles.artist}>{song.artists[0].name}</Text>
                             <Entypo
                                 name="dot-single"
                                 size={18}
@@ -33,7 +34,7 @@ const SongListItem = (props: SongListItemProps) => {
                         </View>
                     </View>
                 </View>
-                <View style={styles.rightXContainer}>
+                <View style={styles.rightContainer}>
                     <IonIcons
                         name="remove-circle-outline"
                         size={25}

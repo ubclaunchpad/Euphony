@@ -9,7 +9,6 @@ import { genreChoices, moodChoices, activityChoices, weatherChoices } from '../d
 import LengthPicker from '../components/filter/LengthPicker';
 
 function FilterScreen({navigation}) {
-
     const MAX_LENGTH = 100;
 
     const [loginPresented, setLoginPresented] = React.useState(true);
@@ -28,19 +27,25 @@ function FilterScreen({navigation}) {
     return (
          <SafeAreaView style={styles.container}>
            <Modal
-            animationType="slide"
-            visible={loginPresented}
-            onRequestClose={() => {
-              setLoginPresented(!loginPresented);
-            }}
-          >
-            <LoginScreen dismissAction={dismissModal} ></LoginScreen>
-          </Modal>
+              animationType="slide"
+              visible={authContext.authToken === undefined}
+              onRequestClose={() => {
+                authContext.setAuthToken("");
+              }}
+            >
+              <LoginScreen dismissAction={() => {
+                authContext.setAuthToken("")
+              }} ></LoginScreen>
+            </Modal>
          <ScrollView 
           style={styles.scrollView}
          >
           <Text style={styles.header}>Filters</Text>
           <Text style={styles.text}>{messageText}</Text>
+          <Button
+            title="logout"
+            onPress={() => authContext.setAuthToken(undefined)}
+           />
           <TextInput
             onChangeText={
               (text) => {setTextLength(MAX_LENGTH - text.length); onChangeText(text)}
@@ -82,12 +87,26 @@ function FilterScreen({navigation}) {
             description="How many tracks do you want in your playlist?"
           />
            </ScrollView>
-           <Button
-              title="Okay, leggo"
-              onPress={() => navigation.navigate('Playlist')}
-            />
+          <Button
+            title="Okay, leggo"
+            onPress={() => { 
+              if (authContext.authToken) 
+                 navigation.navigate('Playlist', {
+                  obj: {
+                    "mood": 1,
+                    "activity": 3,
+                    "limit": 20
+                  },
+                  coords: {
+                    lat: "37.7614", 
+                    long: "-122.4241"
+                  },
+                  initName: text,})
+              else { authContext.setAuthToken(undefined); }} }
+           />
         </SafeAreaView>
       );
+
 }
 
 const styles = StyleSheet.create({

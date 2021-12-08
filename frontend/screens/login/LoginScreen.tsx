@@ -29,7 +29,7 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
                         <View style={styles.textStack}>
                             <Text style={styles.headerText}>Playlists curated by <Text style={styles.purpleText}>you</Text>, for <Text style={styles.purpleText}>you</Text></Text>
 
-                            <Text style={styles.baseText}>For more personalized results, we recommend that you connect your Spotify account</Text>
+                            <Text style={styles.baseText}>For more personalized results, we recommend that you connect your Spotify account.</Text>
                         </View>
 
 
@@ -48,14 +48,14 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
 
 const styles = StyleSheet.create({
     baseText: {
-        fontFamily: "Roboto",
+        fontFamily: "Avenir",
         fontSize: 16,
-        fontWeight: "normal",
+        fontWeight: "500",
         lineHeight: 25,
         textAlign: 'left',
     },
     headerText: {
-        fontFamily: "Roboto",
+        fontFamily: "Raleway",
         fontSize: 30,
         fontWeight: "bold",
         lineHeight: 40,
@@ -67,11 +67,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         marginTop: -25,
+        padding: 10
     },
     purpleText: {
         color: "#7432FF",
     },
     skipText: {
+        fontFamily: "Raleway",
         fontSize: 20,
         fontWeight: 'bold',
         color: '#5200FF',
