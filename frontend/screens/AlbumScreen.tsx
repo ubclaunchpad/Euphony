@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {FlatList,  StatusBar, SafeAreaView, Text, View, Button, Alert} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator} from 'react-native';
 
 import {Animated} from 'react-native';
 
@@ -11,7 +11,22 @@ import albumDetails from '../mockData/albumDetails';
 
 import Modal from "react-native-modal";
 
-const AlbumScreen = ({navigation}) => {
+const AlbumScreen = ({route, navigation}) => {
+  const { obj, token, initName } = route.params;
+
+  const API_ENDPOINT = `http://localhost:4000/theOne/37.7614,-122.4241/${token}`;
+  const REQUEST_OPTIONS = {
+    method: 'POST',
+    body: JSON.stringify(obj),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  // dummy API endpoint and request, to be replaced with user-input theOne parameters
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
   const [saved, setSaved] = useState(false);
 
   const updateSaved = () => {
@@ -25,25 +40,87 @@ const AlbumScreen = ({navigation}) => {
     setModalVisible(!isModalVisible);
   };
 
-  const [name, setName] = useState("My Playlist");
-  return (
-    <SafeAreaView style={{ backgroundColor: 'white' }}>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
-      
-      <Modal isVisible={isModalVisible} backdropOpacity={0.4} animationInTiming={1000}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <AddedModal toggle={isModalVisible} onPress={toggleModal} name={name}></AddedModal>
-        </View>
-      </Modal>
+  const [name, setName] = useState(initName);
 
-        <FlatList
-          data={albumDetails.songs}
-          renderItem={({item}) => <SongListItem song={item} />}
-          keyExtractor={item => item.id}
-          ListHeaderComponent={() => <AlbumHeader album={albumDetails} saved={saved} updateSaved={updateSaved} name={name} setName={setName}/>}
-        />
-    </SafeAreaView>
-  );
+  // above, constants are init
+
+  // fetch from API
+  useEffect(() => {
+    setIsLoading(true);
+
+    fetch(API_ENDPOINT, REQUEST_OPTIONS)
+      .then(response => response.json())
+      .then(results => {
+        setData(results);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        setIsLoading(false);
+        console.error(err);
+        setError(err);
+      });
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#5500dc" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 18}}>
+          Error fetching data... Check your network connection!
+        </Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 18}}>
+          Error fetching data... Check your network connection!
+        </Text>
+      </View>
+    );
+  }
+
+  if (!isLoading) {
+    if (data.name == "Error") {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 18}}>
+            Access token outdated!
+          </Text>
+        </View>
+      );
+    }
+    else {
+      return (
+        <SafeAreaView style={{ backgroundColor: 'white' }}>
+          <StatusBar barStyle="dark-content" backgroundColor="white" />
+          
+          <Modal isVisible={isModalVisible} backdropOpacity={0.4} animationInTiming={1000}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              <AddedModal toggle={isModalVisible} onPress={toggleModal} name={name}></AddedModal>
+            </View>
+          </Modal>
+
+
+          <FlatList
+            data={data}
+            renderItem={({item}) => <SongListItem song={item} />}
+            keyExtractor={item => item.id}
+            ListHeaderComponent={() => <AlbumHeader album={data} saved={saved} updateSaved={updateSaved} name={name} setName={setName}/>}
+          />
+        </SafeAreaView>
+      );
+    }
+  };
 };
 
 export default AlbumScreen;
