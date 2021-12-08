@@ -86,7 +86,7 @@ function FilterScreen({ navigation }) {
                   "limit": 20
                 },
                 initName: "My Playlist",})
-            else { console.log("bruh") }} }
+            else { authContext.setAuthToken(undefined); }} }
         />
       </ScrollView>
     </SafeAreaView>
