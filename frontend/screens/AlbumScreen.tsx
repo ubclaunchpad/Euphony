@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator, Alert, Button, ScrollView, TouchableOpacity} from 'react-native';
+import { FlatList, StatusBar, SafeAreaView, Text, View, ActivityIndicator, Alert, Button, ScrollView, TouchableOpacity } from 'react-native';
 
 import AppContext from '../AppContext';
 
-import {Animated} from 'react-native';
+import { Animated } from 'react-native';
 
 import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
@@ -16,7 +16,7 @@ import { Modalize } from 'react-native-modalize';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const AlbumScreen = ({route, navigation}) => {
+const AlbumScreen = ({ route, navigation }) => {
   const { obj, coords, initName } = route.params;
 
   const { authToken } = React.useContext(AppContext);
@@ -46,7 +46,7 @@ const AlbumScreen = ({route, navigation}) => {
       body: JSON.stringify({
         "name": name,
         "public": !privatePlaylist, // opposite of private is public :)
-        "trackIds": data.map(song => {return song.id})
+        "trackIds": data.map(song => { return song.id })
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -93,35 +93,35 @@ const AlbumScreen = ({route, navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: name === '' ? 'No title' : name,
-        headerStyle: {
-          backgroundColor: 'hsla(0, 0%, 100%, 0.8)',
-        },
+      headerStyle: {
+        backgroundColor: 'hsla(0, 0%, 100%, 0.8)',
+      },
       headerLeft: () => (
-        <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 5}}> 
+        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 5 }}>
           <MaterialIcons
             name="arrow-back-ios"
             size={24}
             color={'hsl(0, 0%, 0%)'}
             onPress={() => navigation.goBack()}
-            style={{paddingLeft:10}}
+            style={{ paddingLeft: 10 }}
           />
         </View>
       ),
       headerRight: () => (
-        <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 5}}> 
+        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 5 }}>
           <MaterialIcons
             name="refresh"
             size={24}
             color={'hsl(0, 0%, 0%)'}
             onPress={() => genPlaylist()}
-            style={{paddingRight:20}}
+            style={{ paddingRight: 20 }}
           />
           <MaterialIcons
             name="info-outline"
             size={24}
             color={'hsl(0, 0%, 0%)'}
             onPress={onOpen}
-            style={{paddingRight:10}}
+            style={{ paddingRight: 10 }}
           />
         </View>
       ),
@@ -134,6 +134,7 @@ const AlbumScreen = ({route, navigation}) => {
     fetch(API_ENDPOINT, REQUEST_OPTIONS)
       .then(response => response.json())
       .then(results => {
+        console.log(results);
         setData(results);
         setIsLoading(false);
       })
@@ -170,21 +171,21 @@ const AlbumScreen = ({route, navigation}) => {
   // prevent going back
   React.useEffect(
     () => navigation.addListener('beforeRemove', (e) => {
-        if (saved) {
-          // If we don't have unsaved changes, then we don't need to do anything
-          return;
-        }
+      if (saved) {
+        // If we don't have unsaved changes, then we don't need to do anything
+        return;
+      }
 
-        // Prevent default behavior of leaving the screen
-        e.preventDefault();
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
 
-        // define e in local scope as variable i. TODO: this is probably very inefficient
-        setI(e);
+      // define e in local scope as variable i. TODO: this is probably very inefficient
+      setI(e);
 
-        // Prompt the user before leaving the screen
-        setLeaveModalVisible(true);
+      // Prompt the user before leaving the screen
+      setLeaveModalVisible(true);
 
-      }), [navigation, saved]
+    }), [navigation, saved]
   );
 
   if (isLoading) {
@@ -198,7 +199,7 @@ const AlbumScreen = ({route, navigation}) => {
   if (error) {
     return (
       <View style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontSize: 18}}>
+        <Text style={{ fontSize: 18 }}>
           Error fetching data... Check your network connection!
         </Text>
       </View>
@@ -209,7 +210,7 @@ const AlbumScreen = ({route, navigation}) => {
     if (data.name == "Error") {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 18}}>
+          <Text style={{ fontSize: 18 }}>
             Access token outdated!
           </Text>
         </View>
@@ -219,39 +220,39 @@ const AlbumScreen = ({route, navigation}) => {
       return (
         <SafeAreaView style={{ backgroundColor: 'white' }}>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
-          
+
           <Modal isVisible={isAddModalVisible} backdropOpacity={0.4} animationInTiming={700}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <AddedModal toggle={isAddModalVisible} onPress={toggleAddModal} name={name}></AddedModal>
             </View>
           </Modal>
 
           <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationInTiming={500}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <LeaveModal 
-                toggle={isLeaveModalVisible} 
-                onLeave={onLeave} 
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <LeaveModal
+                toggle={isLeaveModalVisible}
+                onLeave={onLeave}
                 onCancel={onCancel}
-                e={i} 
+                e={i}
                 name={name}>
               </LeaveModal>
             </View>
           </Modal>
 
           <Modalize ref={modalRef} adjustToContentHeight={toggle}>
-            <InfoModal info={obj} toggle={toggle} handleClose={handleClose} title={name}/>
+            <InfoModal info={obj} toggle={toggle} handleClose={handleClose} title={name} />
           </Modalize>
 
           <FlatList
             data={data}
-            renderItem={({item}) => <SongListItem song={item} deleteSong={deleteSong} />}
+            renderItem={({ item }) => <SongListItem song={item} deleteSong={deleteSong} />}
             keyExtractor={item => item.id}
-            ListHeaderComponent={() => 
-              <AlbumHeader 
-                album={data} 
-                saved={saved} 
-                updateSaved={updateSaved} 
-                name={name} 
+            ListHeaderComponent={() =>
+              <AlbumHeader
+                album={data}
+                saved={saved}
+                updateSaved={updateSaved}
+                name={name}
                 setName={setName}
                 privatePlaylist={privatePlaylist}
                 setIsPrivatePlaylist={setIsPrivatePlaylist}

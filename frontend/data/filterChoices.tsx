@@ -2,65 +2,83 @@ import { Choice } from "../types";
 export const genreChoices: [Choice] = [ //TODO update
   {
     id: '1',
-    label: 'Pop'
+    label: 'Pop',
+    imageUri: 'pop',
+    isGenre: true,
   },
   {
     id: '2',
-    label: "R&B"
+    label: "R&B",
+    imageUri: 'r_and_b',
+    isGenre: true,
   },
   {
     id: '3',
-    label: "Indie"
+    label: "Indie",
+    imageUri: 'indie',
+    isGenre: true,
   },
   {
     id: '4',
-    label: "Hip-Hop"
+    label: "Hip-Hop",
+    imageUri: 'hiphop',
+    isGenre: true,
   }
 ];
 
 export const moodChoices: [Choice] = [
-    {
-      id: '1',
-      label: 'Happy'
-    },
-    {
-      id: '2',
-      label: "Melancholic"
-    },
-    {
-      id: '3',
-      label: "Lonely"
-    },
-    {
-      id: '4',
-      label: "Angry"
-    },
-    {
-      id: '5',
-      label: "Compassionate"
-    }
-  ];
+  {
+    id: '1',
+    label: 'Happy',
+    imageTitle: '☺️'
+  },
+  {
+    id: '2',
+    label: "Melancholic",
+    imageTitle: '😞'
+  },
+  {
+    id: '3',
+    label: "Lonely",
+    imageTitle: '😔'
+  },
+  {
+    id: '4',
+    label: "Angry",
+    imageTitle: '😡'
+  },
+  {
+    id: '5',
+    label: "Compassionate",
+    imageTitle: '🥰'
+  }
+];
 
 export const activityChoices: [Choice] = [
   {
     id: '1',
-    label: "Shower"
+    label: "Shower",
+    imageUri: 'chill'
   },
   {
     id: '2',
-    label: "Gym"
+    label: "Gym",
+    imageUri: 'gym'
   },
   {
     id: '3',
-    label: "Study"
+    label: "Study",
+    imageUri: 'study'
   },
   {
     id: '4',
-    label: "Party"
+    label: "Party",
+    imageUri: 'party'
   },
   {
     id: '5',
-    label: "Bed"
+    label: "Bed",
+    imageUri: 'bed'
   }
 ];
 export const weatherChoices: [Choice] = [
