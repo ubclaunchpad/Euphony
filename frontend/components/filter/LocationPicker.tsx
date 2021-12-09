@@ -2,9 +2,12 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import FilterHeader from './FilterHeader';
 
-export type Props = {
-    title: string;
-    description: string;
+interface Props {
+    /* The title */
+    title: string,
+    
+    /* The description placed under the header */
+    description: string,
 }
 
 const LocationPicker = (props: Props) => {
@@ -14,6 +17,7 @@ const LocationPicker = (props: Props) => {
             title={props.title}
             description={props.description}
             callback={() => 1}
+            required={false}
           />
           <Button 
             title="CURRENT LOCATION"

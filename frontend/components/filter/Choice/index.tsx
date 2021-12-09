@@ -18,16 +18,18 @@ export type Props = {
 const ChoiceComponent = (props: Props) => {
 
     var highlight;
+    var bold;
     if (props.selected) {
         highlight = styles.selected;
+        bold = styles.bold;
     }
     return ( 
-    <TouchableWithoutFeedback onPress={props.onPress}>
-        <View style={styles.container}>
-            <View style={[styles.image, highlight]}></View>
-            <Text style={styles.text}>{props.choice.label}</Text>
-        </View>
-    </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={props.onPress}>
+            <View style={styles.container}>
+                <View style={[styles.image, highlight]}></View>
+                <Text style={[styles.text, bold]}>{props.choice.label}</Text>
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 

@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
     text: {
         color: 'hsl(0, 0%, 46%)',
         marginTop: 10,
+        textAlign: 'center',
+    },
+    bold: {
+        fontWeight: '700',
     }
 })
 
