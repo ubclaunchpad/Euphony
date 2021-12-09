@@ -7,10 +7,11 @@ import styles from './Choice/styles';
 export type Props = {
   title: string;
   description: string;
+  value: number;
+  onChange: (value: number) => void;
 }
 
 const LengthPicker = (props: Props) => {
-  const [value, setValue] = React.useState(1);
   return (
     <View>
       <FilterHeader
@@ -27,14 +28,16 @@ const LengthPicker = (props: Props) => {
             minimumTrackTintColor="#7432FF"
             maximumTrackTintColor="#FFFFFF"
             step={1}
-            onValueChange={setValue}
+            onValueChange={(value) => {
+              props.onChange(value);
+            }}
           />
           <View style={styles.sliderLabelView}>
             <Text style={styles.text}>1</Text>
             <Text style={styles.text}>50</Text>
           </View>
         </View>
-        <Text style={styles.rightSliderText}>{value}</Text>
+        <Text style={styles.rightSliderText}>{props.value}</Text>
       </View>
 
     </View>

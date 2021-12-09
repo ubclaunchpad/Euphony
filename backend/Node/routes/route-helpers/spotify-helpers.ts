@@ -128,7 +128,6 @@ export async function getInputForML(req: any, res: any, next: any) {
 
 export async function getRecommendations(req: any, res: any) {
 	// default value location = CA, pop = 0.5, clouds = 0.5, temp = 10, mood = HAPPY, activity = CHILL, limit = 10
-
 	// data from location and weather
 	const location =
 		res.locals.location.short_code == 'us' ? Location.USA : Location.CA;
@@ -145,6 +144,7 @@ export async function getRecommendations(req: any, res: any) {
 	const audio_features = res.locals.audio_features_w_popularity;
 	const trackIds = res.locals.trackIds;
 
+	console.log(location, pop, clouds, temp, mood, activity, audio_features);
 	try {
 		// TODO: move these endpoints somewhere nice, ML server port num should be set and loaded
 		const MLServerRes = await axios.post(
@@ -159,7 +159,6 @@ export async function getRecommendations(req: any, res: any) {
 				audio_features,
 			}
 		);
-
 		// Get the first 2 track ids to pass as seed_tracks into the recommendation API
 		const seedTracksIds = trackIds.slice(0, 2).join(',');
 		// Get the seed genre from the user

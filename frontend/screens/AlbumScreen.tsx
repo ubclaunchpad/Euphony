@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator} from 'react-native';
+import { FlatList, StatusBar, SafeAreaView, Text, View, ActivityIndicator } from 'react-native';
 
 import AppContext from '../AppContext';
 
-import {Animated} from 'react-native';
+import { Animated } from 'react-native';
 
 import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
@@ -13,7 +13,7 @@ import albumDetails from '../mockData/albumDetails';
 
 import Modal from "react-native-modal";
 
-const AlbumScreen = ({route, navigation}) => {
+const AlbumScreen = ({ route, navigation }) => {
   const { obj, coords, initName } = route.params;
 
   const { authToken } = React.useContext(AppContext);
@@ -55,6 +55,7 @@ const AlbumScreen = ({route, navigation}) => {
     fetch(API_ENDPOINT, REQUEST_OPTIONS)
       .then(response => response.json())
       .then(results => {
+        console.log(results);
         setData(results);
         setIsLoading(false);
       })
@@ -76,7 +77,7 @@ const AlbumScreen = ({route, navigation}) => {
   if (error) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontSize: 18}}>
+        <Text style={{ fontSize: 18 }}>
           Error fetching data... Check your network connection!
         </Text>
       </View>
@@ -87,7 +88,7 @@ const AlbumScreen = ({route, navigation}) => {
     if (data.name == "Error") {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 18}}>
+          <Text style={{ fontSize: 18 }}>
             Access token outdated!
           </Text>
         </View>
@@ -97,9 +98,9 @@ const AlbumScreen = ({route, navigation}) => {
       return (
         <SafeAreaView style={{ backgroundColor: 'white' }}>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
-          
+
           <Modal isVisible={isModalVisible} backdropOpacity={0.4} animationInTiming={1000}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <AddedModal toggle={isModalVisible} onPress={toggleModal} name={name}></AddedModal>
             </View>
           </Modal>
@@ -107,9 +108,9 @@ const AlbumScreen = ({route, navigation}) => {
 
           <FlatList
             data={data}
-            renderItem={({item}) => <SongListItem song={item} />}
+            renderItem={({ item }) => <SongListItem song={item} />}
             keyExtractor={item => item.id}
-            ListHeaderComponent={() => <AlbumHeader album={data} saved={saved} updateSaved={updateSaved} name={name} setName={setName}/>}
+            ListHeaderComponent={() => <AlbumHeader album={data} saved={saved} updateSaved={updateSaved} name={name} setName={setName} />}
           />
         </SafeAreaView>
       );

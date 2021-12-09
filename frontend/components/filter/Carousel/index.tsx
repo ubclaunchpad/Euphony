@@ -17,25 +17,27 @@ interface Props {
 
     /* Whether this carousel is required */
     required?: boolean,
+
+    selectedChoice: number,
+    onChange: (choice: number) => void,
 }
 
 
 const Carousel: FunctionComponent<Props> = (props) => {
-    const [selectedChoice, setSelectedChoice] = useState(-1);
 
     return (
         <View style={styles.container}>
             <FilterHeader
                 title={props.title}
                 description={props.description}
-                callback={() => setSelectedChoice(-1)}
+                callback={() => props.onChange(-1)}
                 required={props.required}
             />
 
             <FlatList
                 style={styles.list}
                 data={props.choices}
-                renderItem={({ item, index }) => <ChoiceComponent choice={item} onPress={(event) => index === selectedChoice ? setSelectedChoice(-1) : setSelectedChoice(index)} selected={selectedChoice === index} />}
+                renderItem={({ item, index }) => <ChoiceComponent choice={item} onPress={(event) => index === props.selectedChoice ? props.onChange(-1) : props.onChange(index)} selected={props.selectedChoice === index} />}
                 keyExtractor={(item) => item.id}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.containerContent}

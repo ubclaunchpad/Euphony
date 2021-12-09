@@ -14,15 +14,15 @@ function FilterScreen({ navigation }) {
 
   const authContext = React.useContext(AppContext);
 
-  const [loginPresented, setLoginPresented] = React.useState(true);
   const [text, onChangeText] = React.useState("");
   const [textLength, setTextLength] = React.useState(MAX_LENGTH);
 
-  const dismissModal = React.useCallback(() => {
-    setLoginPresented(false);
-  }, [loginPresented]);
+  const [genre, setGenre] = React.useState(-1);
+  const [mood, setMood] = React.useState(-1);
+  const [activity, setActivity] = React.useState(-1);
 
-  var isSpotifyConnected = false;
+  const [playlistLength, setPlaylistLength] = React.useState(1);
+
   var messageText;
   if (authContext.authToken === "") {
     messageText =
@@ -84,16 +84,22 @@ function FilterScreen({ navigation }) {
           title={"Genre"}
           description={"Choose a mood from the ones below"}
           choices={genreChoices}
+          selectedChoice={genre}
+          onChange={(choice) => { setGenre(choice) }}
         />
         <Carousel
           title={"Mood"}
           description={"Choose a mood from the ones below"}
+          selectedChoice={mood}
           choices={moodChoices}
+          onChange={(choice) => { setMood(choice) }}
         />
         <Carousel
           title="Activity"
           description="Choose an activity that fits your playlist best."
           choices={activityChoices}
+          selectedChoice={activity}
+          onChange={(choice) => { setActivity(choice) }}
         />
         <LocationPicker
           title="Location"
@@ -108,6 +114,8 @@ function FilterScreen({ navigation }) {
         <LengthPicker
           title="Playlist length"
           description="How many tracks do you want in your playlist?"
+          value={playlistLength}
+          onChange={(value) => { setPlaylistLength(value) }}
         />
       </ScrollView>
 
@@ -116,19 +124,24 @@ function FilterScreen({ navigation }) {
         <View style={{ position: 'absolute', width: '100%', bottom: 30 }}>
           <JGButton fillParent={true} title="OKAY, LET'S GO" onClick={
             () => {
-              if (authContext.authToken)
-                navigation.navigate('Playlist', {
-                  obj: {
-                    "mood": 1,
-                    "activity": 3,
-                    "limit": 20
-                  },
-                  coords: {
-                    lat: "37.7614",
-                    long: "-122.4241"
-                  },
-                  initName: text,
-                })
+              if (authContext.authToken) {
+                console.log(mood, genre, activity, playlistLength, text);
+
+                if (mood !== -1 && genre !== -1 && activity !== -1) {
+                  navigation.navigate('Playlist', {
+                    obj: {
+                      "mood": mood,
+                      "activity": activity,
+                      "limit": playlistLength,
+                    },
+                    coords: {
+                      lat: "37.7614",
+                      long: "-122.4241"
+                    },
+                    initName: text,
+                  })
+                }
+              }
               else { authContext.setAuthToken(undefined); }
             }
           } />
