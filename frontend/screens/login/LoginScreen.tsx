@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, Pressable, StyleSheet, Button, Text, View, Image, ImageBackground } from 'react-native';
+import { SafeAreaView, TouchableOpacity, StyleSheet, Button, Text, View, Image, ImageBackground } from 'react-native';
 import authHandler from '../../networking/AppAuth';
 import AppContext from '../../AppContext';
 import JGButton, { JGButtonImageType } from '../../components/shared/JGButton/JGButton';
@@ -10,7 +10,7 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
         <ImageBackground source={require('./images/login-background.png')} style={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={{ alignItems: "flex-end" }}>
-                    <Pressable
+                    <TouchableOpacity
                         style={styles.skipButton}
                         onPress={() => {
                             console.log("Skip button pressed");
@@ -20,7 +20,7 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
                         <View>
                             <Text style={styles.skipText}>Skip</Text>
                         </View>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.contentContainer}>
@@ -36,7 +36,6 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
                     </View>
                     <JGButton style={{ marginTop: 20 }} icon={JGButtonImageType.Spotify} title="CONNECT SPOTIFY" onClick={async () => {
                         let result = await authHandler.onLogin();
-                        console.log(result);
                         result?.accessToken && authContext.setAuthToken(result.accessToken);
                     }}></JGButton>
                 </View>
@@ -77,6 +76,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#5200FF',
+        margin: 10
     },
     skipButton: {
         marginTop: 15,

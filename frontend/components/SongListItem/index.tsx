@@ -11,14 +11,15 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { Shadow } from 'react-native-shadow-2';
 
 export type SongListItemProps = {
-    song: Song
+    song: Song,
+    deleteSong: Function
 }
 
 const SongListItem = (props: SongListItemProps) => {
-    const { song } = props;
+    const { song, deleteSong } = props;
     return (
         <View>
-            <TouchableOpacity style={styles.container}>
+            <View style={styles.container}>
                 <View style={styles.leftContainer}>
                     <FastImage source={{ uri: song.imageUrl }} style={styles.image}/>
                     <View style={styles.info}>
@@ -34,15 +35,15 @@ const SongListItem = (props: SongListItemProps) => {
                         </View>
                     </View>
                 </View>
-                <View style={styles.rightContainer}>
+                <TouchableOpacity style={styles.rightContainer} onPress={() => deleteSong(song.id)}>
                     <IonIcons
                         name="remove-circle-outline"
                         size={25}
                         color={'red'}
                         style={styles.icon}
                     />
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.divider}>
                 <View style={styles.line} />
