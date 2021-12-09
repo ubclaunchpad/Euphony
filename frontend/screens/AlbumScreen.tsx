@@ -40,21 +40,28 @@ const AlbumScreen = ({route, navigation}) => {
   const updateSaved = () => {
     setSaved(true);
     setIsLoading(true);
-    const NEW_ENDPOINT = `http://localhost:4000/???/${authToken}`
+    const NEW_ENDPOINT = `http://localhost:4000/spotify/createSpotifyPlaylist/${authToken}`
     const NEW_OPTIONS = {
       method: 'POST',
       body: JSON.stringify({
         "name": name,
         "public": !privatePlaylist, // opposite of private is public :)
-        "songs": data.map(song => {return song.id})
+        "trackIds": data.map(song => {return song.id})
       }),
       headers: {
         'Content-Type': 'application/json'
       }
     }
-    
-    setAddModalVisible(true);
-    setIsLoading(false); // after finished request. else, do same but setError(err)
+    fetch(NEW_ENDPOINT, NEW_OPTIONS)
+      .then(results => {
+        setIsLoading(false);
+        setAddModalVisible(true);
+      })
+      .catch(err => {
+        setIsLoading(false);
+        console.error(err);
+        setError(err);
+      });
   }
 
   // hooks for modal visibilities
