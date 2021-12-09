@@ -215,7 +215,7 @@ const AlbumScreen = ({route, navigation}) => {
           </Modal>
 
           <Modalize ref={modalRef} adjustToContentHeight={toggle}>
-            <InfoModal info={obj} toggle={toggle} handleClose={handleClose}/>
+            <InfoModal info={obj} toggle={toggle} handleClose={handleClose} title={name}/>
           </Modalize>
 
           <FlatList

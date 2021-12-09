@@ -18,7 +18,7 @@ const mood = ['Happy', 'Melancholic', 'Compassion', 'Loneliness', 'Anger'];
 const activity = ['Workout', 'Study', 'Relax', 'Party', 'Chill', 'Bedtime'];
 
 const PlaylistSettings = (props) => {
-  const {info, toggle, handleClose} = props;
+  const {info, toggle, handleClose, title} = props;
 
   // THIS IS A VERY POOR IMPLEMENTATION OF THE FILTER OPTIONS SCREEN
   // but it will be refactored after finals :)
@@ -45,7 +45,7 @@ const PlaylistSettings = (props) => {
           </Svg>
       </View>
       <View style={styles.header}>
-        <Text style={styles.name}>My Playlist Filters</Text>
+        <Text style={styles.name}>{title} Filters</Text>
         <Text style={styles.p}>Please go back to the Filters page to modify the selected filters.</Text>
       </View>
       <View style={styles.divider}>
