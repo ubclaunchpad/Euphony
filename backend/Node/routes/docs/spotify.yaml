@@ -53,3 +53,48 @@ paths:
           description: no tracks found, you gotta listen to more music man~
         '200':
           description: successful! Return list of tracks
+
+  /spotify/createSpotifyPlaylist/{access_token}:
+    post:
+      tags:
+        - Spotify
+      summary: create a Spotify playlist
+      description: let you create a spotify playlist with customized fields including name, public, and array of tracks for the playlist
+
+      parameters:
+        - name: access_token
+          in: path
+          required: true
+          description: access_token for spotify, get it from the spotify/login endpoint
+          schema:
+            type: string
+
+      requestBody:
+        description: All fields are optional <br>
+          name = name of the playlist <br>
+          public = public or private playlist <br>
+          trackIds = ids of all the tracks you wish to add to the playlist <br>
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Hello darkness my old friend'
+                activity:
+                  type: boolean
+                  example: false
+                trackIds:
+                  type: array
+                  example: ['4iV5W9uYEdYUVa79Axb7Rh', '1301WleyT98MSxVHPZCA6M']
+
+      responses:
+        '400':
+          description: bad input
+        '404':
+          description: errors happened while performing Spotify API calls, could be due to poorly formatted/undefined input
+        '200':
+          description: playlist created successfully. Enjoy!
+        '204':
+          description: error creating playlist || no tracks were added to the playlist
