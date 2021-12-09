@@ -148,10 +148,12 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
         {/* play button */}
         <TouchableOpacity onPress={createThreeButtonAlert} style={{flexDirection: 'row', marginTop: 10}}>
+          <Shadow viewStyle={{alignSelf: 'stretch'}}>
           <View style={styles.button}>
             <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
             <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>
           </View>
+          </Shadow>
         </TouchableOpacity>
       </View>
 

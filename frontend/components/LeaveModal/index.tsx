@@ -10,6 +10,8 @@ import Svg, {
     Ellipse,
   } from 'react-native-svg';
 
+import { Shadow } from 'react-native-shadow-2';
+
 export type Props = {};
 
 const LeaveModal = (props: Props) => {
@@ -59,14 +61,18 @@ const LeaveModal = (props: Props) => {
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity onPress={updateLeave}>
-                    <View style={styles.buttonLeave}>
-                        <Text style={styles.buttonLeaveText}>LEAVE</Text>
-                    </View>
+                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                        <View style={styles.buttonLeave}>
+                            <Text style={styles.buttonLeaveText}>LEAVE</Text>
+                        </View>
+                    </Shadow>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={updateCancel}>
-                    <View style={styles.buttonCancel}>
-                        <Text style={styles.buttonCancelText}>CANCEL</Text>
-                    </View>
+                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                        <View style={styles.buttonCancel}>
+                            <Text style={styles.buttonCancelText}>CANCEL</Text>
+                        </View>
+                    </Shadow>
                 </TouchableOpacity>
             </View>
             

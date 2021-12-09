@@ -57,12 +57,10 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#7432FF',
         height: 50,
-        width: 200,
+        width: 320,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 20,
-        marginRight: 20,
         flexDirection: "row",
         flex: 1,
     },

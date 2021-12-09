@@ -10,6 +10,8 @@ import Svg, {
     Ellipse,
   } from 'react-native-svg';
 
+import { Shadow } from 'react-native-shadow-2';
+
 export type Props = {};
 
 const AddedModal = (props: Props) => {
@@ -55,9 +57,11 @@ const AddedModal = (props: Props) => {
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity onPress={update}>
-                <View style={styles.button}>
-                    <Text style={styles.buttonText}>OKAY</Text>
-                </View>
+                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                        <View style={styles.button}>
+                            <Text style={styles.buttonText}>OKAY</Text>
+                        </View>
+                    </Shadow>
                 </TouchableOpacity>
             </View>
             
