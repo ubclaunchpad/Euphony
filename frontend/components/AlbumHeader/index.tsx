@@ -29,8 +29,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const [toggle, setToggle] = useState(false);
 
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => props.setIsPrivatePlaylist(previousState => !previousState);
 
   const [title, setTitle] = useState("My Playlist");
   const [isEditing, setIsEditing] = useState(false);
@@ -138,10 +137,10 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             <View style={styles.rightContainer}>
               <Switch
                 trackColor={{false: 'white', true: '#7432FF'}}
-                thumbColor={isEnabled ? 'hsl(0, 0%, 95%)' : 'hsl(0, 0%, 95%)'}
+                thumbColor={props.privatePlaylist ? 'hsl(0, 0%, 95%)' : 'hsl(0, 0%, 95%)'}
                 ios_backgroundColor="#C4C4C4"
                 onValueChange={toggleSwitch}
-                value={isEnabled}
+                value={props.privatePlaylist}
               />
             </View>
           </View>

@@ -34,10 +34,27 @@ const AlbumScreen = ({route, navigation}) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
+  const [privatePlaylist, setIsPrivatePlaylist] = useState(false);
 
+  // where we push current copy of songs to the API
   const updateSaved = () => {
     setSaved(true);
+    setIsLoading(true);
+    const NEW_ENDPOINT = `http://localhost:4000/???/${authToken}`
+    const NEW_OPTIONS = {
+      method: 'POST',
+      body: JSON.stringify({
+        "name": name,
+        "public": !privatePlaylist, // opposite of private is public :)
+        "songs": data.map(song => {return song.id})
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    
     setAddModalVisible(true);
+    setIsLoading(false); // after finished request. else, do same but setError(err)
   }
 
   // hooks for modal visibilities
@@ -222,7 +239,16 @@ const AlbumScreen = ({route, navigation}) => {
             data={data}
             renderItem={({item}) => <SongListItem song={item} deleteSong={deleteSong} />}
             keyExtractor={item => item.id}
-            ListHeaderComponent={() => <AlbumHeader album={data} saved={saved} updateSaved={updateSaved} name={name} setName={setName}/>}
+            ListHeaderComponent={() => 
+              <AlbumHeader 
+                album={data} 
+                saved={saved} 
+                updateSaved={updateSaved} 
+                name={name} 
+                setName={setName}
+                privatePlaylist={privatePlaylist}
+                setIsPrivatePlaylist={setIsPrivatePlaylist}
+              />}
           />
         </SafeAreaView>
       );
