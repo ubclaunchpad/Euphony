@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator, Alert, Button} from 'react-native';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import {FlatList,  StatusBar, SafeAreaView, Text, View, ActivityIndicator, Alert, Button, ScrollView, TouchableOpacity} from 'react-native';
 
 import AppContext from '../AppContext';
 
@@ -9,8 +9,10 @@ import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
 import AddedModal from '../components/AddedModal';
 import LeaveModal from '../components/LeaveModal';
+import InfoModal from '../components/InfoModal';
 
 import Modal from "react-native-modal";
+import { Modalize } from 'react-native-modalize';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -31,7 +33,6 @@ const AlbumScreen = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
-
   const [saved, setSaved] = useState(false);
 
   const updateSaved = () => {
@@ -39,8 +40,22 @@ const AlbumScreen = ({route, navigation}) => {
     setAddModalVisible(true);
   }
 
+  // hooks for modal visibilities
   const [isAddModalVisible, setAddModalVisible] = useState(false);
   const [isLeaveModalVisible, setLeaveModalVisible] = useState(false);
+  const modalRef = useRef<Modalize>(null);
+
+  const onOpen = () => {
+    modalRef.current?.open();
+  };
+
+  const handleClose = () => {
+    if (modalRef.current) {
+      modalRef.current.close();
+    }
+  };
+
+  const [toggle, setToggle] = useState(true);
 
   const toggleAddModal = () => {
     setAddModalVisible(false);
@@ -81,7 +96,7 @@ const AlbumScreen = ({route, navigation}) => {
             name="info-outline"
             size={24}
             color={'hsl(0, 0%, 0%)'}
-            onPress={() => navigation.navigate("PlaylistInfo", albumDetails)}
+            onPress={onOpen}
             style={{paddingRight:10}}
           />
         </View>
@@ -199,6 +214,9 @@ const AlbumScreen = ({route, navigation}) => {
             </View>
           </Modal>
 
+          <Modalize ref={modalRef} adjustToContentHeight={toggle}>
+            <InfoModal info={obj} toggle={toggle} handleClose={handleClose}/>
+          </Modalize>
 
           <FlatList
             data={data}
