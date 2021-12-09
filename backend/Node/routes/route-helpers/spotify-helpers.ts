@@ -192,3 +192,56 @@ export async function getRecommendations(req: any, res: any) {
 		res.status(404).send(err);
 	}
 }
+
+export async function createSpotifyPlaylist(req: any, res: any) {
+	let spotifyApi = createSpotifyWebApi();
+	try {
+		if (!req.params.access_token)
+			return res.status(400).send('failed to authenticate');
+		if (!req.body.name)
+			return res.status(400).send("playlist's name is missing");
+		if (!req.body.trackIds)
+			return res
+				.status(400)
+				.send('Please specify tracks to add to the playlist');
+
+		spotifyApi.setAccessToken(req.params.access_token);
+
+		// Create a private playlist by default
+		const playlist = await spotifyApi.createPlaylist(req.body.name, {
+			description: 'Playlist generated from super developers ;)',
+			public: req.body.public != undefined ? req.body.public : false,
+		});
+
+		// Adding tracks to the newly created playlist
+		if (playlist) {
+			const trackUris = req.body.trackIds.map(
+				(trackId: string) => `spotify:track:${trackId}`
+			);
+
+			try {
+				const addTracks = await spotifyApi.addTracksToPlaylist(
+					playlist.body.id,
+					trackUris
+				);
+
+				if (addTracks) {
+					return res.status(200).send('playlist created successfully. Enjoy!');
+				} else {
+					return res.status(204).send('No tracks were added to the playlist');
+				}
+			} catch (error) {
+				return res.status(404).send({
+					errorResponse: {
+						developerNotes: 'error adding tracks to playlist',
+						error,
+					},
+				});
+			}
+		} else {
+			return res.status(204).send('error creating playlist');
+		}
+	} catch (error) {
+		return res.status(404).send({ error: error });
+	}
+}

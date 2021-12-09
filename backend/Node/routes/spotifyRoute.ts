@@ -7,6 +7,7 @@ import {
 	getInputForML,
 	getPopularityForTracks,
 	scopes,
+	createSpotifyPlaylist,
 } from './route-helpers/spotify-helpers';
 
 router.get('/', (req: any, res: any) => {
@@ -85,7 +86,7 @@ router.get('/getMyTopTracks/:access_token', async (req: any, res: any) => {
 		});
 
 		if (topTracks) {
-			let topTracksIds = topTracks.data.items.map((track: any) => track.id);
+			topTracks.data.items.map((track: any) => track.id);
 
 			return res.status(200).send(topTracks.data.items);
 		}
@@ -147,5 +148,7 @@ router.get(
 router.get('/getPopularityForTracks/:access_token', getPopularityForTracks);
 
 router.get('/getInputForML/:access_token', getInputForML);
+
+router.post('/createSpotifyPlaylist/:access_token', createSpotifyPlaylist);
 
 module.exports = router;

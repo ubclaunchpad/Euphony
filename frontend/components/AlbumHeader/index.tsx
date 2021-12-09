@@ -29,8 +29,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const [toggle, setToggle] = useState(false);
 
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => props.setIsPrivatePlaylist(previousState => !previousState);
 
   const [title, setTitle] = useState("My Playlist");
   const [isEditing, setIsEditing] = useState(false);
@@ -45,41 +44,13 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
     props.updateSaved();
   }
 
-  const notSaved = () => { if (props.saved == true) {
-    Alert.alert(
-      'Go Back?',
-      'You have not saved this playlist yet. Are you sure you want to abandon it?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Leave', onPress: () => console.log('OK Pressed')},
-      ],
-    );}
-    else {
-      Alert.alert(
-        'lol',
-        'You have not saved this playlist yet. Are you sure you want to abandon it?',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'Leave', onPress: () => console.log('OK Pressed')},
-        ],
-      ); 
-    } 
-  }
-
   return (
     <View>
       <View style={styles.container}>
         {/* cover image */}
         <View style={styles.center}>
           <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
+            {props.album.length>4? 
             <View style={styles.image}>
               <View style={{flexDirection: 'row'}}>
                 <FastImage source={{uri: props.album[0].imageUrl}} style={styles.miniImage}/>
@@ -89,7 +60,10 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                 <FastImage source={{uri: props.album[2].imageUrl}} style={styles.miniImage}/>
                 <FastImage source={{uri: props.album[3].imageUrl}} style={styles.miniImage}/>
               </View>
-            </View>
+            </View>:<View style={styles.image}>
+              <FastImage source={{uri: props.album[0].imageUrl}} style={styles.largeImage}/>
+            </View>}
+            
           </Shadow>
         </View>
 
@@ -123,9 +97,6 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
               style={styles.edit}
             />}
           </View>
-          
-          
-          
         </TouchableOpacity>
 
         
@@ -143,13 +114,16 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                 
                 <View style={styles.creatorContainer}>
                   {/* TODO: need to rename style names*/}
-                  <Text style={styles.middleText}>{props.album.length} songs</Text>
+                  {props.album.length==1? 
+                    <Text style={styles.middleText}>{props.album.length} song</Text>
+                    :<Text style={styles.middleText}>{props.album.length} songs</Text>
+                  }
                   <Entypo
                     name="dot-single"
                     size={25}
                     color={'#867CC0'}
                   />
-                  <Text style={styles.middleText}>{props.album.duration}</Text>
+                  <Text style={styles.middleText}>1h 28m</Text>
                 </View>
               </View>
             </View>
@@ -163,10 +137,10 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             <View style={styles.rightContainer}>
               <Switch
                 trackColor={{false: 'white', true: '#7432FF'}}
-                thumbColor={isEnabled ? 'hsl(0, 0%, 95%)' : 'hsl(0, 0%, 95%)'}
+                thumbColor={props.privatePlaylist ? 'hsl(0, 0%, 95%)' : 'hsl(0, 0%, 95%)'}
                 ios_backgroundColor="#C4C4C4"
                 onValueChange={toggleSwitch}
-                value={isEnabled}
+                value={props.privatePlaylist}
               />
             </View>
           </View>

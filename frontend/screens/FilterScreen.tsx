@@ -138,7 +138,7 @@ function FilterScreen({ navigation }) {
                       lat: "37.7614",
                       long: "-122.4241"
                     },
-                    initName: text,
+                    initName: text ? text : "My Playlist",
                   })
                 }
               }
