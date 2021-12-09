@@ -10,7 +10,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }
 
@@ -56,6 +56,9 @@ export type Song = {
 }
 
 export type Choice = {
-    id: string;
-    label: string; //TODO add API filter value
+  id: string;
+  imageUri?: string;
+  imageTitle?: string;
+  isGenre?: boolean;
+  label: string; //TODO add API filter value
 };

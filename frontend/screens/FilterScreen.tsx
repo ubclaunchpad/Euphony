@@ -1,12 +1,13 @@
 import * as React from 'react';
 import LoginScreen from './login/LoginScreen';
-import { Modal, Button, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { Modal, TouchableOpacity, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
 import LocationPicker from '../components/filter/LocationPicker';
 import Carousel from '../components/filter/Carousel';
 import AppContext from '../AppContext';
 
 import { genreChoices, moodChoices, activityChoices, weatherChoices } from '../data/filterChoices';
 import LengthPicker from '../components/filter/LengthPicker';
+import JGButton from '../components/shared/JGButton/JGButton';
 
 function FilterScreen({ navigation }) {
   const MAX_LENGTH = 100;
@@ -23,11 +24,18 @@ function FilterScreen({ navigation }) {
 
   var isSpotifyConnected = false;
   var messageText;
-  if (!isSpotifyConnected) {
-    messageText = <Text>Connect your Spotify account for more personalized results.</Text>;
+  if (authContext.authToken === "") {
+    messageText =
+      <View>
+        <TouchableOpacity onPress={() => { authContext.setAuthToken(undefined) }}>
+          <Text style={styles.connectSpotifyText}>Connect your Spotify account for more personalized results.</Text>
+        </TouchableOpacity>
+      </View>
+
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+
       <Modal
         animationType="slide"
         visible={authContext.authToken === undefined}
@@ -39,26 +47,39 @@ function FilterScreen({ navigation }) {
           authContext.setAuthToken("")
         }} ></LoginScreen>
       </Modal>
+      <SafeAreaView>
+
+      </SafeAreaView>
+
       <ScrollView
         style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContent}
       >
-        <Text style={styles.header}>Filters</Text>
-        <Text style={styles.text}>{messageText}</Text>
-        <Button
+        {/* <Text style={styles.header}>Filters</Text> */}
+        {messageText}
+        {/* <Button
           title="logout"
           onPress={() => authContext.setAuthToken(undefined)}
-        />
-        <TextInput
-          onChangeText={
-            (text) => { setTextLength(MAX_LENGTH - text.length); onChangeText(text) }
-          }
-          value={text}
-          style={styles.textInput}
-          placeholder="Enter playlist name"
-          placeholderTextColor={'black'}
-          maxLength={MAX_LENGTH} //TODO confirm this
-        />
-        <Text>{textLength}</Text>
+        /> */}
+        <View style={styles.playlistNameContainer}>
+
+          <Text style={styles.title}>Playlist Name</Text>
+          <View style={styles.playlistNameContainerInner}>
+            <TextInput
+              onChangeText={
+                (text) => { setTextLength(MAX_LENGTH - text.length); onChangeText(text) }
+              }
+              value={text}
+              style={styles.textInput}
+              placeholder="Enter playlist name"
+              placeholderTextColor={'#867CC0'}
+              maxLength={MAX_LENGTH} //TODO confirm this
+            />
+            <Text style={styles.textInput}
+            >{textLength}</Text>
+          </View>
+
+        </View>
         <Carousel
           title={"Genre"}
           description={"Choose a mood from the ones below"}
@@ -78,37 +99,42 @@ function FilterScreen({ navigation }) {
           title="Location"
           description="See what people are listening to in your area"
         />
-        <Carousel
+        {/* <Carousel
           title="Weather"
           description="Select your current weather or from our choices"
           choices={weatherChoices}
           required={false}// TODO make current weather be dependent on location
-        />
+        /> */}
         <LengthPicker
           title="Playlist length"
           description="How many tracks do you want in your playlist?"
         />
       </ScrollView>
-      <Button
-        title="Okay, leggo"
-        onPress={() => {
-          if (authContext.authToken)
-            navigation.navigate('Playlist', {
-              obj: {
-                "mood": 1,
-                "activity": 3,
-                "limit": 20
-              },
-              coords: {
-                lat: "37.7614",
-                long: "-122.4241"
-              },
-              initName: text,
-            })
-          else { authContext.setAuthToken(undefined); }
-        }}
-      />
-    </SafeAreaView>
+
+
+      <View style={{ alignItems: 'center', marginHorizontal: 30 }}>
+        <View style={{ position: 'absolute', width: '100%', bottom: 30 }}>
+          <JGButton fillParent={true} title="OKAY, LET'S GO" onClick={
+            () => {
+              if (authContext.authToken)
+                navigation.navigate('Playlist', {
+                  obj: {
+                    "mood": 1,
+                    "activity": 3,
+                    "limit": 20
+                  },
+                  coords: {
+                    lat: "37.7614",
+                    long: "-122.4241"
+                  },
+                  initName: text,
+                })
+              else { authContext.setAuthToken(undefined); }
+            }
+          } />
+        </View>
+      </View>
+    </View >
   );
 
 }
@@ -118,22 +144,59 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight,
   },
+  connectSpotifyText: {
+    color: 'white',
+    marginHorizontal: 25,
+    fontSize: 16,
+    fontFamily: 'Avenir',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderRadius: 16,
+    backgroundColor: '#7432FF',
+    overflow: 'hidden',
+    fontWeight: "500",
+    marginBottom: 30,
+    marginTop: 20,
+  },
   scrollView: {
-    marginHorizontal: 20,
+    marginHorizontal: 0,
+  },
+  scrollViewContent: {
+    paddingBottom: 100,
   },
   text: {
     color: 'black',
-    fontSize: 15,
+    fontSize: 16,
+  },
+  title: {
+    color: '#3700AB',
+    fontSize: 20,
+    fontFamily: 'Raleway',
+    fontWeight: 'bold',
   },
   textInput: {
-    color: 'black',
-    fontSize: 15,
-
+    color: '#867CC0',
+    fontSize: 16,
+    fontFamily: 'Avenir',
+    maxWidth: '92%',
   },
   header: {
     fontSize: 32,
     color: 'black',
   },
+  playlistNameContainerInner: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 18,
+    borderBottomWidth: 1,
+    paddingBottom: 2,
+    borderBottomColor: '#3700AB',
+    marginBottom: 10,
+  },
+  playlistNameContainer: {
+    marginHorizontal: 25,
+  }
 });
 
 export default FilterScreen;

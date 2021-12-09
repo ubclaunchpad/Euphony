@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: "Roboto",
         color: "#FFFFFF",
-        marginVertical: 15,
+        marginVertical: 11,
     },
     image: {
         marginRight: 10,
