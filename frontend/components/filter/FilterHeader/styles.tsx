@@ -2,22 +2,49 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        //margin: 10
+        marginHorizontal: 25,
     },
     title: {
-        color: 'hsl(0, 0%, 15%)',
-        fontSize: 30,
-        fontWeight: 'bold'
+        color: '#3700AB',
+        fontSize: 20,
+        fontFamily: 'Raleway',
+        fontWeight: 'bold',
     },
     description: {
-        color: 'hsl(0, 0%, 15%)',
-        fontSize: 15,
+        color: '#867CC0',
+        fontSize: 12,
+        fontFamily: 'Avenir',
+        fontWeight: '500',
+        marginTop: 7,
     },
     clearButton: {
-        // TODO
+        position: 'absolute',
+        right: 0,
+    },
+    clearText: {
+        color: '#D02929',
+        fontSize: 13,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        paddingTop: 3
     },
     requiredText: {
         // TODO
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        marginLeft: 10,
+        color: '#fff',
+        borderRadius: 5,
+        backgroundColor: '#5A4CAD',
+        fontSize: 13,
+        fontFamily: 'Raleway',
+        fontWeight: '900',
+        overflow: 'hidden',
+    },
+    textStackView: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     }
 });
 

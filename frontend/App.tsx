@@ -35,15 +35,17 @@ function App() {
           headerLargeTitleStyle: {
             fontFamily: 'Raleway',
             fontWeight: '800',
-          }
+          },
+
         }}>
           <Stack.Screen name="Filter" component={FilterScreen} />
           <Stack.Screen name="Playlist" component={AlbumScreen}
-             />
-          <Stack.Screen name="PlaylistInfo" component={PlaylistInfo} 
-          options={() => ({ 
-            title: "Results Info"})}/>
-              
+          />
+          <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}
+            options={() => ({
+              title: "Results Info"
+            })} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </AppContext.Provider>

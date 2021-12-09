@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#5200FF',
-        margin: 10
+        backgroundColor: 'transparent'
     },
     skipButton: {
         marginTop: 15,

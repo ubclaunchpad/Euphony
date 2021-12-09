@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Pressable, Image, Text, StyleSheet, ViewStyle, StyleProp } from "react-native";
+import { View, TouchableOpacity, Image, Text, StyleSheet, ViewStyle, StyleProp } from "react-native";
 
 export type JGButtonProps = {
     title?: string;
@@ -21,13 +21,13 @@ export default function JGButton(props: JGButtonProps) {
     let title = props.title ? <Text style={styles.text}>{props.title}</Text> : null;
     return (
         <View style={props.style}>
-            <Pressable onPress={props.onClick}>
+            <TouchableOpacity onPress={props.onClick}>
                 <View style={wrapperStyle}>
                     {image}
                     {title}
 
                 </View>
-            </Pressable>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: "Roboto",
         color: "#FFFFFF",
-        marginVertical: 15,
+        marginVertical: 11,
     },
     image: {
         marginRight: 10,

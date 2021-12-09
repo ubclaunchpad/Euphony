@@ -1,7 +1,7 @@
 import React from 'react';
 import { FunctionComponent } from 'react';
 import { View, Text, FlatList, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import {Choice} from '../../../types';
+import { Choice } from '../../../types';
 import ChoiceComponent from '../Choice';
 import styles from "./styles";
 
@@ -9,7 +9,7 @@ interface Props {
 
     /* The title */
     title: string,
-    
+
     /* The description placed under the header */
     description: string,
 
@@ -25,20 +25,22 @@ const FilterHeader: FunctionComponent<Props> = (props) => {
     var requiredText;
 
     if (props.required) {
-        requiredText = <Text style={styles.requiredText}>Required</Text>
+        requiredText = <Text style={styles.requiredText}>REQUIRED</Text>
     } else {
-        clearButton = <TouchableOpacity 
-                        style={styles.clearButton}      
-                        onPress={props.callback}>
-                        <Text>Clear</Text>
-                      </TouchableOpacity>
+        clearButton = <TouchableOpacity
+            style={styles.clearButton}
+            onPress={props.callback}>
+            <Text style={styles.clearText}>Clear</Text>
+        </TouchableOpacity>
     }
-    
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{props.title}</Text>
+            <View style={styles.textStackView}>
+                <Text style={styles.title}>{props.title}</Text>
+                {requiredText}
+            </View>
             <Text style={styles.description}>{props.description}</Text>
-            {requiredText}
             {clearButton}
         </View>
     );
