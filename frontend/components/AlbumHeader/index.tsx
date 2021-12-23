@@ -23,6 +23,9 @@ export type AlbumHeaderProps = {
   album: Album;
 };
 
+import moment from 'moment';
+import "moment-duration-format";
+
 const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const {album} = props;
@@ -43,6 +46,10 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   const createThreeButtonAlert = () => { 
     props.updateSaved();
   }
+
+  let duration = moment.duration(props.album.reduce((a, b) => a + b.duration, 0), "milliseconds").format("d[d] h[h] m[m] s[s]", {
+    largest: 2
+  });
 
   return (
     <View>
@@ -123,7 +130,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                     size={25}
                     color={'#867CC0'}
                   />
-                  <Text style={styles.middleText}>1h 28m</Text>
+                  <Text style={styles.middleText}>{duration}</Text>
                 </View>
               </View>
             </View>
