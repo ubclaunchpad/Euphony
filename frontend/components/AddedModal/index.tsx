@@ -36,12 +36,7 @@ const AddedModal = (props: Props) => {
                 <Svg height="200" width="200">
                     <Circle cx="100" cy="60" r="60" fill="hsla(252, 100%, 66%, 0.1)"  />
                 </Svg>
-                <AntDesign
-                    name="smileo"
-                    size={90}
-                    color={'black'}
-                    style={{position: 'absolute', padding: 13}}
-                />
+                <Image source={require('../../src/images/success.png')} style={{position: 'absolute', marginTop: 15}}></Image>
                 <View style={{backgroundColor:'white', position: 'absolute', borderRadius: 100, right: 40, bottom: 10}}>
                     <Ionicons
                         name="checkmark-circle-sharp"
