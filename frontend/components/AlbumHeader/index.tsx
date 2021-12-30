@@ -34,13 +34,15 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const toggleSwitch = () => props.setIsPrivatePlaylist(previousState => !previousState);
 
-  const [title, setTitle] = useState("My Playlist");
+  const [title, setTitle] = useState(props.name ? props.name : "My Playlist");
+  
+  const [textLength, setTextLength] = React.useState(MAX_LENGTH);
   const [isEditing, setIsEditing] = useState(false);
   const toggleEditing = () => { 
-    setIsEditing(previousState => !previousState); 
-    if (isEditing) {
-      props.setName(title);
-    }
+    setIsEditing(previousState => !previousState);
+    setTextLength(MAX_LENGTH - title.length);
+    props.setName(title);
+  }
   }
 
   const createThreeButtonAlert = () => { 
@@ -50,6 +52,8 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   let duration = moment.duration(props.album.reduce((a, b) => a + b.duration, 0), "milliseconds").format("d[d] h[h] m[m] s[s]", {
     largest: 2
   });
+
+  const MAX_LENGTH = 100;
 
   return (
     <View>
@@ -81,28 +85,25 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
           <View style={styles.leftContainer}>
           <TextInput
             autoCorrect={false}
-            onChangeText={t => setTitle(t)}
+            onChangeText={t => {setTextLength(MAX_LENGTH - t.length); setTitle(t)}}
             onFocus={toggleEditing}
             onEndEditing={toggleEditing}
-            defaultValue={props.name}
+            defaultValue={title}
             style={[styles.name]}
+            maxLength={MAX_LENGTH}
           />
           </View>
 
           <View style={styles.rightContainer}>
               {isEditing?
-            <MaterialIcons
-              name="mode-edit"
-              size={25}
-              color={'dodgerblue'}
-              style={styles.edit}
-            />: 
-            <MaterialIcons
-              name="mode-edit"
-              size={25}
-              color={'#3700AB'}
-              style={styles.edit}
-            />}
+                <Text style={styles.counter}>{textLength}</Text>: 
+                <MaterialIcons
+                  name="mode-edit"
+                  size={25}
+                  color={'#3700AB'}
+                  style={styles.edit}
+                />
+              }
           </View>
         </TouchableOpacity>
 
