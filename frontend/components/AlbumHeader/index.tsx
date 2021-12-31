@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   Text,
   TextInput,
@@ -43,7 +43,8 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
     setTextLength(MAX_LENGTH - title.length);
     props.setName(title);
   }
-  }
+
+  const focusInput = useRef(null);
 
   const createThreeButtonAlert = () => { 
     props.updateSaved();
@@ -81,7 +82,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* Header text */}
 
       <View style={styles.title}>
-        <TouchableOpacity style={[styles.title]}>
+        <TouchableOpacity style={[styles.title]} onPress={() => {focusInput.current.focus()}}>
           <View style={styles.leftContainer}>
           <TextInput
             autoCorrect={false}
@@ -91,6 +92,8 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             defaultValue={title}
             style={[styles.name]}
             maxLength={MAX_LENGTH}
+            returnKeyType='done'
+            ref={focusInput}
           />
           </View>
 
