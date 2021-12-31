@@ -145,27 +145,33 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
 
-  input: {
-    width: 350,
-    height: 40,
-    padding: 5,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: 'grey',
-    borderStyle: 'solid',
-    borderRadius: 3
-  },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-},
-  line: {
-    marginLeft: 20,
-    marginRight: 20,
-    flex: 1, 
-    height: 0.5, 
-    backgroundColor: 'black'
-},
+    input: {
+        width: 350,
+        height: 40,
+        padding: 5,
+        margin: 5,
+        borderWidth: 1,
+        borderColor: 'grey',
+        borderStyle: 'solid',
+        borderRadius: 3
+    },
+    divider: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    line: {
+        marginLeft: 20,
+        marginRight: 20,
+        flex: 1, 
+        height: 0.5, 
+        backgroundColor: 'black'
+    },
+    counter: {
+        color: '#867CC0',
+        fontSize: 16,
+        fontFamily: 'Avenir',
+        maxWidth: '92%',
+    },
 });
 
 export default styles;
