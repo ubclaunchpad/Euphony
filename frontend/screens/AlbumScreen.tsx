@@ -218,7 +218,7 @@ const AlbumScreen = ({ route, navigation }) => {
     }
     else {
       return (
-        <SafeAreaView style={{ backgroundColor: 'white' }}>
+        <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
 
           <Modal isVisible={isAddModalVisible} backdropOpacity={0.4} animationInTiming={700}>
