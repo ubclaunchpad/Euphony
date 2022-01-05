@@ -26,8 +26,8 @@ function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login" screenOptions={{
           headerLargeTitle: true,
-          headerShadowVisible: false,
-          headerTitleAlign: 'center',
+          headerShadowVisible: true,
+          headerTitleAlign: 'left',
           animation: 'slide_from_right',
           headerLargeStyle: {
             backgroundColor: 'transparent'
@@ -43,7 +43,7 @@ function App() {
           },
 
         }}>
-          <Stack.Screen name="Filter" component={FilterScreen} />
+          <Stack.Screen name="Filters" component={FilterScreen} />
           <Stack.Screen name="Playlist" component={AlbumScreen}
           />
           <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}
