@@ -96,6 +96,10 @@ const AlbumScreen = ({ route, navigation }) => {
       headerStyle: {
         backgroundColor: 'white',
       },
+      headerTitleStyle: {
+        fontSize: 22,
+        fontFamily: 'Raleway-ExtraBold',
+      },
       headerLeft: () => (
         <View style={{ flexDirection: 'row', justifyContent: 'center', paddingRight: 20  }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>

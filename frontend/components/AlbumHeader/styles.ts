@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     name: {
         color: '#3700AB',
         fontSize: 25,
-        fontWeight: '800',
-        fontFamily: 'Raleway',
+        fontFamily: 'Raleway-ExtraBold',
+        includeFontPadding: false,
     },
     edit: {
         margin: 0,
@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginLeft: 12,
         marginRight: 13,
         marginTop: 6,
         marginBottom: 2
@@ -130,10 +129,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     promptText: {
-        fontWeight: "bold",
+        
         color: '#3700AB',
         fontSize: 16,
-        fontFamily: 'Avenir'
+        fontFamily: 'Avenir',
+        fontWeight: "bold",
     },
     findContents: {
         justifyContent: 'flex-start',

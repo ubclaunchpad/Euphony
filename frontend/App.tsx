@@ -33,13 +33,11 @@ function App() {
             backgroundColor: 'transparent'
           },
           headerTitleStyle: {
-            fontFamily: 'Raleway',
-            fontWeight: '800',
-            fontSize: 22
+            fontFamily: 'Raleway-ExtraBold',
+            fontSize: 30
           },
           headerLargeTitleStyle: {
-            fontFamily: 'Raleway',
-            fontWeight: '800',
+            fontFamily: 'Raleway-ExtraBold',
           },
 
         }}>
