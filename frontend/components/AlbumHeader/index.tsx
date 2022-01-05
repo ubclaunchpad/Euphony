@@ -62,7 +62,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* cover image */}
         <View style={styles.center}>
           <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
-            {props.album.length>4? 
+            {props.album.length>=4? 
             <View style={styles.image}>
               <View style={{flexDirection: 'row'}}>
                 <FastImage source={{uri: props.album[0].imageUrl}} style={styles.miniImage}/>
@@ -82,19 +82,19 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* Header text */}
 
       <View style={styles.title}>
-        <TouchableOpacity style={[styles.title]} onPress={() => {focusInput.current.focus()}}>
+        <TouchableOpacity style={[styles.title, {marginLeft: 23}]} onPress={() => {focusInput.current.focus()}}>
           <View style={styles.leftContainer}>
-          <TextInput
-            autoCorrect={false}
-            onChangeText={t => {setTextLength(MAX_LENGTH - t.length); setTitle(t)}}
-            onFocus={toggleEditing}
-            onEndEditing={toggleEditing}
-            defaultValue={title}
-            style={[styles.name]}
-            maxLength={MAX_LENGTH}
-            returnKeyType='done'
-            ref={focusInput}
-          />
+            <TextInput
+              autoCorrect={false}
+              onChangeText={t => {setTextLength(MAX_LENGTH - t.length); setTitle(t)}}
+              onFocus={toggleEditing}
+              onEndEditing={toggleEditing}
+              defaultValue={title}
+              style={styles.name}
+              maxLength={MAX_LENGTH}
+              returnKeyType='done'
+              ref={focusInput}
+            />
           </View>
 
           <View style={styles.rightContainer}>
