@@ -35,6 +35,7 @@ function FilterScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
+      <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
 
       <Modal
         animationType="slide"
@@ -155,7 +156,7 @@ function FilterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
+    backgroundColor: 'white'
   },
   connectSpotifyText: {
     color: 'white',

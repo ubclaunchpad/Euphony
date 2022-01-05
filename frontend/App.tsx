@@ -25,8 +25,13 @@ function App() {
     <AppContext.Provider value={userSettings}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login" screenOptions={{
-          headerTransparent: true,
           headerLargeTitle: true,
+          headerShadowVisible: false,
+          headerTitleAlign: 'center',
+          animation: 'slide_from_right',
+          headerLargeStyle: {
+            backgroundColor: 'transparent'
+          },
           headerTitleStyle: {
             fontFamily: 'Raleway',
             fontWeight: '800',

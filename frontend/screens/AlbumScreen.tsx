@@ -94,7 +94,7 @@ const AlbumScreen = ({ route, navigation }) => {
     navigation.setOptions({
       title: name === '' ? 'No title' : name,
       headerStyle: {
-        backgroundColor: 'hsla(0, 0%, 100%, 0.8)',
+        backgroundColor: 'white',
       },
       headerLeft: () => (
         <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 5 }}>
@@ -227,10 +227,10 @@ const AlbumScreen = ({ route, navigation }) => {
             </View>
           </Modal>
 
-          <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationInTiming={500}>
+          <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationIn={"wobble"} animationInTiming={700} useNativeDriver={true} >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <LeaveModal
-                toggle={isLeaveModalVisible}
+                toggle={true}
                 onLeave={onLeave}
                 onCancel={onCancel}
                 e={i}

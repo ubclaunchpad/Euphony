@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         lineHeight: 25,
         textAlign: 'left',
+        color: "black"
     },
     headerText: {
         fontFamily: "Raleway",
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginTop: 10,
         marginBottom: 25,
+        color: "black"
     },
     textStack: {
         flexDirection: 'column',
