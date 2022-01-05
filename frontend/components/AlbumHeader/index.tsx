@@ -56,6 +56,9 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const MAX_LENGTH = 100;
 
+
+  const next = props.album;
+
   return (
     <View>
       <View style={styles.container}>
@@ -63,17 +66,29 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         <View style={styles.center}>
           <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
             {props.album.length>4? 
-            <View style={styles.image}>
-              <View style={{flexDirection: 'row'}}>
-                <FastImage source={{uri: props.album[0].imageUrl}} style={styles.miniImage}/>
-                <FastImage source={{uri: props.album[1].imageUrl}} style={styles.miniImage}/>
+            <View>
+              <View style={styles.image}>
+                <View style={{flexDirection: 'row'}}>
+                  <FastImage source={{uri: props.album[0].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                  <FastImage source={{uri: props.album[1].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <FastImage source={{uri: props.album[2].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                  <FastImage source={{uri: props.album[3].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                </View>
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <FastImage source={{uri: props.album[2].imageUrl}} style={styles.miniImage}/>
-                <FastImage source={{uri: props.album[3].imageUrl}} style={styles.miniImage}/>
+              <View style={[styles.image, {position: 'absolute'}]}>
+                <View style={{flexDirection: 'row'}}>
+                  <FastImage source={{uri: next[1].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                  <FastImage source={{uri: next[2].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <FastImage source={{uri: next[3].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                  <FastImage source={{uri: next[4].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.miniImage}/>
+                </View>
               </View>
             </View>:<View style={styles.image}>
-              <FastImage source={{uri: props.album[0].imageUrl}} style={styles.largeImage}/>
+              <FastImage source={{uri: props.album[0].imageUrl, priority: FastImage.priority.high, cache: FastImage.cacheControl.cacheOnly}} style={styles.largeImage}/>
             </View>}
             
           </Shadow>
