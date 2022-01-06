@@ -34,7 +34,7 @@ const AlbumScreen = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
-  const [privatePlaylist, setIsPrivatePlaylist] = useState(false);
+  const [privatePlaylist, setIsPrivatePlaylist] = useState(true);
 
   // where we push current copy of songs to the API
   const updateSaved = () => {
