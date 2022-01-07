@@ -19,6 +19,8 @@ import { Shadow } from 'react-native-shadow-2';
 
 import FastImage from 'react-native-fast-image';
 
+import filter from 'lodash.filter';
+
 export type AlbumHeaderProps = {
   album: Album;
 };
@@ -55,6 +57,26 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   });
 
   const MAX_LENGTH = 100;
+
+  // functions for find in playlist 
+  const [query, setQuery] = useState(props.query);
+
+  const handleSearch = () => {
+    console.log(query);
+    const formattedQuery = query.toLowerCase();
+    const filteredData = filter(props.album, song => {
+      return contains(song, formattedQuery);
+    });
+    props.setSearchData(filteredData);
+    props.setQuery(query);
+  };
+
+  const contains = ({ name, artists }, query) => {
+    if (name.toLowerCase().includes(query) || artists[0].name.toLowerCase().includes(query)) {
+      return true
+    }
+    return false
+  }
 
   return (
     <View>
@@ -172,9 +194,15 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         <TouchableOpacity onPress={() => {}}>
           <View style={styles.findContents}>
             <Feather name="search" size={25} color={'#3700AB'} />
-            <Text style={[styles.promptText, styles.gapAfterIcon]}>
-              Find in playlist
-            </Text>
+            <TextInput 
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={query}
+              onChangeText={text => setQuery(text)}
+              onEndEditing={handleSearch}
+              placeholder="Find in playlist"
+              clearButtonMode="unless-editing"
+              style={[styles.promptText, styles.gapAfterIcon]}/>
           </View>
         </TouchableOpacity>
       </View>

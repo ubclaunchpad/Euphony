@@ -23,6 +23,7 @@
     "react-native-app-auth": "^6.4.0",
     "react-native-fast-image": "^8.5.11",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-modal": "^13.0.0",
     "react-native-modalize": "^2.0.12",
