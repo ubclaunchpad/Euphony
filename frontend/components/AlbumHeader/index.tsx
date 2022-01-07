@@ -46,7 +46,8 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
     props.setName(title);
   }
 
-  const focusInput = useRef(null);
+  const focusTitleInput = useRef(null);
+  const focusFindInput = useRef(null);
 
   const createThreeButtonAlert = () => { 
     props.updateSaved();
@@ -104,7 +105,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* Header text */}
 
       <View style={styles.title}>
-        <TouchableOpacity style={[styles.title]} onPress={() => {focusInput.current.focus()}}>
+        <TouchableOpacity style={[styles.title]} onPress={() => {focusTitleInput.current.focus()}}>
           <View style={styles.leftContainer}>
           <TextInput
             autoCorrect={false}
@@ -115,7 +116,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             style={[styles.name]}
             maxLength={MAX_LENGTH}
             returnKeyType='done'
-            ref={focusInput}
+            ref={focusTitleInput}
           />
           </View>
 
@@ -190,22 +191,22 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.findInPlaylist}>
-        <TouchableOpacity onPress={() => {}}>
-          <View style={styles.findContents}>
-            <Feather name="search" size={25} color={'#3700AB'} />
-            <TextInput 
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={query}
-              onChangeText={text => setQuery(text)}
-              onEndEditing={handleSearch}
-              placeholder="Find in playlist"
-              clearButtonMode="unless-editing"
-              style={[styles.promptText, styles.gapAfterIcon]}/>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.findInPlaylist} onPress={() => {focusFindInput.current.focus()}}>
+        <View style={styles.findContents}>
+          <Feather name="search" size={25} color={'#3700AB'} />
+          <TextInput 
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={query}
+            onChangeText={text => setQuery(text)}
+            onEndEditing={handleSearch}
+            placeholder="Find in playlist"
+            clearButtonMode="unless-editing"
+            returnKeyType='done'
+            ref={focusFindInput}
+            style={[styles.promptText, styles.gapAfterIcon]}/>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
