@@ -4,7 +4,7 @@ import { reverseWeather } from './route-helpers/openweather-helpers';
 import {
 	getInputForML,
 	getRecommendations,
-} from './route-helpers/spotify-helpers';
+} from './route-helpers/spotify-helpers/spotify-helpers';
 const router = express.Router();
 
 router.post(

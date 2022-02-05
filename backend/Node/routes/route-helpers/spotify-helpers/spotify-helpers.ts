@@ -1,5 +1,5 @@
 const SpotifyWebApi = require('spotify-web-api-node');
-import { Activity, genres, Location, Mood } from '../../src/interfaces';
+import { Activity, genres, Location, Mood } from '../../../src/interfaces';
 import axios from 'axios';
 import {
 	getSeedArtistIdsFromTopTracks,
@@ -37,32 +37,6 @@ export const createSpotifyWebApi = () => {
 		redirectUri: 'http://localhost:4000/spotify/callback',
 	});
 };
-
-export async function getPopularityForTracks(req: any, res: any) {
-	let spotifyApi = createSpotifyWebApi();
-	try {
-		if (!req.params.access_token)
-			return res.status(400).send('failed to authenticate');
-		if (!req.body.trackIdArray)
-			return res.status(400).send('trackIdArray is missing');
-
-		spotifyApi.setAccessToken(req.params.access_token);
-
-		const data = await spotifyApi.getTracks(req.body.trackIdArray);
-
-		if (data) {
-			const popularityArr = data.body.tracks.map(
-				(track: any) => track.popularity
-			);
-
-			return res.status(200).send(popularityArr);
-		} else {
-			return res.status(204).send('no audio features returned');
-		}
-	} catch (error) {
-		return res.status(404).json({ error: error });
-	}
-}
 
 export async function getInputForML(req: any, res: any, next: any) {
 	let spotifyApi = createSpotifyWebApi();
