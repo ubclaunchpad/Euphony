@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
         color: '#3700AB',
         fontSize: 16,
         fontFamily: 'Avenir',
+        flex: 1,
         fontWeight: "bold",
     },
     findContents: {

@@ -16,6 +16,8 @@ import { Modalize } from 'react-native-modalize';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
+
 const AlbumScreen = ({ route, navigation }) => {
   const { obj, coords, initName } = route.params;
 
@@ -35,6 +37,8 @@ const AlbumScreen = ({ route, navigation }) => {
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
   const [privatePlaylist, setIsPrivatePlaylist] = useState(true);
+  const [searchData, setSearchData] = useState([]);
+  const [query, setQuery] = useState('');
 
   // where we push current copy of songs to the API
   const updateSaved = () => {
@@ -153,7 +157,10 @@ const AlbumScreen = ({ route, navigation }) => {
   }
 
   const deleteSong = (id) => {
-    if (data.length != 1) setData(data.filter(song => song.id !== id));
+    if (data.length != 1) {
+      setData(data.filter(song => song.id !== id));
+      setSearchData(searchData.filter(song => song.id !== id));
+    }
     else Alert.alert("You can't remove all the songs in the playlist! To make a new playlist, use the regenerate button.")
   }
 
@@ -250,13 +257,16 @@ const AlbumScreen = ({ route, navigation }) => {
             <InfoModal info={obj} toggle={toggle} handleClose={handleClose} title={name} />
           </Modalize>
 
-          <FlatList
-            data={data}
+          <KeyboardAwareFlatList
+            data={query ? searchData : data}
             renderItem={({ item }) => <SongListItem song={item} deleteSong={deleteSong} />}
             keyExtractor={item => item.id}
             ListHeaderComponent={() =>
               <AlbumHeader
                 album={data}
+                setSearchData={setSearchData}
+                query={query}
+                setQuery={setQuery}
                 saved={saved}
                 updateSaved={updateSaved}
                 name={name}

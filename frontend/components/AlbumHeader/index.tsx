@@ -19,6 +19,8 @@ import { Shadow } from 'react-native-shadow-2';
 
 import FastImage from 'react-native-fast-image';
 
+import filter from 'lodash.filter';
+
 export type AlbumHeaderProps = {
   album: Album;
 };
@@ -44,7 +46,8 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
     props.setName(title);
   }
 
-  const focusInput = useRef(null);
+  const focusTitleInput = useRef(null);
+  const focusFindInput = useRef(null);
 
   const createThreeButtonAlert = () => { 
     props.updateSaved();
@@ -55,6 +58,26 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   });
 
   const MAX_LENGTH = 100;
+
+  // functions for find in playlist 
+  const [query, setQuery] = useState(props.query);
+
+  const handleSearch = () => {
+    console.log(query);
+    const formattedQuery = query.toLowerCase();
+    const filteredData = filter(props.album, song => {
+      return contains(song, formattedQuery);
+    });
+    props.setSearchData(filteredData);
+    props.setQuery(query);
+  };
+
+  const contains = ({ name, artists }, query) => {
+    if (name.toLowerCase().includes(query) || artists[0].name.toLowerCase().includes(query)) {
+      return true
+    }
+    return false
+  }
 
   return (
     <View>
@@ -82,19 +105,19 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* Header text */}
 
       <View style={styles.title}>
-        <TouchableOpacity style={[styles.title, {marginLeft: 23}]} onPress={() => {focusInput.current.focus()}}>
+        <TouchableOpacity style={[styles.title]} onPress={() => {focusTitleInput.current.focus()}}>
           <View style={styles.leftContainer}>
-            <TextInput
-              autoCorrect={false}
-              onChangeText={t => {setTextLength(MAX_LENGTH - t.length); setTitle(t)}}
-              onFocus={toggleEditing}
-              onEndEditing={toggleEditing}
-              defaultValue={title}
-              style={styles.name}
-              maxLength={MAX_LENGTH}
-              returnKeyType='done'
-              ref={focusInput}
-            />
+          <TextInput
+            autoCorrect={false}
+            onChangeText={t => {setTextLength(MAX_LENGTH - t.length); setTitle(t)}}
+            onFocus={toggleEditing}
+            onEndEditing={toggleEditing}
+            defaultValue={title}
+            style={[styles.name]}
+            maxLength={MAX_LENGTH}
+            returnKeyType='done'
+            ref={focusTitleInput}
+          />
           </View>
 
           <View style={styles.rightContainer}>
@@ -168,16 +191,22 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.findInPlaylist}>
-        <TouchableOpacity onPress={() => {}}>
-          <View style={styles.findContents}>
-            <Feather name="search" size={25} color={'#3700AB'} />
-            <Text style={[styles.promptText, styles.gapAfterIcon]}>
-              Find in playlist
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.findInPlaylist} onPress={() => {focusFindInput.current.focus()}}>
+        <View style={styles.findContents}>
+          <Feather name="search" size={25} color={'#3700AB'} />
+          <TextInput 
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={query}
+            onChangeText={text => setQuery(text)}
+            onEndEditing={handleSearch}
+            placeholder="Find in playlist"
+            clearButtonMode="unless-editing"
+            returnKeyType='done'
+            ref={focusFindInput}
+            style={[styles.promptText, styles.gapAfterIcon]}/>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
