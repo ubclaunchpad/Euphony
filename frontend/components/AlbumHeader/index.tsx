@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   Text,
   TextInput,
@@ -23,6 +23,9 @@ export type AlbumHeaderProps = {
   album: Album;
 };
 
+import moment from 'moment';
+import "moment-duration-format";
+
 const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const {album} = props;
@@ -31,18 +34,27 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const toggleSwitch = () => props.setIsPrivatePlaylist(previousState => !previousState);
 
-  const [title, setTitle] = useState("My Playlist");
+  const [title, setTitle] = useState(props.name ? props.name : "My Playlist");
+  
+  const [textLength, setTextLength] = React.useState(MAX_LENGTH);
   const [isEditing, setIsEditing] = useState(false);
   const toggleEditing = () => { 
-    setIsEditing(previousState => !previousState); 
-    if (isEditing) {
-      props.setName(title);
-    }
+    setIsEditing(previousState => !previousState);
+    setTextLength(MAX_LENGTH - title.length);
+    props.setName(title);
   }
+
+  const focusInput = useRef(null);
 
   const createThreeButtonAlert = () => { 
     props.updateSaved();
   }
+
+  let duration = moment.duration(props.album.reduce((a, b) => a + b.duration, 0), "milliseconds").format("d[d] h[h] m[m] s[s]", {
+    largest: 2
+  });
+
+  const MAX_LENGTH = 100;
 
   return (
     <View>
@@ -50,7 +62,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* cover image */}
         <View style={styles.center}>
           <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
-            {props.album.length>4? 
+            {props.album.length>=4? 
             <View style={styles.image}>
               <View style={{flexDirection: 'row'}}>
                 <FastImage source={{uri: props.album[0].imageUrl}} style={styles.miniImage}/>
@@ -70,32 +82,31 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* Header text */}
 
       <View style={styles.title}>
-        <TouchableOpacity style={[styles.title]}>
+        <TouchableOpacity style={[styles.title, {marginLeft: 23}]} onPress={() => {focusInput.current.focus()}}>
           <View style={styles.leftContainer}>
-          <TextInput
-            autoCorrect={false}
-            onChangeText={t => setTitle(t)}
-            onFocus={toggleEditing}
-            onEndEditing={toggleEditing}
-            defaultValue={props.name}
-            style={[styles.name]}
-          />
+            <TextInput
+              autoCorrect={false}
+              onChangeText={t => {setTextLength(MAX_LENGTH - t.length); setTitle(t)}}
+              onFocus={toggleEditing}
+              onEndEditing={toggleEditing}
+              defaultValue={title}
+              style={styles.name}
+              maxLength={MAX_LENGTH}
+              returnKeyType='done'
+              ref={focusInput}
+            />
           </View>
 
           <View style={styles.rightContainer}>
               {isEditing?
-            <MaterialIcons
-              name="mode-edit"
-              size={25}
-              color={'dodgerblue'}
-              style={styles.edit}
-            />: 
-            <MaterialIcons
-              name="mode-edit"
-              size={25}
-              color={'#3700AB'}
-              style={styles.edit}
-            />}
+                <Text style={styles.counter}>{textLength}</Text>: 
+                <MaterialIcons
+                  name="mode-edit"
+                  size={25}
+                  color={'#3700AB'}
+                  style={styles.edit}
+                />
+              }
           </View>
         </TouchableOpacity>
 
@@ -123,7 +134,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                     size={25}
                     color={'#867CC0'}
                   />
-                  <Text style={styles.middleText}>1h 28m</Text>
+                  <Text style={styles.middleText}>{duration}</Text>
                 </View>
               </View>
             </View>
@@ -148,10 +159,12 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
         {/* play button */}
         <TouchableOpacity onPress={createThreeButtonAlert} style={{flexDirection: 'row', marginTop: 10}}>
+          <Shadow viewStyle={{alignSelf: 'stretch'}}>
           <View style={styles.button}>
             <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
             <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>
           </View>
+          </Shadow>
         </TouchableOpacity>
       </View>
 

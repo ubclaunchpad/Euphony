@@ -16,6 +16,8 @@
     "@react-navigation/native-stack": "^6.2.5",
     "babel-plugin-dotenv-import": "^2.2.0",
     "lodash.filter": "^4.6.0",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
     "react": "17.0.2",
     "react-native": "0.66.1",
     "react-native-app-auth": "^6.4.0",
@@ -26,9 +28,9 @@
     "react-native-modalize": "^2.0.12",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0",
-    "react-native-shadow-2": "^5.1.2",
-    "react-native-svg": "^12.1.1",
+    "react-native-shadow-2": "^6.0.0",
     "react-native-slider": "^0.11.0",
+    "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {

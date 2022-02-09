@@ -6,7 +6,7 @@ class AuthenticationHandler {
         this.spotifyAuthConfig = {
             clientId: SPOTIFY_CLIENT_ID,
             clientSecret: SPOTIFY_CLIENT_SECRET,
-            redirectUrl: 'spotifygen:/oauth',
+            redirectUrl: 'com.jamgang.spotifygen:/oauth',
             scopes: [
                 'ugc-image-upload',
                 'user-read-playback-state',

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image'
+import moment from 'moment';
+import "moment-duration-format";
 
 import styles from './styles';
 import {Song} from "../../types";
@@ -17,6 +19,9 @@ export type SongListItemProps = {
 
 const SongListItem = (props: SongListItemProps) => {
     const { song, deleteSong } = props;
+    let duration = moment.duration(song.duration, "milliseconds").format("d[d] h[h] m[m] s[s]", {
+        largest: 2
+    });
     return (
         <View>
             <View style={styles.container}>
@@ -31,7 +36,7 @@ const SongListItem = (props: SongListItemProps) => {
                                 size={18}
                                 color={'#867CC0'}
                             />
-                            <Text style={styles.duration}>{song.duration}</Text>
+                            <Text style={styles.duration}>{duration}</Text>
                         </View>
                     </View>
                 </View>

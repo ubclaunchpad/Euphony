@@ -7,8 +7,7 @@ const styles = StyleSheet.create({
     title: {
         color: '#3700AB',
         fontSize: 20,
-        fontFamily: 'Raleway',
-        fontWeight: 'bold',
+        fontFamily: 'Raleway-Bold',
     },
     description: {
         color: '#867CC0',
@@ -37,8 +36,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: '#5A4CAD',
         fontSize: 13,
-        fontFamily: 'Raleway',
-        fontWeight: '900',
+        fontFamily: 'Raleway-ExtraBold',
         overflow: 'hidden',
     },
     textStackView: {

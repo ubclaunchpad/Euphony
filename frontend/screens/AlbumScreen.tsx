@@ -34,7 +34,7 @@ const AlbumScreen = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
-  const [privatePlaylist, setIsPrivatePlaylist] = useState(false);
+  const [privatePlaylist, setIsPrivatePlaylist] = useState(true);
 
   // where we push current copy of songs to the API
   const updateSaved = () => {
@@ -94,35 +94,42 @@ const AlbumScreen = ({ route, navigation }) => {
     navigation.setOptions({
       title: name === '' ? 'No title' : name,
       headerStyle: {
-        backgroundColor: 'hsla(0, 0%, 100%, 0.8)',
+        backgroundColor: 'white',
+      },
+      headerTitleStyle: {
+        fontSize: 22,
+        fontFamily: 'Raleway-ExtraBold',
       },
       headerLeft: () => (
-        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 5 }}>
-          <MaterialIcons
-            name="arrow-back-ios"
-            size={24}
-            color={'hsl(0, 0%, 0%)'}
-            onPress={() => navigation.goBack()}
-            style={{ paddingLeft: 10 }}
-          />
+        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingRight: 20  }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={24}
+              color={'hsl(0, 0%, 0%)'}
+              style={{ paddingLeft: 10 }}
+            />
+          </TouchableOpacity>
         </View>
       ),
       headerRight: () => (
-        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 5 }}>
-          <MaterialIcons
-            name="refresh"
-            size={24}
-            color={'hsl(0, 0%, 0%)'}
-            onPress={() => genPlaylist()}
-            style={{ paddingRight: 20 }}
-          />
-          <MaterialIcons
-            name="info-outline"
-            size={24}
-            color={'hsl(0, 0%, 0%)'}
-            onPress={onOpen}
-            style={{ paddingRight: 10 }}
-          />
+        <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
+          <TouchableOpacity onPress={() => genPlaylist()}>
+            <MaterialIcons
+              name="refresh"
+              size={24}
+              color={'hsl(0, 0%, 0%)'}
+              style={{ paddingRight: 20 }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onOpen}>
+            <MaterialIcons
+              name="info-outline"
+              size={24}
+              color={'hsl(0, 0%, 0%)'}
+              style={{ paddingRight: 10 }}
+            />
+          </TouchableOpacity>
         </View>
       ),
     });
@@ -218,7 +225,7 @@ const AlbumScreen = ({ route, navigation }) => {
     }
     else {
       return (
-        <SafeAreaView style={{ backgroundColor: 'white' }}>
+        <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
 
           <Modal isVisible={isAddModalVisible} backdropOpacity={0.4} animationInTiming={700}>
@@ -227,10 +234,10 @@ const AlbumScreen = ({ route, navigation }) => {
             </View>
           </Modal>
 
-          <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationInTiming={500}>
+          <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationIn={"wobble"} animationInTiming={700} useNativeDriver={true} >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <LeaveModal
-                toggle={isLeaveModalVisible}
+                toggle={true}
                 onLeave={onLeave}
                 onCancel={onCancel}
                 e={i}

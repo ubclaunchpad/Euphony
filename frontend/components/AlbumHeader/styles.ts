@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     name: {
         color: '#3700AB',
         fontSize: 25,
-        fontWeight: '800',
-        fontFamily: 'Raleway',
+        fontFamily: 'Raleway-ExtraBold',
+        includeFontPadding: false,
     },
     edit: {
         margin: 0,
@@ -57,12 +57,10 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#7432FF',
         height: 50,
-        width: 200,
+        width: 320,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 20,
-        marginRight: 20,
         flexDirection: "row",
         flex: 1,
     },
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginLeft: 12,
         marginRight: 13,
         marginTop: 6,
         marginBottom: 2
@@ -132,10 +129,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     promptText: {
-        fontWeight: "bold",
+        
         color: '#3700AB',
         fontSize: 16,
-        fontFamily: 'Avenir'
+        fontFamily: 'Avenir',
+        fontWeight: "bold",
     },
     findContents: {
         justifyContent: 'flex-start',
@@ -147,27 +145,33 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
 
-  input: {
-    width: 350,
-    height: 40,
-    padding: 5,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: 'grey',
-    borderStyle: 'solid',
-    borderRadius: 3
-  },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-},
-  line: {
-    marginLeft: 20,
-    marginRight: 20,
-    flex: 1, 
-    height: 0.5, 
-    backgroundColor: 'black'
-},
+    input: {
+        width: 350,
+        height: 40,
+        padding: 5,
+        margin: 5,
+        borderWidth: 1,
+        borderColor: 'grey',
+        borderStyle: 'solid',
+        borderRadius: 3
+    },
+    divider: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    line: {
+        marginLeft: 20,
+        marginRight: 20,
+        flex: 1, 
+        height: 0.5, 
+        backgroundColor: 'black'
+    },
+    counter: {
+        color: '#867CC0',
+        fontSize: 16,
+        fontFamily: 'Avenir',
+        maxWidth: '92%',
+    },
 });
 
 export default styles;
