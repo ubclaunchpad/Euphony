@@ -35,6 +35,7 @@ function FilterScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
+      <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
 
       <Modal
         animationType="slide"
@@ -155,7 +156,7 @@ function FilterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
+    backgroundColor: 'white'
   },
   connectSpotifyText: {
     color: 'white',
@@ -168,7 +169,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#7432FF',
     overflow: 'hidden',
     fontWeight: "500",
-    marginBottom: 30,
     marginTop: 20,
   },
   scrollView: {
@@ -184,8 +184,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#3700AB',
     fontSize: 20,
-    fontFamily: 'Raleway',
-    fontWeight: 'bold',
+    fontFamily: 'Raleway-Bold',
   },
   textInput: {
     color: '#867CC0',
@@ -209,6 +208,7 @@ const styles = StyleSheet.create({
   },
   playlistNameContainer: {
     marginHorizontal: 25,
+    marginTop: 20,
   }
 });
 

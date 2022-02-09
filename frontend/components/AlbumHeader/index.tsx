@@ -85,7 +85,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         {/* cover image */}
         <View style={styles.center}>
           <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
-            {props.album.length>4? 
+            {props.album.length>=4? 
             <View style={styles.image}>
               <View style={{flexDirection: 'row'}}>
                 <FastImage source={{uri: props.album[0].imageUrl}} style={styles.miniImage}/>
