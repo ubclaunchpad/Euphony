@@ -27,24 +27,21 @@ router.get('/login', login);
 router.get('/callback', callback);
 
 // get user basic information
-router.get('/getMe/:access_token', getMe);
+router.get('/getMe', getMe);
 
-router.get('/getInputForML/:access_token', getInputForML);
+router.get('/getInputForML', getInputForML);
 
-router.post('/createSpotifyPlaylist/:access_token', createSpotifyPlaylist);
+router.post('/createSpotifyPlaylist', createSpotifyPlaylist);
 
 /**
  * UNUSED ENDPOINTS, ONLY HERE FOR REFERENCE
  */
-router.get('/getPopularityForTracks/:access_token', getPopularityForTracks);
+router.get('/getPopularityForTracks', getPopularityForTracks);
 
-router.get('/getMyTopTracks/:access_token', getMyTopTracks);
+router.get('/getMyTopTracks', getMyTopTracks);
 
-router.get('/getAudioFeaturesForTrack/:access_token', getAudioFeaturesForTrack);
+router.get('/getAudioFeaturesForTrack', getAudioFeaturesForTrack);
 
-router.get(
-	'/getAudioFeaturesForTracks/:access_token',
-	getAudioFeaturesForTracks
-);
+router.get('/getAudioFeaturesForTracks', getAudioFeaturesForTracks);
 
 module.exports = router;

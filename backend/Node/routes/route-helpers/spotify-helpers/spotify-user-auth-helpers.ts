@@ -1,3 +1,4 @@
+import { Auth } from '../../../src/interfaces';
 import { createSpotifyWebApi, scopes } from './spotify-helpers';
 
 export function login(_: any, res: any) {
@@ -33,24 +34,65 @@ export async function callback(req: any, res: any) {
 			res.send('Authorization granted, but no tokens were returned');
 		}
 	} catch (error: any) {
-		console.error('Error getting Tokens:', error);
 		res.send(`Error getting Tokens: ${error}`);
 	}
 }
 
+export async function isAuth(req: any, spotifyApi: any): Promise<Auth> {
+	const accessToken: string = req.headers['access_token'];
+	const refreshToken: string = req.headers['refresh_token'];
+
+	if (!accessToken && !refreshToken) {
+		return { success: false, statusMessage: 'No auth tokens was specified' };
+	}
+
+	if (!refreshToken) {
+		spotifyApi.setAccessToken(accessToken);
+		return {
+			success: true,
+			access_token: accessToken,
+		};
+	}
+
+	spotifyApi.setAccessToken(refreshToken);
+	return refreshSpotifyAccessToken(refreshToken, spotifyApi);
+}
+
+export async function refreshSpotifyAccessToken(
+	refreshToken: string,
+	spotifyApi: any
+): Promise<Auth> {
+	spotifyApi.setRefreshToken(refreshToken);
+
+	return spotifyApi.refreshAccessToken().then(
+		function (data: any) {
+			spotifyApi.setAccessToken(data.body['access_token']);
+			return {
+				success: true,
+				access_token: data.body['access_token'],
+			};
+		},
+		function (err: any) {
+			return { success: false, statusMessage: err.message };
+		}
+	);
+}
+
 export async function getMe(req: any, res: any) {
 	let spotifyApi = createSpotifyWebApi();
-	try {
-		if (!req.params.access_token)
-			return res.status(400).send('failed to authenticate');
+	const auth = await isAuth(req, spotifyApi);
+	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
 
-		spotifyApi.setAccessToken(req.params.access_token);
+	try {
 		const me = await spotifyApi.getMe();
 
 		if (!me) {
 			return res.status(204).send('error while retrieving user info');
 		}
-		return res.status(200).json(me.body);
+		return res.status(200).json({
+			body: me.body,
+			access_token: auth.access_token,
+		});
 	} catch (error) {
 		return res.status(404).send(error);
 	}

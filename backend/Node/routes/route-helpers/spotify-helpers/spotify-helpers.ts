@@ -6,6 +6,7 @@ import {
 	parseTrack,
 	Track,
 } from './spotify-mapper';
+import { isAuth } from './spotify-user-auth-helpers';
 
 // scopes for spotify
 export const scopes = [
@@ -40,14 +41,14 @@ export const createSpotifyWebApi = () => {
 
 export async function getInputForML(req: any, res: any, next: any) {
 	let spotifyApi = createSpotifyWebApi();
-	try {
-		if (!req.params.access_token)
-			return res.status(400).send('failed to authenticate');
+	const auth = await isAuth(req, spotifyApi);
+	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
 
+	try {
 		const url = 'https://api.spotify.com/v1/me/top/tracks';
 
 		const topTracks: any = await axios.get(url, {
-			headers: { Authorization: `Bearer ${req.params.access_token}` },
+			headers: { Authorization: `Bearer ${auth.access_token}` },
 		});
 
 		let topTracksIds = [];
@@ -62,8 +63,6 @@ export async function getInputForML(req: any, res: any, next: any) {
 		}
 
 		res.locals.trackIds = topTracksIds;
-
-		spotifyApi.setAccessToken(req.params.access_token);
 
 		const audioFeaturesData = await spotifyApi.getAudioFeaturesForTracks(
 			req.body.trackIdArray ? req.body.trackIdArray : topTracksIds
@@ -101,6 +100,10 @@ export async function getInputForML(req: any, res: any, next: any) {
 }
 
 export async function getRecommendations(req: any, res: any) {
+	let spotifyApi = createSpotifyWebApi();
+	const auth = await isAuth(req, spotifyApi);
+	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
+
 	// default value location = CA, pop = 0.5, clouds = 0.5, temp = 10, mood = HAPPY, activity = CHILL, limit = 10
 	// data from location and weather
 	const location =
@@ -140,7 +143,7 @@ export async function getRecommendations(req: any, res: any) {
 		// Get the top 2 artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
 		const seedArtistIds = await getSeedArtistIdsFromTopTracks(
 			trackIds,
-			req.params.access_token
+			auth.access_token!
 		);
 
 		/**
@@ -154,14 +157,16 @@ export async function getRecommendations(req: any, res: any) {
 		);
 		// TODO: consolidate calls to Spotify API
 		const spotifyRecommendationsRes: any = await axios.get(recommendationsUrl, {
-			headers: { Authorization: `Bearer ${req.params.access_token}` },
+			headers: { Authorization: `Bearer ${auth.access_token!}` },
 		});
 
 		// Format data returned from the API, only send what the front-end needs
 		const formattedTracks: Track[] = spotifyRecommendationsRes.data.tracks.map(
 			(t: { [key: string]: any }) => parseTrack(t)
 		);
-		res.status(200).send(formattedTracks);
+		res
+			.status(200)
+			.send({ body: formattedTracks, access_token: auth.access_token });
 	} catch (err) {
 		res.status(404).send(err);
 	}
@@ -169,17 +174,16 @@ export async function getRecommendations(req: any, res: any) {
 
 export async function createSpotifyPlaylist(req: any, res: any) {
 	let spotifyApi = createSpotifyWebApi();
+	const auth = await isAuth(req, spotifyApi);
+	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
+
 	try {
-		if (!req.params.access_token)
-			return res.status(400).send('failed to authenticate');
 		if (!req.body.name)
 			return res.status(400).send("playlist's name is missing");
 		if (!req.body.trackIds)
 			return res
 				.status(400)
 				.send('Please specify tracks to add to the playlist');
-
-		spotifyApi.setAccessToken(req.params.access_token);
 
 		// Create a private playlist by default
 		const playlist = await spotifyApi.createPlaylist(req.body.name, {
@@ -200,7 +204,12 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 				);
 
 				if (addTracks) {
-					return res.status(200).send('playlist created successfully. Enjoy!');
+					return res
+						.status(200)
+						.send({
+							body: 'playlist created successfully. Enjoy!',
+							access_token: auth.access_token,
+						});
 				} else {
 					return res.status(204).send('No tracks were added to the playlist');
 				}
