@@ -3,13 +3,11 @@ import numpy as np
 import pandas as pd
 
 # Generate an access token using Node Server
-access_token = "BQA2muCo1VKOmYUgCtDZoHDXeMgP8C7kh6f_tuIc_8P3-pBw-nI4xWLy2OezXvab-a7iSQxInXYbPf66bH7Cu7dW5fCz9cMUNp28n8M1s7VbDkXsVfN4wu-oNkwzmLoUIPBmOV2z2FkL-Er8opud9wvVVeLMPD9bhzuZOlXzljV--x61lRJPJQ9cld6OzWqJs_ZbMzvmFudNl86Q4uPyRpKpiAk6qF-IYsmLic0tEWPCRtpIF7Sd3h2CaJ3lK6mVJUN0xmUhn34B-t7yxcn1QwQb7NvNIWtRwSfjfUPi1VtdXOXbwjIa"
+access_token = "BQBWljKN6EPt16w1IQKQFSOHE_GUTG2SH8PqpJPZWIJCxCtc40_7jAXV9v0NoWyy6a78j3PdfxfulZPh8-49fRVaXf6w0leOkXS13InEAtz3Fzmr-qH06ZDy3tStKGiThzMZ-G7wLva2jSVsCGbmcrsKaqRE4WPBLeUJ_g6sQI1Gim-ocugiOtTJQNw1L8ksq6WGBib51l-Siw7jb5GKAcS-ZMW2s8vTVd2alJ0kOnohaP5fywnna0UEtWm-z7otF6GEcYs_F9fLxos4V7Ojc8IEtGnuHy-GhdI6bqkrQm17iqLCoQNp"
 
 # sunny workout:
-playlist_ids = [] # TODO: add the playlist ids to this list, see the commented playlist_ids list below :)
-
-# rainy workout:
-# playlist_ids = ["2zca0t4juMRKiAVQ9IGGK0", "1N70n72oCbu6H2hVWQVRSx", "3klQTAOE6j3Bw4H4hydsqj","3zjSPnkn0Z0J1nCOBZbkLm", "12va3pHH4SrAKBnyU98UaB", "0lkwbLqx4ILh7tZwjQTCfA"]
+playlist_ids = [] # TODO: add the playlist ids to this list, see the commented playlist_ids list below :) aim for ~200 tracks after saving
+# playlist_ids = ["6Pq4KKsCzmrdeSbzjaMaya", "6e93DXjExFD8n4RnTV5dDy", "51R6DzUWrnVKXtcuCTqYSB", "78iG5en085n5FeXGAxxjb2", "3Htufw4S2po19T6DguyEam"]
 
 headers = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": f"Bearer {access_token}"}
 
@@ -31,12 +29,15 @@ def get_track_ids_and_popularity(get_playlist_items_url):
 
     for index in range(len(response['items'])):
 
-        track_id = response['items'][index]['track']['id'] # id of track at index 
-        is_track = response['items'][index]['track']['track'] # boolean, true if it's a track
-        popularity = response['items'][index]['track']['popularity']
+        try:
+            track_id = response['items'][index]['track']['id'] # id of track at index 
+            is_track = response['items'][index]['track']['track'] # boolean, true if it's a track
+            popularity = response['items'][index]['track']['popularity']
 
-        track_ids.append(track_id)
-        popularities.append(popularity)
+            track_ids.append(track_id)
+            popularities.append(popularity)
+        except:
+            pass
 
 
 def generate_df_dictionary(audio_features):
@@ -146,7 +147,7 @@ def main():
 
     df = pd.DataFrame(data = df_dict)
 
-    df.to_csv(path_or_buf = "data/sunny_workout.csv",index=False) # TODO: change the name of the save path. You might need to make an empty folder called data first.
+    df.to_csv(path_or_buf = "data/weather_activity.csv",index=False) # TODO: change the name of the save path. You might need to make an empty folder called data first.
 
 if __name__ == '__main__':
     main()
