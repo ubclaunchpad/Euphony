@@ -16,8 +16,8 @@ function FilterScreen({ navigation }) {
 
   const [text, onChangeText] = React.useState("");
   const [textLength, setTextLength] = React.useState(MAX_LENGTH);
-
-  const [genre, setGenre] = React.useState(-1);
+  
+  const [genres, setGenres] = React.useState(0); 
   const [mood, setMood] = React.useState(-1);
   const [activity, setActivity] = React.useState(-1);
 
@@ -83,10 +83,10 @@ function FilterScreen({ navigation }) {
         </View>
         <Carousel
           title={"Genre"}
-          description={"Choose a mood from the ones below"}
+          description={"Choose a genre from the ones below"}
           choices={genreChoices}
-          selectedChoice={genre}
-          onChange={(choice) => { setGenre(choice) }}
+          selectedChoice={genres}
+          onChange={(choice) => { (choice < 0 || Object.is(choice, -0)) ? setGenres(genres & ~(1 << -choice)) : setGenres(genres | (1 << choice)) }}
         />
         <Carousel
           title={"Mood"}
@@ -126,9 +126,9 @@ function FilterScreen({ navigation }) {
           <JGButton fillParent={true} title="OKAY, LET'S GO" onClick={
             () => {
               if (authContext.authToken) {
-                console.log(mood, genre, activity, playlistLength, text);
+                console.log(mood, genres, activity, playlistLength, text);
 
-                if (mood !== -1 && genre !== -1 && activity !== -1) {
+                if (mood !== -1 && genres !== 0 && activity !== -1) {
                   navigation.navigate('Playlist', {
                     obj: {
                       "mood": mood,
