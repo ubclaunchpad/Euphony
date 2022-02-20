@@ -43,7 +43,6 @@ const Carousel: FunctionComponent<Props> = (props) => {
                                                         (event) => { 
                                                             if (item.isGenre && ((props.selectedChoice & (1 << index)) !== 0)) {
                                                                 props.onChange(-index);
-                                                                console.log(-index);
                                                             } else if (!item.isGenre && props.selectedChoice === index) {
                                                                 props.onChange(-1);
                                                             } else { 
