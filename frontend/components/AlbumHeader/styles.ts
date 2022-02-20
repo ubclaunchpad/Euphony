@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         marginRight: 13,
         marginTop: 6,
+        marginLeft: 13,
         marginBottom: 2
     },
     headerText: {
@@ -129,7 +130,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     promptText: {
-        
         color: '#3700AB',
         fontSize: 16,
         fontFamily: 'Avenir',
