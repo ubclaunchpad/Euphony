@@ -129,8 +129,10 @@ function FilterScreen({ navigation }) {
                 console.log(mood, genres, activity, playlistLength, text);
 
                 if (mood !== -1 && genres !== 0 && activity !== -1) {
+                  console.log(genres)
                   navigation.navigate('Playlist', {
                     obj: {
+                      "genres": genres,
                       "mood": mood,
                       "activity": activity,
                       "limit": playlistLength,
