@@ -288,7 +288,7 @@ PODS:
   - React-jsinspector (0.66.1)
   - React-logger (0.66.1):
     - glog
-  - react-native-app-auth (6.4.0):
+  - react-native-app-auth (6.4.2):
     - AppAuth (= 1.4.0)
     - React-Core
   - react-native-safe-area-context (3.3.2):
@@ -369,8 +369,8 @@ PODS:
   - RNScreens (3.10.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (12.1.1):
-    - React
+  - RNSVG (12.2.0):
+    - React-Core
   - RNVectorIcons (9.0.0):
     - React-Core
   - SDWebImage (5.11.1):
@@ -582,7 +582,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: db2f6e22a534d466fc0e34e622df47d9d20bab2f
   React-jsinspector: 8c0517dee5e8c70cd6c3066f20213ff7ce54f176
   React-logger: bfddd3418dc1d45b77b822958f3e31422e2c179b
-  react-native-app-auth: 0970add7ceaadc90d2ccd1d9e21916d33d203701
+  react-native-app-auth: 1f1b595bf4122f95e0f766404c8621054238e313
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-slider: 6e9b86e76cce4b9e35b3403193a6432ed07e0c81
   React-perflogger: fcac6090a80e3d967791b4c7f1b1a017f9d4a398
@@ -600,7 +600,7 @@ SPEC CHECKSUMS:
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNScreens: 03ba504f8c98607ad1f07808e71040e0afa335ec
-  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
+  RNSVG: 4ecc2e8f38b6ebe7889909570c26f3abe8059767
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
