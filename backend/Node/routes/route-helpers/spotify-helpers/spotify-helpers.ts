@@ -121,7 +121,6 @@ export async function getRecommendations(req: any, res: any) {
 	const audio_features = res.locals.audio_features_w_popularity;
 	const trackIds = res.locals.trackIds;
 
-	console.log(location, pop, clouds, temp, mood, activity, audio_features);
 	try {
 		// TODO: move these endpoints somewhere nice, ML server port num should be set and loaded
 		const MLServerRes = await axios.post(
@@ -204,12 +203,10 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 				);
 
 				if (addTracks) {
-					return res
-						.status(200)
-						.send({
-							body: 'playlist created successfully. Enjoy!',
-							access_token: auth.access_token,
-						});
+					return res.status(200).send({
+						body: 'playlist created successfully. Enjoy!',
+						access_token: auth.access_token,
+					});
 				} else {
 					return res.status(204).send('No tracks were added to the playlist');
 				}

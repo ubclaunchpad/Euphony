@@ -6,7 +6,7 @@ paths:
       summary: Oauth 2.0 for Spotify
       description: Actually go to the following link http://localhost:4000/spotify/login on a new tab and save the access_token somewhere, you'll need it for other endpoints
 
-  /spotify/getMe/{access_token}:
+  /spotify/getMe:
     get:
       tags:
         - Spotify
@@ -14,9 +14,15 @@ paths:
       description: Nothing much here, probably your Spotify display name, your image url if you have profile pic, etc.
       parameters:
         - name: access_token
-          in: path
-          required: true
-          description: access_token for spotify, get it from the spotify/login endpoint
+          in: header
+          required: false
+          description: access_token for spotify, get it from the spotify/login endpoint (PART OF HEADERS)
+          schema:
+            type: string
+        - name: refresh_token
+          in: header
+          required: false
+          description: refresh_token for spotify, get it from the spotify/login endpoint (PART OF HEADERS)
           schema:
             type: string
       responses:
@@ -29,7 +35,7 @@ paths:
         '200':
           description: successful! Return user json
 
-  /spotify/getMyTopTracks/{access_token}:
+  /spotify/getMyTopTracks:
     get:
       tags:
         - Spotify
@@ -39,9 +45,15 @@ paths:
         This will likely be the form of the tracks returned from the ML server.
       parameters:
         - name: access_token
-          in: path
-          required: true
-          description: access_token for spotify, get it from the spotify/login endpoint
+          in: header
+          required: false
+          description: access_token for spotify, get it from the spotify/login endpoint (PART OF HEADERS)
+          schema:
+            type: string
+        - name: refresh_token
+          in: header
+          required: false
+          description: refresh_token for spotify, get it from the spotify/login endpoint (PART OF HEADERS)
           schema:
             type: string
       responses:
@@ -54,7 +66,7 @@ paths:
         '200':
           description: successful! Return list of tracks
 
-  /spotify/createSpotifyPlaylist/{access_token}:
+  /spotify/createSpotifyPlaylist:
     post:
       tags:
         - Spotify
@@ -63,9 +75,15 @@ paths:
 
       parameters:
         - name: access_token
-          in: path
-          required: true
-          description: access_token for spotify, get it from the spotify/login endpoint
+          in: header
+          required: false
+          description: access_token for spotify, get it from the spotify/login endpoint (PART OF HEADERS)
+          schema:
+            type: string
+        - name: refresh_token
+          in: header
+          required: false
+          description: refresh_token for spotify, get it from the spotify/login endpoint (PART OF HEADERS)
           schema:
             type: string
 
