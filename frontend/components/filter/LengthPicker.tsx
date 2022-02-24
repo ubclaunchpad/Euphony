@@ -26,7 +26,7 @@ const LengthPicker = (props: Props) => {
             minimumValue={1}
             maximumValue={50}
             minimumTrackTintColor="#7432FF"
-            maximumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="grey"
             step={1}
             onValueChange={(value) => {
               props.onChange(value);

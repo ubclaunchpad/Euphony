@@ -52,15 +52,16 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         lineHeight: 25,
         textAlign: 'left',
+        color: "black"
     },
     headerText: {
-        fontFamily: "Raleway",
+        fontFamily: "Raleway-Bold",
         fontSize: 30,
-        fontWeight: "bold",
         lineHeight: 40,
         textAlign: 'left',
         marginTop: 10,
         marginBottom: 25,
+        color: "black"
     },
     textStack: {
         flexDirection: 'column',
@@ -72,9 +73,8 @@ const styles = StyleSheet.create({
         color: "#7432FF",
     },
     skipText: {
-        fontFamily: "Raleway",
+        fontFamily: "Raleway-Bold",
         fontSize: 20,
-        fontWeight: 'bold',
         color: '#5200FF',
         backgroundColor: 'transparent'
     },

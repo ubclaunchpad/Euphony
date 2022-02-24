@@ -37,7 +37,22 @@ const Carousel: FunctionComponent<Props> = (props) => {
             <FlatList
                 style={styles.list}
                 data={props.choices}
-                renderItem={({ item, index }) => <ChoiceComponent choice={item} onPress={(event) => index === props.selectedChoice ? props.onChange(-1) : props.onChange(index)} selected={props.selectedChoice === index} />}
+                renderItem={({ item, index }) => <ChoiceComponent 
+                                                    choice={item} 
+                                                    onPress={
+                                                        (event) => { 
+                                                            if (item.isGenre && ((props.selectedChoice & (1 << index)) !== 0)) {
+                                                                props.onChange(-index);
+                                                            } else if (!item.isGenre && props.selectedChoice === index) {
+                                                                props.onChange(-1);
+                                                            } else { 
+                                                                props.onChange(index); 
+                                                            }   
+
+                                                        }
+                                                    } 
+                                                    selected={ item.isGenre ? (props.selectedChoice & (1 << index)) !== 0 : props.selectedChoice === index } 
+                                                />}  
                 keyExtractor={(item) => item.id}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.containerContent}

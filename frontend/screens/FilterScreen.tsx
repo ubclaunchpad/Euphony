@@ -16,8 +16,8 @@ function FilterScreen({ navigation }) {
 
   const [text, onChangeText] = React.useState("");
   const [textLength, setTextLength] = React.useState(MAX_LENGTH);
-
-  const [genre, setGenre] = React.useState(-1);
+  
+  const [genres, setGenres] = React.useState(0); 
   const [mood, setMood] = React.useState(-1);
   const [activity, setActivity] = React.useState(-1);
 
@@ -35,6 +35,7 @@ function FilterScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
+      <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
 
       <Modal
         animationType="slide"
@@ -82,10 +83,10 @@ function FilterScreen({ navigation }) {
         </View>
         <Carousel
           title={"Genre"}
-          description={"Choose a mood from the ones below"}
+          description={"Choose a genre from the ones below"}
           choices={genreChoices}
-          selectedChoice={genre}
-          onChange={(choice) => { setGenre(choice) }}
+          selectedChoice={genres}
+          onChange={(choice) => { (choice < 0 || Object.is(choice, -0)) ? setGenres(genres & ~(1 << -choice)) : setGenres(genres | (1 << choice)) }}
         />
         <Carousel
           title={"Mood"}
@@ -125,9 +126,9 @@ function FilterScreen({ navigation }) {
           <JGButton fillParent={true} title="OKAY, LET'S GO" onClick={
             () => {
               if (authContext.authToken) {
-                console.log(mood, genre, activity, playlistLength, text);
+                console.log(mood, genres, activity, playlistLength, text);
 
-                if (mood !== -1 && genre !== -1 && activity !== -1) {
+                if (mood !== -1 && genres !== 0 && activity !== -1) {
                   navigation.navigate('Playlist', {
                     obj: {
                       "mood": mood,
@@ -155,7 +156,7 @@ function FilterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
+    backgroundColor: 'white'
   },
   connectSpotifyText: {
     color: 'white',
@@ -168,7 +169,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#7432FF',
     overflow: 'hidden',
     fontWeight: "500",
-    marginBottom: 30,
     marginTop: 20,
   },
   scrollView: {
@@ -184,8 +184,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#3700AB',
     fontSize: 20,
-    fontFamily: 'Raleway',
-    fontWeight: 'bold',
+    fontFamily: 'Raleway-Bold',
   },
   textInput: {
     color: '#867CC0',
@@ -209,6 +208,7 @@ const styles = StyleSheet.create({
   },
   playlistNameContainer: {
     marginHorizontal: 25,
+    marginTop: 20,
   }
 });
 
