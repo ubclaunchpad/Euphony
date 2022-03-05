@@ -1,6 +1,7 @@
 import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
+import { createTables } from './db/initDb';
 const theOne = require('../routes/theOne');
 const mapboxRoute = require('../routes/mapboxRoute');
 const openWeatherRoute = require('../routes/openWeatherRoute');
@@ -17,56 +18,61 @@ export const client = new Client({
 	connectionString: process.env.PG_CONNECTION_URL,
 });
 
-client.connect((err: any) => {
-	if (err) {
-		console.error('postgres connection error', err.stack);
-	} else {
-		console.log('connected to postgres server');
-	}
-});
+(async () => {
+	// database setup
+	client.connect((err: any) => {
+		if (err) {
+			console.error('postgres connection error', err.stack);
+		} else {
+			console.log('connected to postgres server');
+		}
+	});
 
-const app = express();
+	await createTables();
 
-app.use(cookieParser());
+	const app = express();
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+	app.use(cookieParser());
 
-// parse application/json
-app.use(bodyParser.json());
+	// parse application/x-www-form-urlencoded
+	app.use(bodyParser.urlencoded({ extended: false }));
 
-// set up swagger UI
-const options = {
-	definition: {
-		openapi: '3.0.0',
-		info: {
-			title: 'Spotify Gen API Documentation',
-			version: '1.0.0',
-			description: 'Spotify Gen Library API',
-		},
-		servers: [
-			{
-				url: 'http://localhost:4000',
+	// parse application/json
+	app.use(bodyParser.json());
+
+	// set up swagger UI
+	const options = {
+		definition: {
+			openapi: '3.0.0',
+			info: {
+				title: 'Spotify Gen API Documentation',
+				version: '1.0.0',
+				description: 'Spotify Gen Library API',
 			},
-		],
-	},
-	apis: ['./routes/docs/*.yaml'],
-};
+			servers: [
+				{
+					url: 'http://localhost:4000',
+				},
+			],
+		},
+		apis: ['./routes/docs/*.yaml'],
+	};
 
-const specs = swaggerJsDoc(options);
+	const specs = swaggerJsDoc(options);
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+	app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
-app.get('/', (_, res) => {
-	res.send("Welcome to Spotify Gen's Node server!");
-});
+	app.get('/', (_, res) => {
+		res.send("Welcome to Spotify Gen's Node server!");
+	});
 
-app.listen(port, () => {
-	console.log(`running on port ${port}`);
-});
+	app.listen(port, () => {
+		console.log(`running on port ${port}`);
+	});
 
-// routes
-app.use('/theOne', theOne);
-app.use('/mapbox', mapboxRoute);
-app.use('/openWeather', openWeatherRoute);
-app.use('/spotify', spotifyRoute);
+	// routes
+	app.use('/theOne', theOne);
+	app.use('/mapbox', mapboxRoute);
+	app.use('/openWeather', openWeatherRoute);
+	app.use('/spotify', spotifyRoute);
+})();
