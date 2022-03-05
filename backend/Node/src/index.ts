@@ -7,10 +7,24 @@ const openWeatherRoute = require('../routes/openWeatherRoute');
 const spotifyRoute = require('../routes/spotifyRoute');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-
+const { Client } = require('pg');
 require('dotenv').config();
 
 const port = process.env.PORTNUM;
+
+// postgres db
+export const client = new Client({
+	connectionString: process.env.PG_CONNECTION_URL,
+});
+
+client.connect((err: any) => {
+	if (err) {
+		console.error('postgres connection error', err.stack);
+	} else {
+		console.log('connected to postgres server');
+	}
+});
+
 const app = express();
 
 app.use(cookieParser());
