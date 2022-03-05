@@ -7,6 +7,7 @@ export function login(_: any, res: any) {
 }
 
 export async function callback(req: any, res: any) {
+
 	let spotifyApi = createSpotifyWebApi();
 	const error = req.query.error;
 	const code = req.query.code;

@@ -31,11 +31,31 @@ export const scopes = [
 	'user-follow-modify',
 ];
 
+const port = process.env.PORT || 4000;
+const mlServerPort = process.env.TZML_SERVER_PORT || 5000;
+// TODO (later): change 'localhost' after : to whatever prod's using
+const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'}:${port}/`;
+const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'}:${mlServerPort}/`;
+const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
+
+const NodeServerAPIs = {
+	spotifyCallback: `${apiPrefix}spotify/callback`
+};
+const MLServerAPIs = {
+	recommendPlaylist: `${apiPrefixML}recommend_playlist`	
+}
+export const SpotifyAPIs = {
+	tracks: `${spotifyAPIPrefix}tracks?ids=%trackIds%`,
+	topTracks: `${spotifyAPIPrefix}me/top/tracks`,
+	recommendations: `${spotifyAPIPrefix}recommendations?seed_artists=%seedArtistIds%&seed_genres=%seedGenreIds%&seed_tracks=%seedTracksIds%&limit=%limit%`,
+}
+
+
 export const createSpotifyWebApi = () => {
 	return new SpotifyWebApi({
 		clientId: process.env.SPOTIFY_CLIENT_ID,
 		clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-		redirectUri: 'http://localhost:4000/spotify/callback',
+		redirectUri: NodeServerAPIs.spotifyCallback
 	});
 };
 
@@ -45,7 +65,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
 
 	try {
-		const url = 'https://api.spotify.com/v1/me/top/tracks';
+		const url = `${spotifyAPIPrefix}${SpotifyAPIs.topTracks}`;
 
 		const topTracks: any = await axios.get(url, {
 			headers: { Authorization: `Bearer ${auth.access_token}` },
@@ -100,7 +120,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 }
 
 export async function getRecommendations(req: any, res: any) {
-	let spotifyApi = createSpotifyWebApi();
+	const spotifyApi = createSpotifyWebApi();
 	const auth = await isAuth(req, spotifyApi);
 	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
 
@@ -121,11 +141,9 @@ export async function getRecommendations(req: any, res: any) {
 	const audio_features = res.locals.audio_features_w_popularity;
 	const trackIds = res.locals.trackIds;
 
-	console.log(location, pop, clouds, temp, mood, activity, audio_features);
 	try {
 		// TODO: move these endpoints somewhere nice, ML server port num should be set and loaded
-		const MLServerRes = await axios.post(
-			`http://localhost:5000/recommend_playlist`,
+		const MLServerRes = await axios.post(MLServerAPIs.recommendPlaylist,
 			{
 				location,
 				pop,
@@ -151,6 +169,7 @@ export async function getRecommendations(req: any, res: any) {
 		 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
 		 **/
 		let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_artists=${seedArtistIds}&seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
+		// let recommendationsUrl = SpotifyAPIs.recommendations.replace('%seedArtistIds%', seedArtistIds);
 		Object.keys(MLServerRes.data).forEach(
 			(property: string) =>
 				(recommendationsUrl += `&${property}=${MLServerRes.data[property]}`)
@@ -181,14 +200,12 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 		if (!req.body.name)
 			return res.status(400).send("playlist's name is missing");
 		if (!req.body.trackIds)
-			return res
-				.status(400)
-				.send('Please specify tracks to add to the playlist');
+			return res.status(400).send('Please specify tracks to add to the playlist');
 
 		// Create a private playlist by default
 		const playlist = await spotifyApi.createPlaylist(req.body.name, {
 			description: 'Playlist generated from super developers ;)',
-			public: req.body.public != undefined ? req.body.public : false,
+			public: req.body.public || false,
 		});
 
 		// Adding tracks to the newly created playlist

@@ -10,9 +10,9 @@ const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
-const port = process.env.PORTNUM;
+const port = process.env.PORT;
 const app = express();
-
+const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'}:${port}/`;
 app.use(cookieParser());
 
 // parse application/x-www-form-urlencoded
@@ -32,7 +32,7 @@ const options = {
 		},
 		servers: [
 			{
-				url: 'http://localhost:4000',
+				url: apiPrefix,
 			},
 		],
 	},
