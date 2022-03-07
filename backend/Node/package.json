@@ -31,6 +31,7 @@
 		"cookie-parser": "^1.4.6",
 		"express": "^4.17.1",
 		"moment": "^2.29.1",
+		"node-cron": "^3.0.0",
 		"node-fetch": "^3.0.0",
 		"pg": "^8.7.3",
 		"spotify-web-api-node": "^5.0.2",

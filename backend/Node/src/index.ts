@@ -2,6 +2,7 @@ import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import { createTables } from './db/initDb';
+import { fetchWeatherData } from './db/cityWeather';
 const theOne = require('../routes/theOne');
 const mapboxRoute = require('../routes/mapboxRoute');
 const openWeatherRoute = require('../routes/openWeatherRoute');
@@ -29,6 +30,10 @@ export const client = new Client({
 	});
 
 	await createTables();
+
+	// cron job to fetch weather for big cities every x hours
+	const hoursBetweenFetch = 2;
+	fetchWeatherData(hoursBetweenFetch);
 
 	const app = express();
 
