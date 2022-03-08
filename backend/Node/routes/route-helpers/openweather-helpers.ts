@@ -31,6 +31,18 @@ export async function reverseWeather(req: any, res: any, next: any) {
 	if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
 		res.status(400).send('Invalid lat/lon value(s)');
 	}
+
+	const relevantData = await reverseWeatherDataUsingLatLon(latLon);
+
+	if (res.locals.theOne) {
+		res.locals.weather = relevantData || {};
+		next();
+	} else {
+		res.send(relevantData || {});
+	}
+}
+
+export async function reverseWeatherDataUsingLatLon(latLon: string[]) {
 	const weatherData = await currentWeatherData(latLon[0], latLon[1]);
 
 	const mainTempC = weatherData.main.temp - 273.15;
@@ -40,7 +52,7 @@ export async function reverseWeather(req: any, res: any, next: any) {
 	const mainHumidity = weatherData.main.humidity / 100;
 	const mainClouds = weatherData.clouds.all / 100;
 
-	const relevantData = {
+	return {
 		temp_c: mainTempC,
 		temp_f: mainTempF,
 		feels_like_c: mainFeelsLikeC,
@@ -48,11 +60,4 @@ export async function reverseWeather(req: any, res: any, next: any) {
 		pop: mainHumidity,
 		clouds: mainClouds,
 	};
-
-	if (res.locals.theOne) {
-		res.locals.weather = relevantData || {};
-		next();
-	} else {
-		res.send(relevantData || {});
-	}
 }

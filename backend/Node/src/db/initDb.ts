@@ -5,7 +5,7 @@ export const createTables = async () => {
 		`
 			CREATE TABLE IF NOT EXISTS "cityWeather" (
 				id SERIAL PRIMARY KEY,
-				"cityName" varchar(255) NOT NULL,
+				"cityName" varchar(255) NOT NULL UNIQUE,
 				"weatherData" jsonb
 			);
 		`
@@ -15,7 +15,7 @@ export const createTables = async () => {
 		`
 			CREATE TABLE IF NOT EXISTS "countries" (
 				id SERIAL PRIMARY KEY,
-				"countryName" varchar(255) NOT NULL,
+				"countryName" varchar(255) NOT NULL UNIQUE,
 				"countryData" jsonb
 			);
 		`
