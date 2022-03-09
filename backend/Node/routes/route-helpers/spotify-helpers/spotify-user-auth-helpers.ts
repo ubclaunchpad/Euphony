@@ -1,3 +1,4 @@
+import { client } from '../../../src';
 import { Auth } from '../../../src/interfaces';
 import { createSpotifyWebApi, scopes } from './spotify-helpers';
 
@@ -20,6 +21,7 @@ export async function callback(req: any, res: any) {
 		const data = await spotifyApi.authorizationCodeGrant(code);
 
 		if (data) {
+			spotifyApi.setAccessToken(data.body['access_token']);
 			const access_token = data.body['access_token'];
 			const refresh_token = data.body['refresh_token'];
 
@@ -28,6 +30,9 @@ export async function callback(req: any, res: any) {
 				access_token: access_token,
 				refresh_token: refresh_token,
 			};
+
+			const me = await spotifyApi.getMe();
+			// upsertUserData(me.body.id, 0, 0, 0, 0)
 
 			res.status(200).send(tokens);
 		} else {
@@ -56,6 +61,39 @@ export async function isAuth(req: any, spotifyApi: any): Promise<Auth> {
 
 	spotifyApi.setAccessToken(refreshToken);
 	return refreshSpotifyAccessToken(refreshToken, spotifyApi);
+}
+
+// TODO: return error message on false
+async function upsertUserData(
+	userId: string,
+	lat: number,
+	lon: number,
+	cityId: number,
+	countryId: number,
+	userSpotifyData: any
+): Promise<boolean> {
+	try {
+		const upsertUserData = await client.query(
+			`
+      INSERT INTO users ("userId", lat, lon, "cityId', "countryId", "userSpotifyData")
+			VALUES ($1, $2, $3, $4, $5, $6)
+      ON CONFLICT ("userId")
+      DO UPDATE SET
+			lat = EXCLUDED.lat,
+			lon = EXCLUDED.lon,
+			"cityId" = EXCLUDED.cityId,
+			countryId = EXCLUDED.countryId,
+			userSpotifyData = EXCLUDED.userSpotifyData;
+    `,
+			[userId, lat, lon, cityId, countryId, userSpotifyData]
+		);
+
+		if (upsertUserData) return true;
+		return false;
+	} catch (err) {
+		console.log('error upsert userData');
+		return false;
+	}
 }
 
 export async function refreshSpotifyAccessToken(
