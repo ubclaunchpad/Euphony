@@ -22,13 +22,16 @@ const AlbumScreen = ({ route, navigation }) => {
   const { obj, coords, initName } = route.params;
 
   const { authToken } = React.useContext(AppContext);
+  const [refreshToken, setRefreshToken] = useState(null);
 
-  const API_ENDPOINT = `http://localhost:4000/theOne/${coords.lat},${coords.long}/${authToken}`;
+  const API_ENDPOINT = `http://localhost:4000/theOne/${coords.lat},${coords.long}/`;
   const REQUEST_OPTIONS = {
     method: 'POST',
     body: JSON.stringify(obj),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'access_token': authToken,
+      // 'refresh_token': refreshToken,
     }
   };
   // dummy API endpoint and request, to be replaced with user-input theOne parameters
@@ -53,7 +56,9 @@ const AlbumScreen = ({ route, navigation }) => {
         "trackIds": data.map(song => { return song.id })
       }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'access_token': authToken,
+        // 'refresh_token': refreshToken,
       }
     }
     fetch(NEW_ENDPOINT, NEW_OPTIONS)
@@ -146,7 +151,7 @@ const AlbumScreen = ({ route, navigation }) => {
       .then(response => response.json())
       .then(results => {
         console.log(results);
-        setData(results);
+        setData(results.body);
         setIsLoading(false);
       })
       .catch(err => {
