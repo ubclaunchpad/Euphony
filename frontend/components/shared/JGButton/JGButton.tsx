@@ -35,8 +35,7 @@ export default function JGButton(props: JGButtonProps) {
 const styles = StyleSheet.create({
     text: {
         fontSize: 16,
-        fontWeight: "bold",
-        fontFamily: "Roboto",
+        fontFamily: "Roboto-Bold",
         color: "#FFFFFF",
         marginVertical: 11,
     },

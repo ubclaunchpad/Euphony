@@ -1,4 +1,4 @@
-package com.frontend;
+package com.jamgang.spotifygen;
 
 import android.app.Application;
 import android.content.Context;

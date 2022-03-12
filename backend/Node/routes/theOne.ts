@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 router.post(
-	'/:latLon/:access_token/',
+	'/:latLon',
 	(_, res: any, next: any) => {
 		res.locals.theOne = true;
 		next();

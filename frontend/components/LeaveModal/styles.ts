@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 20,
-        marginRight: 20,
         flexDirection: "row",
     },
     buttonLeaveText: {
@@ -77,8 +75,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 20,
-        marginRight: 20,
         flexDirection: "row",
     },
     buttonCancelText: {

@@ -25,20 +25,23 @@ function App() {
     <AppContext.Provider value={userSettings}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login" screenOptions={{
-          headerTransparent: true,
           headerLargeTitle: true,
+          headerShadowVisible: true,
+          headerTitleAlign: 'left',
+          animation: 'slide_from_right',
+          headerLargeStyle: {
+            backgroundColor: 'transparent'
+          },
           headerTitleStyle: {
-            fontFamily: 'Raleway',
-            fontWeight: '800',
-            fontSize: 22
+            fontFamily: 'Raleway-ExtraBold',
+            fontSize: 30
           },
           headerLargeTitleStyle: {
-            fontFamily: 'Raleway',
-            fontWeight: '800',
+            fontFamily: 'Raleway-ExtraBold',
           },
 
         }}>
-          <Stack.Screen name="Filter" component={FilterScreen} />
+          <Stack.Screen name="Filters" component={FilterScreen} />
           <Stack.Screen name="Playlist" component={AlbumScreen}
           />
           <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}

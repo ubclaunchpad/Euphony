@@ -221,12 +221,10 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 				);
 
 				if (addTracks) {
-					return res
-						.status(200)
-						.send({
-							body: 'playlist created successfully. Enjoy!',
-							access_token: auth.access_token,
-						});
+					return res.status(200).send({
+						body: 'playlist created successfully. Enjoy!',
+						access_token: auth.access_token,
+					});
 				} else {
 					return res.status(204).send('No tracks were added to the playlist');
 				}

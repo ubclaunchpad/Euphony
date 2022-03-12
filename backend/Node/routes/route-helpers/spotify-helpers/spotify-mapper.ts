@@ -35,11 +35,6 @@ export function parseAlbum(spotifyTrackResp: {[key: string]: any }): Album {
 }
 
 export function parseTrack(spotifyTrackResp: {[key: string]: any }): Track {
-    /**
-     * TODO: it's a bit much to use moment.js just to convert ms to mins and seconds format,
-     *          might wanna consider using a vanilla approach
-     */
-    var duration = moment.duration(spotifyTrackResp.duration_ms);
     return {
         id: spotifyTrackResp.id,
         imageUrl: spotifyTrackResp.album.images.length ? spotifyTrackResp.album.images[0].url : null,
@@ -50,7 +45,7 @@ export function parseTrack(spotifyTrackResp: {[key: string]: any }): Track {
             spotify_url: a.external_urls.spotify
 
         })),
-        duration: `${duration.minutes()}m ${duration.seconds()}s`
+        duration: spotifyTrackResp.duration_ms
     }
 }
 

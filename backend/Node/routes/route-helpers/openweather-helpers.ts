@@ -3,6 +3,7 @@ import { isLatitude, isLongitude } from './mapbox-helpers';
 
 const API_KEY = process.env.OPEN_WEATHER_KEY;
 
+// TODO: replace all the console.log() with logic to handle errors
 export async function currentWeatherData(lat: String, lon: String) {
 	//Need HTTPS prefix in endpoint
 	const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
