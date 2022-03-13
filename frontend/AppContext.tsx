@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export type GlobalContent = {
     authToken?: string;
     setAuthToken: (c?: string) => void

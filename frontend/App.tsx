@@ -10,6 +10,7 @@ import albumDetails from './mockData/albumDetails';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import AppContext from './AppContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,16 @@ function App() {
     authToken: token,
     setAuthToken: setAuthToken,
   };
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('@token').then((value) => {
+      setAuthToken(`${token}`);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    AsyncStorage.setItem('@token', `${token}`)
+  }, [token]);
   return (
     <AppContext.Provider value={userSettings}>
       <NavigationContainer>
