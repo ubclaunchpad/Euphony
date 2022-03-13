@@ -105,7 +105,7 @@ const AlbumScreen = ({ route, navigation }) => {
         fontFamily: 'Raleway-ExtraBold',
       },
       headerLeft: () => (
-        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingRight: 20  }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingRight: 20 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <MaterialIcons
               name="arrow-back-ios"

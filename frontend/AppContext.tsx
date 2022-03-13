@@ -2,14 +2,14 @@ import React from "react";
 
 
 export type GlobalContent = {
-    authToken?: string;
-    setAuthToken: (c?: string) => void
+    authToken?: string | null;
+    setAuthToken: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 const AppContext = React.createContext<GlobalContent>(
     {
         authToken: undefined,
-        setAuthToken: (c?: string) => { },
+        setAuthToken: () => { },
     }
 );
 
