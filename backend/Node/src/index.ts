@@ -12,12 +12,17 @@ const cookieParser = require('cookie-parser');
 const { Client } = require('pg');
 require('dotenv').config();
 
-const port = process.env.PORTNUM;
-
 // postgres db
 export const client = new Client({
 	connectionString: process.env.PG_CONNECTION_URL,
 });
+
+const port = process.env.PORT;
+const app = express();
+const apiPrefix = `http://${
+	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+}:${port}/`;
+app.use(cookieParser());
 
 (async () => {
 	// database setup
@@ -56,7 +61,7 @@ export const client = new Client({
 			},
 			servers: [
 				{
-					url: 'http://localhost:4000',
+					url: apiPrefix,
 				},
 			],
 		},

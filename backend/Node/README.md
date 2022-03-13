@@ -17,7 +17,7 @@
 
 Create a .env file in ./backend/Node folder, ask backend devs for them:
 
-- PORTNUM=4000
+- PORT=4000
 - SPOTIFY_CLIENT_ID=
 - SPOTIFY_CLIENT_SECRET=
 - MAPBOX_TOKEN=
