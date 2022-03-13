@@ -1,6 +1,6 @@
 import * as React from 'react';
 import LoginScreen from './login/LoginScreen';
-import { Modal, TouchableOpacity, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { Modal, TouchableOpacity, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar, View, Image } from 'react-native';
 import LocationPicker from '../components/filter/LocationPicker';
 import Carousel from '../components/filter/Carousel';
 import AppContext from '../AppContext';
@@ -8,6 +8,9 @@ import AppContext from '../AppContext';
 import { genreChoices, moodChoices, activityChoices, weatherChoices } from '../data/filterChoices';
 import LengthPicker from '../components/filter/LengthPicker';
 import JGButton from '../components/shared/JGButton/JGButton';
+
+import { useLayoutEffect } from 'react';
+const profileImage = require('./images/profile.png');
 
 function FilterScreen({ navigation }) {
   const MAX_LENGTH = 100;
@@ -31,8 +34,28 @@ function FilterScreen({ navigation }) {
           <Text style={styles.connectSpotifyText}>Connect your Spotify account for more personalized results.</Text>
         </TouchableOpacity>
       </View>
-
   }
+
+   // set Navigation Screen options leaving
+   useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLargeTitle: false,
+      headerTitleStyle: {
+        fontSize: 30,
+        fontFamily: 'Raleway-ExtraBold',
+      },
+      headerTitleAlign: "left",
+      headerRight: () => (
+        <View style={{  }}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}
+          style={{paddingBottom: 10, paddingRight: 8}}>
+            <Image source={profileImage} style={{width: 40, height: 40}}/>
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
@@ -129,7 +152,6 @@ function FilterScreen({ navigation }) {
                 console.log(mood, genres, activity, playlistLength, text);
 
                 if (mood !== -1 && genres !== 0 && activity !== -1) {
-                  console.log(genres)
                   navigation.navigate('Playlist', {
                     obj: {
                       "genres": genres,

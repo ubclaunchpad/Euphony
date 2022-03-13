@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FilterScreen from './screens/FilterScreen';
 import AlbumScreen from './screens/AlbumScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import PlaylistInfo from './screens/PlaylistInfo';
 import albumDetails from './mockData/albumDetails';
 
@@ -42,6 +43,7 @@ function App() {
 
         }}>
           <Stack.Screen name="Filters" component={FilterScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Playlist" component={AlbumScreen}
           />
           <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}

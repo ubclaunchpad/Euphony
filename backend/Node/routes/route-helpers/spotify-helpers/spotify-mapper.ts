@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import { SpotifyAPIs } from './spotify-helpers';
 
 export interface Album {
     id: string;
@@ -55,7 +56,8 @@ export async function getSeedArtistIdsFromTopTracks(trackIds: string[], access_t
      *  - create a function to encapsulate these requests to spotify (removes the axios.gets in every function)
      *      (something like callSpotifyAPI(endpoint: SpotifyEndpoint.tracks, accessToken: string))
      * */ 
-	const tracksUrl = `https://api.spotify.com/v1/tracks?ids=${trackIds.join(',')}`;
+    const tracksUrl = SpotifyAPIs.tracks.replace('%trackIds%', trackIds.join(''));
+	// const tracksUrl = `https://api.spotify.com/v1/tracks?ids=${trackIds.join(',')}`;
 	const spotifyTracksRes: any = await axios.get(tracksUrl, {
 		headers: { Authorization: `Bearer ${access_token}` },
 	});
