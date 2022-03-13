@@ -154,6 +154,7 @@ function FilterScreen({ navigation }) {
                 if (mood !== -1 && genres !== 0 && activity !== -1) {
                   navigation.navigate('Playlist', {
                     obj: {
+                      "genres": genres,
                       "mood": mood,
                       "activity": activity,
                       "limit": playlistLength,
