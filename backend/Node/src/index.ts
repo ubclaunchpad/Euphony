@@ -3,6 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import { createTables } from './db/initDb';
 import { fetchWeatherData } from './db/cityWeather';
+import { initCountries } from './db/countries/countries';
 const theOne = require('../routes/theOne');
 const mapboxRoute = require('../routes/mapboxRoute');
 const openWeatherRoute = require('../routes/openWeatherRoute');
@@ -35,6 +36,7 @@ app.use(cookieParser());
 	});
 
 	await createTables();
+	await initCountries();
 
 	// cron job to fetch weather for big cities every x hours
 	const hoursBetweenFetch = 2;

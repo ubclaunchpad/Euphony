@@ -8,7 +8,6 @@ export function login(_: any, res: any) {
 }
 
 export async function callback(req: any, res: any) {
-
 	let spotifyApi = createSpotifyWebApi();
 	const error = req.query.error;
 	const code = req.query.code;
@@ -33,7 +32,7 @@ export async function callback(req: any, res: any) {
 			};
 
 			const me = await spotifyApi.getMe();
-			// upsertUserData(me.body.id, 0, 0, 0, 0)
+			upsertUserDataUponLogin(me.body.id, me);
 
 			res.status(200).send(tokens);
 		} else {
@@ -65,34 +64,44 @@ export async function isAuth(req: any, spotifyApi: any): Promise<Auth> {
 }
 
 // TODO: return error message on false
-async function upsertUserData(
+async function upsertUserDataUponLogin(
 	userId: string,
-	lat: number,
-	lon: number,
-	cityId: number,
-	countryId: number,
 	userSpotifyData: any
 ): Promise<boolean> {
 	try {
+		const defaultCountryData = await client.query(
+			`
+					SELECT * FROM countries WHERE countries."countryName" = 'Canada';
+				`
+		);
+		const defaultCityData = await client.query(
+			`
+					SELECT * FROM "cityWeather" WHERE "cityWeather"."cityName" = 'Vancouver';
+				`
+		);
+
 		const upsertUserData = await client.query(
 			`
-      INSERT INTO users ("userId", lat, lon, "cityId', "countryId", "userSpotifyData")
+      INSERT INTO users ("userId", lat, lon, "cityId", "countryId", "userSpotifyData")
 			VALUES ($1, $2, $3, $4, $5, $6)
       ON CONFLICT ("userId")
       DO UPDATE SET
-			lat = EXCLUDED.lat,
-			lon = EXCLUDED.lon,
-			"cityId" = EXCLUDED.cityId,
-			countryId = EXCLUDED.countryId,
-			userSpotifyData = EXCLUDED.userSpotifyData;
+			"userSpotifyData" = EXCLUDED."userSpotifyData";
     `,
-			[userId, lat, lon, cityId, countryId, userSpotifyData]
+			[
+				userId,
+				defaultCountryData.rows[0].countryData.lat,
+				defaultCountryData.rows[0].countryData.lon,
+				defaultCityData.rows[0].id,
+				defaultCountryData.rows[0].id,
+				userSpotifyData,
+			]
 		);
 
 		if (upsertUserData) return true;
 		return false;
 	} catch (err) {
-		console.log('error upsert userData');
+		console.log('error upsert userData', err);
 		return false;
 	}
 }
