@@ -45,9 +45,9 @@ const MLServerAPIs = {
 	recommendPlaylist: `${apiPrefixML}recommend_playlist`	
 }
 export const SpotifyAPIs = {
-	tracks: `tracks?ids=%trackIds%`,
-	topTracks: `me/top/tracks`,
-	recommendations: `recommendations?seed_artists=%seedArtistIds%&seed_genres=%seedGenreIds%&seed_tracks=%seedTracksIds%&limit=%limit%`,
+	tracks: `${spotifyAPIPrefix}tracks?ids=%trackIds%`,
+	topTracks: `${spotifyAPIPrefix}me/top/tracks`,
+	recommendations: `${spotifyAPIPrefix}recommendations?seed_artists=%seedArtistIds%&seed_genres=%seedGenreIds%&seed_tracks=%seedTracksIds%&limit=%limit%`,
 }
 
 
@@ -65,7 +65,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
 
 	try {
-		const url = `${spotifyAPIPrefix}${SpotifyAPIs.topTracks}`;
+		const url = SpotifyAPIs.topTracks;
 
 		const topTracks: any = await axios.get(url, {
 			headers: { Authorization: `Bearer ${auth.access_token}` },
