@@ -19,8 +19,8 @@ function FilterScreen({ navigation }) {
 
   const [text, onChangeText] = React.useState("");
   const [textLength, setTextLength] = React.useState(MAX_LENGTH);
-  
-  const [genres, setGenres] = React.useState(0); 
+
+  const [genres, setGenres] = React.useState(0);
   const [mood, setMood] = React.useState(-1);
   const [activity, setActivity] = React.useState(-1);
 
@@ -30,7 +30,7 @@ function FilterScreen({ navigation }) {
   if (authContext.authToken === "") {
     messageText =
       <View>
-        <TouchableOpacity onPress={() => { authContext.setAuthToken(undefined) }}>
+        <TouchableOpacity onPress={() => { authContext.setAuthToken(null) }}>
           <Text style={styles.connectSpotifyText}>Connect your Spotify account for more personalized results.</Text>
         </TouchableOpacity>
       </View>
@@ -62,7 +62,7 @@ function FilterScreen({ navigation }) {
 
       <Modal
         animationType="slide"
-        visible={authContext.authToken === undefined}
+        visible={authContext.authToken === null}
         onRequestClose={() => {
           authContext.setAuthToken("");
         }}
@@ -167,7 +167,7 @@ function FilterScreen({ navigation }) {
                   })
                 }
               }
-              else { authContext.setAuthToken(undefined); }
+              else { authContext.setAuthToken(null); }
             }
           } />
         </View>
