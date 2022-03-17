@@ -2,11 +2,7 @@ from pandas.core.arrays.sparse import dtype
 import numpy as np
 import pandas as pd
 
-data_path = "data/rainy_workout.csv"
-train_save_path = "processed_data/feature_rainy_workout.csv"
-test_save_path = "processed_data/target_rainy_workout.csv"
-
-ACTIVITY_ENUM = ["CHILL", "STUDY", "PARTY", "WORK_OUT", "BED"]
+ACTIVITY_ENUM = ["CHILL", "STUDY", "PARTY", "GYM", "BED"]
 
 TRAIN_MEANS_NAMES = ['mean_acousticness', 'mean_danceability', 'mean_energy', 'mean_instrumentalness',
     'mean_liveness', 'mean_loudness', 'mean_speechiness', 'mean_tempo', 'mean_valence', 'mean_key',
@@ -71,9 +67,10 @@ def generate_weather_df(num_samples):
     # pop = 0 : 1
     # temp: in celcius
     rng = np.random.default_rng(seed = 42)
-    clouds_and_pop = rng.random((num_samples, 2)) / 2 + 0.45
+    clouds = rng.random((num_samples, 1)) / 2 + 0.45
+    pop = rng.random((num_samples, 1)) / 2 + 0.45
     temp = rng.random((num_samples,1)) * 45 - 15
-    weather_data = np.concatenate((clouds_and_pop, temp), axis = 1)
+    weather_data = np.concatenate((clouds, pop, temp), axis = 1)
     weather_df = pd.DataFrame(weather_data, columns=["clouds", "pop", "temp"])
     return weather_df
 
@@ -92,22 +89,31 @@ def main():
 
     # TODO: Make a separate script for merging all the dfs generated from this script
 
-    df = pd.read_csv(data_path)
+    weather = "rainy"
 
-    NUM_SAMPLES, num_features = df.shape
+    for activity in ACTIVITY_ENUM:
+        activity = activity.lower()
 
-    train_df, test_df = generate_train_test_df(df, NUM_SAMPLES)
+        data_path = f"data/{weather}_{activity}.csv"
+        train_save_path = f"processed_data/feature_{weather}_{activity}.csv"
+        test_save_path = f"processed_data/target_{weather}_{activity}.csv"
 
-    weather_df = generate_weather_df(NUM_SAMPLES)
+        df = pd.read_csv(data_path)
 
-    activity_df = generate_actifity_df("WORK_OUT", NUM_SAMPLES)
+        NUM_SAMPLES, num_features = df.shape
 
-    train_df = pd.concat([weather_df, activity_df, train_df], axis = 1)
+        train_df, test_df = generate_train_test_df(df, NUM_SAMPLES)
 
-    train_df.to_csv(path_or_buf = train_save_path, index=False)
-    test_df.to_csv(path_or_buf = test_save_path, index=False)
+        weather_df = generate_weather_df(NUM_SAMPLES)
 
-    print(train_df.shape)
+        activity_df = generate_actifity_df(activity.upper(), NUM_SAMPLES)
+
+        train_df = pd.concat([weather_df, activity_df, train_df], axis = 1)
+
+        train_df.to_csv(path_or_buf = train_save_path, index=False)
+        test_df.to_csv(path_or_buf = test_save_path, index=False)
+
+        print(f"activity {activity.upper()}: {train_df.shape}")
 
 if __name__ == '__main__':
     main()

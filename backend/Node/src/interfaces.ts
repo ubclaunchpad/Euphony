@@ -34,3 +34,9 @@ export interface LatLon {
 	lat: Number;
 	lon: Number;
 }
+
+export interface Auth {
+	success: boolean;
+	statusMessage?: string;
+	access_token?: string;
+}

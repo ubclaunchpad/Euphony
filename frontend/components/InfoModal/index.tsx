@@ -14,11 +14,20 @@ export type AlbumHeaderProps = {
   album: Album;
 };
 
-const mood = ['Happy', 'Melancholic', 'Compassion', 'Loneliness', 'Anger'];
-const activity = ['Workout', 'Study', 'Relax', 'Party', 'Chill', 'Bedtime'];
+const mood = ['Happy', 'Melancholic', 'Lonely', 'Angry', 'Compassionate'];
+const activity = ['Shower', 'Gym', 'Study', 'Party', 'Bed'];
+const genres = ['Pop', 'R&B', 'Indie', 'Hip-Hop'];
 
 const PlaylistSettings = (props) => {
   const {info, toggle, handleClose, title} = props;
+
+  let addedGenres: String[] = [];
+  for (let i = 0; i < genres.length; i++) {
+    if ((info['genres'] & (1 << i)) != 0) {
+      addedGenres.push(genres[i]);
+    }
+  }
+  let genresString = addedGenres.join(', ').replace(/, ([^,]*)$/, ' and $1')
 
   // THIS IS A VERY POOR IMPLEMENTATION OF THE FILTER OPTIONS SCREEN
   // but it will be refactored after finals :)
@@ -53,21 +62,21 @@ const PlaylistSettings = (props) => {
       </View>
       <View style={styles.row}>
         <Text style={styles.leftText}>🎵  Genre</Text>
-        <Text style={styles.rightText}>Pop</Text>
+        <Text style={styles.rightText}>{genresString}</Text>
       </View>
       <View style={styles.divider}>
           <View style={styles.line} />
       </View>
       <View style={styles.row}>
         <Text style={styles.leftText}>😌  Mood</Text>
-        <Text style={styles.rightText}>{info.mood? mood[info.mood]:"N/A" }</Text>
+        <Text style={styles.rightText}>{info['mood'] >= 0 ? mood[info['mood']]:"N/A" }</Text>
       </View>
       <View style={styles.divider}>
           <View style={styles.line} />
       </View>
       <View style={styles.row}>
         <Text style={styles.leftText}>🎧  Activity</Text>
-        <Text style={styles.rightText}>{info.activity? mood[info.activity]:"N/A" }</Text>
+        <Text style={styles.rightText}>{info['activity'] >= 0 ? activity[info['activity']]:"N/A" }</Text>
       </View>
       <View style={styles.divider}>
           <View style={styles.line} />
