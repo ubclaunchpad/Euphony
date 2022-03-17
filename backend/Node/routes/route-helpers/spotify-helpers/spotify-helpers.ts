@@ -45,9 +45,9 @@ const MLServerAPIs = {
 	recommendPlaylist: `${apiPrefixML}recommend_playlist`	
 }
 export const SpotifyAPIs = {
-	tracks: `${spotifyAPIPrefix}tracks?ids=%trackIds%`,
-	topTracks: `${spotifyAPIPrefix}me/top/tracks`,
-	recommendations: `${spotifyAPIPrefix}recommendations?seed_artists=%seedArtistIds%&seed_genres=%seedGenreIds%&seed_tracks=%seedTracksIds%&limit=%limit%`,
+	tracks: `tracks?ids=%trackIds%`,
+	topTracks: `me/top/tracks`,
+	recommendations: `recommendations?seed_artists=%seedArtistIds%&seed_genres=%seedGenreIds%&seed_tracks=%seedTracksIds%&limit=%limit%`,
 }
 
 
