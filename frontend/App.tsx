@@ -60,7 +60,7 @@ function App() {
         }}>
           <Stack.Screen name="Filters" component={FilterScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="Playlist" component={AlbumScreen}
+          <Stack.Screen name="Playlist" component={AlbumScreen} />
           <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}
             options={() => ({
               title: "Results Info"
