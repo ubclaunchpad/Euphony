@@ -1,51 +1,55 @@
 import React, { useLayoutEffect } from 'react';
-import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image  } from 'react-native';
+import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/elements';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AppContext from '../AppContext';
 const profileImage = require('./images/profile.png');
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({ navigation }) => {
     const headerHeight = useHeaderHeight();
+
+    const globalContext = React.useContext(AppContext);
+
     // set Navigation Screen options leaving
-   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLargeTitle: true,
-      headerTitleStyle: {
-        fontSize: 30,
-        fontFamily: 'Raleway-Bold',
-        color:'white',
-      },
-      headerTitleAlign: "left",
-      headerTransparent: true,
-      headerShadowVisible: false,
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}
-          style={{paddingRight: 8}}>
-            <MaterialIcons
-              name="arrow-back-ios"
-              size={24}
-              color={'hsl(0, 0%, 100%)'}
-              style={{ paddingLeft: 10 }}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLargeTitle: true,
+            headerTitleStyle: {
+                fontSize: 30,
+                fontFamily: 'Raleway-Bold',
+                color: 'white',
+            },
+            headerTitleAlign: "left",
+            headerTransparent: true,
+            headerShadowVisible: false,
+            headerLeft: () => (
+                <View>
+                    <TouchableOpacity onPress={() => navigation.goBack()}
+                        style={{ paddingRight: 8 }}>
+                        <MaterialIcons
+                            name="arrow-back-ios"
+                            size={24}
+                            color={'hsl(0, 0%, 100%)'}
+                            style={{ paddingLeft: 10 }}
+                        />
+                    </TouchableOpacity>
+                </View>
+            ),
+        });
+    }, [navigation]);
 
     return (
         <View style={{ backgroundColor: 'white', flex: 1, }}>
-            <StatusBar translucent barStyle="light-content" backgroundColor="transparent"/>
+            <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
 
-            <LinearGradient colors={['#843CDE', '#4A18DD', '#2E1181']} style={{flex: 1}}>
-                <SafeAreaView style={{alignItems: 'center', marginTop: headerHeight}}>
-                    <View style={{backgroundColor: 'white', marginTop: 20, width: 340, borderRadius: 15, padding: 25}}>
+            <LinearGradient colors={['#843CDE', '#4A18DD', '#2E1181']} style={{ flex: 1 }}>
+                <SafeAreaView style={{ alignItems: 'center', marginTop: headerHeight }}>
+                    <View style={{ backgroundColor: 'white', marginTop: 20, width: 340, borderRadius: 15, padding: 25 }}>
                         <View style={styles.playlistInformation}>
-                            <Image source={profileImage} style={styles.image}/>
+                            <Image source={profileImage} style={styles.image} />
                             <View style={styles.info}>
                                 <Text style={styles.spotifyName}>John Doe</Text>
                                 <TouchableOpacity>
@@ -73,11 +77,15 @@ const ProfileScreen = ({navigation}) => {
                         <View style={styles.divider}>
                             <View style={styles.line} />
                         </View>
-                        <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}>
-                                <View style={styles.button}>
-                                    <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
-                                    <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
-                                </View>
+                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
+                            navigation.goBack();
+                            globalContext.setAuthToken(null);
+                            globalContext.setRefreshToken(null);
+                        }}>
+                            <View style={styles.button}>
+                                <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
+                                <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
+                            </View>
                         </TouchableOpacity>
                     </View>
 
@@ -158,8 +166,8 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     line: {
-        flex: 1, 
-        height: 0.5, 
+        flex: 1,
+        height: 0.5,
         backgroundColor: '#CDC4F2'
     },
     playlistInformation: {
@@ -183,13 +191,13 @@ const styles = StyleSheet.create({
         margin: 10
     },
     informationButton: {
-        backgroundColor: 'white', 
-        marginTop: 20, 
-        width: 340, 
-        borderRadius: 15, 
-        padding: 25, 
-        flexDirection: 'row', 
-        alignItems: 'center', 
+        backgroundColor: 'white',
+        marginTop: 20,
+        width: 340,
+        borderRadius: 15,
+        padding: 25,
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
     },
 })

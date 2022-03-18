@@ -36,8 +36,8 @@ function FilterScreen({ navigation }) {
       </View>
   }
 
-   // set Navigation Screen options leaving
-   useLayoutEffect(() => {
+  // set Navigation Screen options leaving
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLargeTitle: false,
       headerTitleStyle: {
@@ -46,10 +46,10 @@ function FilterScreen({ navigation }) {
       },
       headerTitleAlign: "left",
       headerRight: () => (
-        <View style={{  }}>
+        <View style={{}}>
           <TouchableOpacity onPress={() => navigation.navigate('Profile')}
-          style={{paddingBottom: 10, paddingRight: 8}}>
-            <Image source={profileImage} style={{width: 40, height: 40}}/>
+            style={{ paddingBottom: 10, paddingRight: 8 }}>
+            <Image source={profileImage} style={{ width: 40, height: 40 }} />
           </TouchableOpacity>
         </View>
       ),
@@ -62,7 +62,7 @@ function FilterScreen({ navigation }) {
 
       <Modal
         animationType="slide"
-        visible={authContext.authToken === null}
+        visible={authContext.authToken == null}
         onRequestClose={() => {
           authContext.setAuthToken("");
         }}
