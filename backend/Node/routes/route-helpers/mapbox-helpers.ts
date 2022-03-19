@@ -63,7 +63,6 @@ export async function reverseCountry(req: any, res: any, next: any) {
 
 		if (res.locals.theOne) {
 			res.locals.location = country;
-			console.log('LOCATION MAPBOX', country)
 			next();
 		} else {
 			res.send(country);
@@ -73,27 +72,33 @@ export async function reverseCountry(req: any, res: any, next: any) {
 	}
 }
 
-export async function updateLatLon(req: any, res: any, next: any) {
+export async function updateLatLon(req: any, res: any) {
 	try {
 		const latLon = req.params.latLon.split(',');
+		const userId = req.headers['userId'];
 		if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
 			res.status(400).send('Invalid lat/lon value(s)');
 		}
+		if (!userId) {
+			res.status(400).send('invalid user');
+		}
 
 		// determine if the new lat lon is different from the one in the db
-		const updateLatLon = await shouldUpdateLatLon(undefined, latLon[0], latLon[1]);
+		const updateLatLon = await shouldUpdateLatLon(userId, latLon[0], latLon[1]);
 		// if lat, lon should be updated, then call the reverseGeocoding API, then
 		// save the results (lat, lon, country) in the database
 		if (updateLatLon) {
 			const result: any = await reverseGeocoding(latLon[0], latLon[1]);
 			const features = result.features;
-			const countryObj = features.length && features[0].context.length
-				? features[0].context[features[0].context.length - 1]
-				: {};
+			const countryObj =
+				features.length && features[0].context.length
+					? features[0].context[features[0].context.length - 1]
+					: {};
 
-			const cityObj = features.length && features[0].context.length
-			? features[0].context[features[0].context.length - 3]
-			: {};
+			const cityObj =
+				features.length && features[0].context.length
+					? features[0].context[features[0].context.length - 3]
+					: {};
 
 			const country = countryObj.text || 'Canada';
 			let city = cityObj.text || 'Vancouver';
@@ -102,24 +107,22 @@ export async function updateLatLon(req: any, res: any, next: any) {
 			if (city === 'Metro Vancouver') city = 'Vancouver';
 
 			// update lat lon and country in the db
-			await updateUserLocation(undefined, country, city, latLon[0], latLon[1]);		
-
-			// TODO: send country text (United States) or code (id in our db)?
-			if (res.locals.theOne) {
-				res.locals.location = country;
-				next();
-			} else {
-				res.send(country);
-			}
-		} else { // if location doesn't need to be updated, just return stored location
-			if (res.locals.theOne) {
-				res.locals.location = getUserCountryName();
-				next();
-			} else {
-				res.send(getUserCountryName());
-			}
+			await updateUserLocation(userId, country, city, latLon[0], latLon[1]);
 		}
-		
+	} catch (err) {
+		return res.status(404).send(err);
+	}
+}
+
+export async function getLocation(req: any, res: any, next: any) {
+	// TODO: send country text (United States) or code (id in our db)?
+	try {
+		if (res.locals.theOne) {
+			res.locals.location = getUserCountryName(req.headers['userId']);
+			next();
+		} else {
+			res.send(getUserCountryName(req.headers['userId']));
+		}
 	} catch (err) {
 		return res.status(404).send(err);
 	}
