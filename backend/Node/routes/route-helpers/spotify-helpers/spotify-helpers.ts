@@ -127,7 +127,7 @@ export async function getRecommendations(req: any, res: any) {
 	// default value location = CA, pop = 0.5, clouds = 0.5, temp = 10, mood = HAPPY, activity = CHILL, limit = 10
 	// data from location and weather
 	const location =
-		res.locals.location.short_code == 'us' ? Location.USA : Location.CA;
+		res.locals.location == 'United States' ? Location.USA : Location.CA;
 	const pop = res.locals.weather?.pop ? res.locals.weather?.pop : 0.5;
 	const clouds = res.locals.weather?.clouds ? res.locals.weather?.clouds : 0.4;
 	const temp = res.locals.weather?.temp_c ? res.locals.weather?.temp_c : 10;
