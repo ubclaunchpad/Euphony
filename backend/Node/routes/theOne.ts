@@ -1,10 +1,7 @@
 import express from 'express';
-import { updateLatLon } from './route-helpers/mapbox-helpers';
-import { reverseWeather } from './route-helpers/openweather-helpers';
-import {
-	getInputForML,
-	getRecommendations,
-} from './route-helpers/spotify-helpers/spotify-helpers';
+import { getLocation, updateLatLon } from './route-helpers/mapbox-helpers';
+import { getWeather } from './route-helpers/openweather-helpers';
+import { getInputForML, getRecommendations } from './route-helpers/spotify-helpers/spotify-helpers';
 const router = express.Router();
 
 router.post(
@@ -14,7 +11,8 @@ router.post(
 		next();
 	},
 	updateLatLon,
-	reverseWeather,
+	getLocation,
+	getWeather,
 	getInputForML,
 	getRecommendations
 );

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getUserWeather } from '../../src/db/users';
 import { isLatitude, isLongitude } from './mapbox-helpers';
 
 const API_KEY = process.env.OPEN_WEATHER_KEY;
@@ -60,4 +61,19 @@ export async function reverseWeatherDataUsingLatLon(latLon: string[]) {
 		pop: mainHumidity,
 		clouds: mainClouds,
 	};
+}
+
+export async function getWeather(req: any, res: any, next: any) {
+	try {
+		const userWeatherData = await getUserWeather(req.headers['userId']);
+
+		if (res.locals.theOne) {
+			res.locals.weather = userWeatherData || {};
+			next();
+		} else {
+			res.send(userWeatherData || {});
+		}
+	} catch (err) {
+		return res.status(404).send(err);
+	}
 }
