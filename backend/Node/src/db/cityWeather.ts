@@ -38,3 +38,17 @@ const fetchWeatherDataForCities = async (latlonOfBigCities: CityWeather[]) => {
 		);
 	});
 };
+
+export const getCityIdFromName = async (cityName: string): Promise<number> => {
+	try {
+		const matchingUserData = await client.query(
+			`
+				SELECT "id" FROM "cityWeather" WHERE "cityName" = '${cityName}' LIMIT 1;
+			`
+		);
+		return !matchingUserData.rows[0] ? 0 : matchingUserData.rows[0].id;
+	} catch (err) {
+		console.log('error getting city id from city name', err);
+		return 0;
+	}
+};

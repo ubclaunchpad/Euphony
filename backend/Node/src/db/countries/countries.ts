@@ -35,3 +35,27 @@ export const initCountries = async () => {
 			console.log('done initializing countries table');
 		});
 };
+
+export const getCountryCodeFromName = async (countryName: string): Promise<Number> => {
+	const matchingUserData = await client.query(
+		`
+			SELECT "id" FROM countries WHERE "countryName" = '${countryName}' LIMIT 1;
+		`
+	);
+	return matchingUserData.rows[0].id;
+};
+
+export const getCountryNameFromId = async (countryId: string): Promise<string> => {
+	try {
+		const matchingUserData = await client.query(
+			`
+				SELECT "countryName" FROM countries WHERE "id" = '${countryId}' LIMIT 1;
+			`
+		);
+	
+		return matchingUserData.rows[0].countryName;
+	} catch (err) {
+		console.log('error getting country name from id', err);
+		return '';
+	}
+};
