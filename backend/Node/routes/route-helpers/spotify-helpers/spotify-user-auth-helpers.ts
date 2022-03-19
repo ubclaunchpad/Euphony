@@ -25,14 +25,15 @@ export async function callback(req: any, res: any) {
 			const access_token = data.body['access_token'];
 			const refresh_token = data.body['refresh_token'];
 
+			const me = await spotifyApi.getMe();
+			upsertUserDataUponLogin(me.body.id, me);
+
 			const tokens = {
 				field: 'successfully login',
 				access_token: access_token,
 				refresh_token: refresh_token,
+				userId: me.body.id,
 			};
-
-			const me = await spotifyApi.getMe();
-			upsertUserDataUponLogin(me.body.id, me);
 
 			res.status(200).send(tokens);
 		} else {
@@ -64,10 +65,7 @@ export async function isAuth(req: any, spotifyApi: any): Promise<Auth> {
 }
 
 // TODO: return error message on false
-async function upsertUserDataUponLogin(
-	userId: string,
-	userSpotifyData: any
-): Promise<boolean> {
+async function upsertUserDataUponLogin(userId: string, userSpotifyData: any): Promise<boolean> {
 	try {
 		const defaultCountryData = await client.query(
 			`
