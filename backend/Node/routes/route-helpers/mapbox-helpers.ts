@@ -1,5 +1,6 @@
 import axios from 'axios';
 require('dotenv').config();
+import { shouldUpdateLatLon, updateUserLocation, getUserCountryName } from '../../src/db/users';
 
 const token = process.env.MAPBOX_TOKEN;
 
@@ -62,10 +63,63 @@ export async function reverseCountry(req: any, res: any, next: any) {
 
 		if (res.locals.theOne) {
 			res.locals.location = country;
+			console.log('LOCATION MAPBOX', country)
 			next();
 		} else {
 			res.send(country);
 		}
+	} catch (err) {
+		return res.status(404).send(err);
+	}
+}
+
+export async function updateLatLon(req: any, res: any, next: any) {
+	try {
+		const latLon = req.params.latLon.split(',');
+		if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
+			res.status(400).send('Invalid lat/lon value(s)');
+		}
+
+		// determine if the new lat lon is different from the one in the db
+		const updateLatLon = await shouldUpdateLatLon(undefined, latLon[0], latLon[1]);
+		// if lat, lon should be updated, then call the reverseGeocoding API, then
+		// save the results (lat, lon, country) in the database
+		if (updateLatLon) {
+			const result: any = await reverseGeocoding(latLon[0], latLon[1]);
+			const features = result.features;
+			const countryObj = features.length && features[0].context.length
+				? features[0].context[features[0].context.length - 1]
+				: {};
+
+			const cityObj = features.length && features[0].context.length
+			? features[0].context[features[0].context.length - 3]
+			: {};
+
+			const country = countryObj.text || 'Canada';
+			let city = cityObj.text || 'Vancouver';
+
+			// TODO: hacky solution for now:
+			if (city === 'Metro Vancouver') city = 'Vancouver';
+
+			// update lat lon and country in the db
+			await updateUserLocation(undefined, country, city, latLon[0], latLon[1]);		
+
+			// TODO: send country text (United States) or code (id in our db)?
+			if (res.locals.theOne) {
+				res.locals.location = country;
+				next();
+			} else {
+				res.send(country);
+			}
+		} else { // if location doesn't need to be updated, just return stored location
+			if (res.locals.theOne) {
+				res.locals.location = getUserCountryName();
+				next();
+			} else {
+				res.send(getUserCountryName());
+			}
+		}
+		
 	} catch (err) {
 		return res.status(404).send(err);
 	}

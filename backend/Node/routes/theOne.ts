@@ -1,5 +1,5 @@
 import express from 'express';
-import { reverseCountry } from './route-helpers/mapbox-helpers';
+import { updateLatLon } from './route-helpers/mapbox-helpers';
 import { reverseWeather } from './route-helpers/openweather-helpers';
 import {
 	getInputForML,
@@ -13,7 +13,7 @@ router.post(
 		res.locals.theOne = true;
 		next();
 	},
-	reverseCountry,
+	updateLatLon,
 	reverseWeather,
 	getInputForML,
 	getRecommendations
