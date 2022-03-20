@@ -10,7 +10,9 @@ import LengthPicker from '../components/filter/LengthPicker';
 import JGButton from '../components/shared/JGButton/JGButton';
 
 import { useLayoutEffect } from 'react';
-const profileImage = require('./images/profile.png');
+import UserInfo, { dataType } from '../networking/UserInfo';
+import FastImage from 'react-native-fast-image';
+const defaultProfileImage = require('./images/profile.png');
 
 function FilterScreen({ navigation }) {
   const MAX_LENGTH = 100;
@@ -26,6 +28,10 @@ function FilterScreen({ navigation }) {
 
   const [playlistLength, setPlaylistLength] = React.useState(1);
 
+  // object of User Info, with getters.
+  const [userInfo, setUserInfo] = React.useState();
+  const [isLoadingUserInfo, setIsLoadingUserInfo] = React.useState(true);
+
   var messageText;
   if (authContext.authToken === "") {
     messageText =
@@ -36,25 +42,42 @@ function FilterScreen({ navigation }) {
       </View>
   }
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+        const user = new UserInfo(authContext.authToken as string);
+        const getUserInfo = await user.updateData();
+        // sets userInfo to be the object
+        setUserInfo(getUserInfo);
+    }
+
+    if (authContext.authToken) {
+      fetchData()
+          .then(() => {
+            setIsLoadingUserInfo(false)
+          })
+          .catch(console.error);
+    }
+  }, [authContext.authToken]);
+
    // set Navigation Screen options leaving
    useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLargeTitle: false,
-      headerTitleStyle: {
-        fontSize: 30,
-        fontFamily: 'Raleway-ExtraBold',
-      },
-      headerTitleAlign: "left",
-      headerRight: () => (
-        <View style={{  }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}
-          style={{paddingBottom: 10, paddingRight: 8}}>
-            <Image source={profileImage} style={{width: 40, height: 40}}/>
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
+      navigation.setOptions({
+        headerLargeTitle: false,
+        headerTitleStyle: {
+          fontSize: 30,
+          fontFamily: 'Raleway-ExtraBold',
+        },
+        headerTitleAlign: "left",
+        headerRight: () => (
+          <View style={{  }}>
+            <TouchableOpacity onPress={() => navigation.navigate('Profile', {userInfo: userInfo})}
+            style={{paddingBottom: 10, paddingRight: 8}}>
+              <FastImage source={isLoadingUserInfo == true ? defaultProfileImage : userInfo.getProfileImage()} style={{width: 40, height: 40, borderRadius: 35,}}/>
+            </TouchableOpacity>
+          </View>
+        ),
+      });
+    }, [isLoadingUserInfo, navigation]);
 
   return (
     <View style={styles.container}>
