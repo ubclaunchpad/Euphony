@@ -65,7 +65,7 @@ export async function reverseWeatherDataUsingLatLon(latLon: string[]) {
 
 export async function getWeather(req: any, res: any, next: any) {
 	try {
-		const userWeatherData = await getUserWeather(req.headers['userId']);
+		const userWeatherData = await getUserWeather(req.headers['userid']);
 
 		if (res.locals.theOne) {
 			res.locals.weather = userWeatherData || {};

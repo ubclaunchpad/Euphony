@@ -2,7 +2,7 @@ import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import { createTables } from './db/initDb';
-import { fetchWeatherData } from './db/cityWeather';
+import { fetchWeatherData } from './db/cityWeather/cityWeather';
 import { initCountries } from './db/countries/countries';
 const theOne = require('../routes/theOne');
 const mapboxRoute = require('../routes/mapboxRoute');

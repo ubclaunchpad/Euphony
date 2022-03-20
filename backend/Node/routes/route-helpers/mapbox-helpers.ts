@@ -72,10 +72,10 @@ export async function reverseCountry(req: any, res: any, next: any) {
 	}
 }
 
-export async function updateLatLon(req: any, res: any) {
+export async function updateLatLon(req: any, res: any, next: any) {
 	try {
 		const latLon = req.params.latLon.split(',');
-		const userId = req.headers['userId'];
+		const userId = req.headers['userid'];
 		if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
 			res.status(400).send('Invalid lat/lon value(s)');
 		}
@@ -109,6 +109,8 @@ export async function updateLatLon(req: any, res: any) {
 			// update lat lon and country in the db
 			await updateUserLocation(userId, country, city, latLon[0], latLon[1]);
 		}
+
+		next();
 	} catch (err) {
 		return res.status(404).send(err);
 	}
@@ -118,10 +120,10 @@ export async function getLocation(req: any, res: any, next: any) {
 	// TODO: send country text (United States) or code (id in our db)?
 	try {
 		if (res.locals.theOne) {
-			res.locals.location = getUserCountryName(req.headers['userId']);
+			res.locals.location = getUserCountryName(req.headers['userid']);
 			next();
 		} else {
-			res.send(getUserCountryName(req.headers['userId']));
+			res.send(getUserCountryName(req.headers['userid']));
 		}
 	} catch (err) {
 		return res.status(404).send(err);

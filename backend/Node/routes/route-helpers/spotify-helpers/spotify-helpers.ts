@@ -34,28 +34,31 @@ export const scopes = [
 const port = process.env.PORT || 4000;
 const mlServerPort = process.env.TZML_SERVER_PORT || 5000;
 // TODO (later): change 'localhost' after : to whatever prod's using
-const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'}:${port}/`;
-const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'}:${mlServerPort}/`;
+const apiPrefix = `http://${
+	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+}:${port}/`;
+const apiPrefixML = `http://${
+	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+}:${mlServerPort}/`;
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
 const NodeServerAPIs = {
-	spotifyCallback: `${apiPrefix}spotify/callback`
+	spotifyCallback: `${apiPrefix}spotify/callback`,
 };
 const MLServerAPIs = {
-	recommendPlaylist: `${apiPrefixML}recommend_playlist`	
-}
+	recommendPlaylist: `${apiPrefixML}recommend_playlist`,
+};
 export const SpotifyAPIs = {
 	tracks: `${spotifyAPIPrefix}tracks?ids=%trackIds%`,
 	topTracks: `${spotifyAPIPrefix}me/top/tracks`,
 	recommendations: `${spotifyAPIPrefix}recommendations?seed_artists=%seedArtistIds%&seed_genres=%seedGenreIds%&seed_tracks=%seedTracksIds%&limit=%limit%`,
-}
-
+};
 
 export const createSpotifyWebApi = () => {
 	return new SpotifyWebApi({
 		clientId: process.env.SPOTIFY_CLIENT_ID,
 		clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-		redirectUri: NodeServerAPIs.spotifyCallback
+		redirectUri: NodeServerAPIs.spotifyCallback,
 	});
 };
 
@@ -141,19 +144,27 @@ export async function getRecommendations(req: any, res: any) {
 	const audio_features = res.locals.audio_features_w_popularity;
 	const trackIds = res.locals.trackIds;
 
+	console.log({
+		location,
+		pop,
+		clouds,
+		temp,
+		mood,
+		activity,
+		audio_features,
+	});
+
 	try {
 		// TODO: move these endpoints somewhere nice, ML server port num should be set and loaded
-		const MLServerRes = await axios.post(MLServerAPIs.recommendPlaylist,
-			{
-				location,
-				pop,
-				clouds,
-				temp,
-				mood,
-				activity,
-				audio_features,
-			}
-		);
+		const MLServerRes = await axios.post(MLServerAPIs.recommendPlaylist, {
+			location,
+			pop,
+			clouds,
+			temp,
+			mood,
+			activity,
+			audio_features,
+		});
 		// Get the first 2 track ids to pass as seed_tracks into the recommendation API
 		const seedTracksIds = trackIds.slice(0, 2).join(',');
 		// Get the seed genre from the user
@@ -200,7 +211,9 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 		if (!req.body.name)
 			return res.status(400).send("playlist's name is missing");
 		if (!req.body.trackIds)
-			return res.status(400).send('Please specify tracks to add to the playlist');
+			return res
+				.status(400)
+				.send('Please specify tracks to add to the playlist');
 
 		// Create a private playlist by default
 		const playlist = await spotifyApi.createPlaylist(req.body.name, {

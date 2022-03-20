@@ -1,6 +1,6 @@
 import { client } from '../index';
 import { getCountryCodeFromName, getCountryNameFromId } from './countries/countries';
-import { getCityIdFromName } from './cityWeather';
+import { getCityIdFromName } from './cityWeather/cityWeather';
 
 /**
  * determine whether the lat/lon is different by more than 2 degrees

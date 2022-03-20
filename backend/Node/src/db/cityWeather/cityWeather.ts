@@ -1,5 +1,5 @@
-import { client } from '../index';
-import { reverseWeatherDataUsingLatLon } from '../../routes/route-helpers/openweather-helpers';
+import { client } from '../../index';
+import { reverseWeatherDataUsingLatLon } from '../../../routes/route-helpers/openweather-helpers';
 const cron = require('node-cron');
 
 type Latlon = string[];
@@ -13,7 +13,7 @@ const latlonOfBigCities: CityWeather[] = [
 	{ cityName: 'Toronto', latlon: ['43.761539', '-79.411079'] },
 	{ cityName: 'Burnaby', latlon: ['49.246445', '-122.994560'] },
 	{ cityName: 'Richmond', latlon: ['49.166592', '-123.133568'] },
-	{ cityName: 'San Francisco', latlon: ['37.7749', '-122.4194']}
+	{ cityName: 'San Francisco', latlon: ['37.7749', '-122.4194'] },
 ];
 
 export const fetchWeatherData = async (hoursBetweenFetch: number) => {
