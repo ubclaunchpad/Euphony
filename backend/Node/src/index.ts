@@ -39,7 +39,7 @@ app.use(cookieParser());
 	await initCountries();
 
 	// cron job to fetch weather for big cities every x hours
-	const hoursBetweenFetch = 2;
+	const hoursBetweenFetch = 1;
 	fetchWeatherData(hoursBetweenFetch);
 
 	const app = express();

@@ -37,4 +37,23 @@ export const createTables = async () => {
 			);
 		`
 	);
+
+	await client.query(
+		`
+			CREATE TABLE IF NOT EXISTS "migrations" (
+				id SERIAL PRIMARY KEY,
+				"lastMigration" TIMESTAMPTZ
+			);
+		`
+	);
+
+	await client.query(
+		`
+			INSERT INTO "migrations" (id, "lastMigration")
+			VALUES (1, '${new Date().toISOString()}')
+			ON CONFLICT (id)
+			DO UPDATE SET
+			"lastMigration" = EXCLUDED."lastMigration";
+		`
+	);
 };

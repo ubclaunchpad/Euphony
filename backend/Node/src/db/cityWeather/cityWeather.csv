@@ -1,6 +1,301 @@
-"cityName","lat","lon"
-"Vancouver", 49.316666, -123.066666
-"Toronto", 43.761539, -79.411079
-"Burnaby", 49.246445, -122.994560
-"Richmond", 49.166592, -123.133568
-"San Francisco", 37.7749, -122.4194
+cityName,lat,lon
+Toronto,43.7417,-79.3733
+Montreal,45.5089,-73.5617
+Vancouver,49.25,-123.1
+Calgary,51.05,-114.0667
+Edmonton,53.5344,-113.4903
+Ottawa,45.4247,-75.695
+Mississauga,43.6,-79.65
+Winnipeg,49.8844,-97.1464
+Quebec City,46.8139,-71.2081
+Hamilton,43.2567,-79.8692
+Brampton,43.6833,-79.7667
+Surrey,49.19,-122.8489
+Kitchener,43.4186,-80.4728
+Laval,45.5833,-73.75
+Halifax,44.6475,-63.5906
+London,42.9836,-81.2497
+Victoria,48.4283,-123.3647
+Markham,43.8767,-79.2633
+St. Catharines,43.1833,-79.2333
+Niagara Falls,43.06,-79.1067
+Vaughan,43.8333,-79.5
+Gatineau,45.4833,-75.65
+Windsor,42.2833,-83
+Saskatoon,52.1333,-106.6833
+Longueuil,45.5333,-73.5167
+Burnaby,49.2667,-122.9667
+Regina,50.4547,-104.6067
+Richmond,49.1667,-123.1333
+Richmond Hill,43.8667,-79.4333
+Oakville,43.45,-79.6833
+Burlington,43.3167,-79.8
+Barrie,44.3711,-79.6769
+Oshawa,43.9,-78.85
+Sherbrooke,45.4,-71.9
+Saguenay,48.4167,-71.0667
+Levis,46.8,-71.1833
+Kelowna,49.8881,-119.4956
+Abbotsford,49.05,-122.3167
+Coquitlam,49.2839,-122.7919
+Trois-Rivieres,46.35,-72.55
+Guelph,43.55,-80.25
+Cambridge,43.3972,-80.3114
+Whitby,43.8833,-78.9417
+Ajax,43.8583,-79.0364
+Langley,49.1044,-122.5827
+Saanich,48.484,-123.381
+Terrebonne,45.7,-73.6333
+Milton,43.5083,-79.8833
+St. John's,47.4817,-52.7971
+Moncton,46.1328,-64.7714
+Thunder Bay,48.3822,-89.2461
+Dieppe,46.0989,-64.7242
+Waterloo,43.4667,-80.5167
+Delta,49.0847,-123.0586
+Chatham,42.4229,-82.1324
+Red Deer,52.2681,-113.8111
+Kamloops,50.6761,-120.3408
+Brantford,43.1667,-80.25
+Cape Breton,46.1389,-60.1931
+Lethbridge,49.6942,-112.8328
+Saint-Jean-sur-Richelieu,45.3167,-73.2667
+Clarington,43.935,-78.6083
+Pickering,43.8354,-79.089
+Nanaimo,49.1642,-123.9364
+Sudbury,46.49,-81.01
+North Vancouver,49.3641,-123.0066
+Brossard,45.4667,-73.45
+Repentigny,45.7333,-73.4667
+Newmarket,44.05,-79.4667
+Chilliwack,49.1577,-121.9509
+White Rock,49.025,-122.8028
+Maple Ridge,49.2167,-122.6
+Peterborough,44.3,-78.3167
+Kawartha Lakes,44.35,-78.75
+Prince George,53.9169,-122.7494
+Sault Ste. Marie,46.5333,-84.35
+Sarnia,42.9994,-82.3089
+Wood Buffalo,57.6042,-111.3284
+New Westminster,49.2069,-122.9111
+Chateauguay,45.38,-73.75
+Saint-Jerome,45.7833,-74
+Drummondville,45.8833,-72.4833
+Saint John,45.2806,-66.0761
+Caledon,43.8667,-79.8667
+St. Albert,53.6303,-113.6258
+Granby,45.4,-72.7333
+Medicine Hat,50.0417,-110.6775
+Grande Prairie,55.1708,-118.7947
+St. Thomas,42.775,-81.1833
+Airdrie,51.2917,-114.0144
+Halton Hills,43.63,-79.95
+Saint-Hyacinthe,45.6167,-72.95
+Lac-Brome,45.2167,-72.5167
+Port Coquitlam,49.2625,-122.7811
+Fredericton,45.9636,-66.6431
+Blainville,45.67,-73.88
+Aurora,44,-79.4667
+Welland,42.9833,-79.2333
+North Bay,46.3,-79.45
+Beloeil,45.5667,-73.2
+Belleville,44.1667,-77.3833
+Mirabel,45.65,-74.0833
+Shawinigan,46.5667,-72.75
+Dollard-des-Ormeaux,45.4833,-73.8167
+Brandon,49.8483,-99.95
+Rimouski,48.45,-68.53
+Cornwall,45.0275,-74.74
+Stouffville,43.9667,-79.25
+Georgina,44.3,-79.4333
+Victoriaville,46.05,-71.9667
+Vernon,50.267,-119.272
+Duncan,48.7787,-123.7079
+Saint-Eustache,45.57,-73.9
+Quinte West,44.1833,-77.5667
+Charlottetown,46.2403,-63.1347
+Mascouche,45.75,-73.6
+West Vancouver,49.3667,-123.1667
+Salaberry-de-Valleyfield,45.25,-74.13
+Rouyn-Noranda,48.2333,-79.0167
+Timmins,48.4667,-81.3333
+Sorel-Tracy,46.0333,-73.1167
+New Tecumseth,44.0833,-79.75
+Woodstock,43.1306,-80.7467
+Boucherville,45.6,-73.45
+Mission,49.1337,-122.3112
+Vaudreuil-Dorion,45.4,-74.0333
+Brant,43.1167,-80.3667
+Lakeshore,42.2399,-82.6511
+Innisfil,44.3,-79.5833
+Prince Albert,53.2,-105.75
+Langford Station,48.4506,-123.5058
+Bradford West Gwillimbury,44.1333,-79.6333
+Campbell River,50.0244,-125.2475
+Spruce Grove,53.545,-113.9008
+Moose Jaw,50.3933,-105.5519
+Penticton,49.4911,-119.5886
+Port Moody,49.2831,-122.8317
+Leamington,42.0667,-82.5833
+East Kelowna,49.8625,-119.5833
+Cote-Saint-Luc,45.4687,-73.6673
+Val-d'Or,48.1,-77.7833
+Owen Sound,44.5667,-80.9333
+Stratford,43.3708,-80.9819
+Lloydminster,53.2783,-110.005
+Pointe-Claire,45.45,-73.8167
+Orillia,44.6,-79.4167
+Alma,48.55,-71.65
+Orangeville,43.9167,-80.1167
+Fort Erie,42.9167,-79.0167
+LaSalle,42.2167,-83.0667
+Fort Erie,42.9167,-79.0167
+New York,40.6943,-73.9249
+Los Angeles,34.1139,-118.4068
+Chicago,41.8373,-87.6862
+Miami,25.7839,-80.2102
+Dallas,32.7936,-96.7662
+Philadelphia,40.0077,-75.1339
+Houston,29.7863,-95.3889
+Atlanta,33.7627,-84.4224
+Washington,38.9047,-77.0163
+Boston,42.3188,-71.0846
+Phoenix,33.5722,-112.0891
+Seattle,47.6211,-122.3244
+San Francisco,37.7562,-122.443
+Detroit,42.3834,-83.1024
+San Diego,32.8312,-117.1225
+Minneapolis,44.9635,-93.2678
+Tampa,27.9942,-82.4451
+Denver,39.7621,-104.8759
+Brooklyn,40.6501,-73.9496
+Queens,40.7498,-73.7976
+Riverside,33.9381,-117.3948
+Baltimore,39.3051,-76.6144
+Las Vegas,36.2333,-115.2654
+Portland,45.5372,-122.65
+San Antonio,29.4658,-98.5253
+St. Louis,38.6358,-90.2451
+Sacramento,38.5667,-121.4683
+Orlando,28.4772,-81.3369
+San Jose,37.3019,-121.8486
+Cleveland,41.4767,-81.6804
+Pittsburgh,40.4396,-79.9762
+Austin,30.3004,-97.7522
+Cincinnati,39.1413,-84.5061
+Kansas City,39.1239,-94.5541
+Manhattan,40.7834,-73.9662
+Indianapolis,39.7771,-86.1458
+Columbus,39.9862,-82.985
+Charlotte,35.208,-80.8304
+Virginia Beach,36.7335,-76.0435
+Bronx,40.8501,-73.8662
+Milwaukee,43.0642,-87.9673
+Providence,41.823,-71.4187
+Jacksonville,30.3322,-81.6749
+Salt Lake City,40.7777,-111.9306
+Nashville,36.1715,-86.7843
+Richmond,37.5295,-77.4756
+Memphis,35.1046,-89.9773
+Raleigh,35.8325,-78.6435
+New Orleans,30.0687,-89.9288
+Louisville,38.1663,-85.6485
+Oklahoma City,35.4676,-97.5136
+Bridgeport,41.1918,-73.1953
+Buffalo,42.9016,-78.8487
+Fort Worth,32.7811,-97.3473
+Hartford,41.7661,-72.6834
+Tucson,32.1545,-110.8782
+Omaha,41.2627,-96.0522
+El Paso,31.8479,-106.4309
+Honolulu,21.3294,-157.846
+McAllen,26.2273,-98.2471
+Albuquerque,35.1053,-106.6464
+Birmingham,33.5277,-86.7987
+Sarasota,27.3386,-82.5431
+Dayton,39.7797,-84.1998
+Rochester,43.168,-77.6162
+Fresno,36.7831,-119.7941
+Allentown,40.5961,-75.4756
+Tulsa,36.1284,-95.9042
+Cape Coral,26.6446,-81.9956
+Concord,37.9722,-122.0016
+Colorado Springs,38.8674,-104.7606
+Charleston,32.8153,-79.9628
+Springfield,42.1155,-72.5395
+Grand Rapids,42.962,-85.6562
+Mission Viejo,33.6095,-117.655
+Albany,42.6664,-73.7987
+Knoxville,35.9692,-83.9496
+Bakersfield,35.3529,-119.0359
+Ogden,41.2278,-111.9682
+Baton Rouge,30.4418,-91.131
+Akron,41.0798,-81.5219
+New Haven,41.3112,-72.9246
+Columbia,34.0376,-80.9037
+Mesa,33.4017,-111.718
+Palm Bay,27.955,-80.6627
+Provo,40.2457,-111.6457
+Worcester,42.2705,-71.8079
+Murrieta,33.572,-117.1909
+Greenville,34.8353,-82.3647
+Wichita,37.6896,-97.3442
+Toledo,41.6639,-83.5822
+Staten Island,40.5834,-74.1496
+Des Moines,41.5725,-93.6105
+Long Beach,33.7981,-118.1675
+Port St. Lucie,27.2796,-80.3883
+Denton,33.2176,-97.1419
+Madison,43.0826,-89.3931
+Reno,39.5497,-119.8483
+Harrisburg,40.2752,-76.8843
+Little Rock,34.7256,-92.3576
+Oakland,37.7903,-122.2165
+Durham,35.9794,-78.9031
+Winston-Salem,36.1029,-80.2611
+Bonita Springs,26.3559,-81.7861
+Indio,33.7346,-116.2346
+Palm Coast,29.5392,-81.246
+Chattanooga,35.0657,-85.2488
+Spokane,47.6671,-117.433
+Syracuse,43.0409,-76.1438
+Lancaster,40.0421,-76.3012
+Arlington,32.6998,-97.125
+Stockton,37.9765,-121.3109
+Poughkeepsie,41.6949,-73.921
+Augusta,33.3645,-82.0708
+Boise,43.6007,-116.2312
+Oxnard,34.1963,-119.1815
+Scranton,41.4044,-75.6649
+Modesto,37.6374,-121.0028
+Kissimmee,28.3042,-81.4164
+Aurora,39.7087,-104.7273
+Youngstown,41.0993,-80.6463
+Fayetteville,36.0713,-94.166
+Anaheim,33.839,-117.8572
+Pensacola,30.4427,-87.1886
+Victorville,34.5277,-117.3536
+Lancaster,34.6935,-118.1753
+Greensboro,36.0956,-79.8269
+Corpus Christi,27.726,-97.3755
+Fort Wayne,41.0886,-85.1437
+Santa Ana,33.7366,-117.8819
+Flint,43.0235,-83.6922
+Fayetteville,35.0846,-78.9776
+Jackson,32.3163,-90.2124
+Santa Rosa,38.4458,-122.7067
+Lansing,42.7142,-84.5601
+San Juan,18.4037,-66.0636
+Lexington,38.0423,-84.4587
+Ann Arbor,42.2755,-83.7312
+Henderson,36.0133,-115.038
+Huntsville,34.6988,-86.6412
+Mobile,30.6783,-88.1162
+Fort Collins,40.5478,-105.0656
+Asheville,35.5704,-82.5536
+Santa Clarita,34.4175,-118.4964
+St. Paul,44.9477,-93.104
+Antioch,37.9789,-121.7958
+Lakeland,28.0556,-81.9545
+Trenton,40.2236,-74.7641
+Lincoln,40.809,-96.6788

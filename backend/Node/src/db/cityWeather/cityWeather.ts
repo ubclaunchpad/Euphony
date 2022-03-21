@@ -1,43 +1,91 @@
 import { client } from '../../index';
 import { reverseWeatherDataUsingLatLon } from '../../../routes/route-helpers/openweather-helpers';
+const fs = require('fs');
+const csv = require('csv-parser');
 const cron = require('node-cron');
 
-type Latlon = string[];
-interface CityWeather {
-	cityName: string;
-	latlon: Latlon;
+function sleep(ms: number) {
+	return new Promise(resolve => {
+		setTimeout(resolve, ms);
+	});
 }
 
-const latlonOfBigCities: CityWeather[] = [
-	{ cityName: 'Vancouver', latlon: ['49.316666', '-123.066666'] },
-	{ cityName: 'Toronto', latlon: ['43.761539', '-79.411079'] },
-	{ cityName: 'Burnaby', latlon: ['49.246445', '-122.994560'] },
-	{ cityName: 'Richmond', latlon: ['49.166592', '-123.133568'] },
-	{ cityName: 'San Francisco', latlon: ['37.7749', '-122.4194'] },
-];
-
 export const fetchWeatherData = async (hoursBetweenFetch: number) => {
-	fetchWeatherDataForCities(latlonOfBigCities);
+	const totalNumberOfCities = 300;
+	const callsPerFetch = 50;
 
-	// reverseWeatherDataUsingLatLon();
-	cron.schedule(`0 0 */${hoursBetweenFetch} * * *`, () => {
-		fetchWeatherDataForCities(latlonOfBigCities);
-	});
+	const lastMigrationData = await client.query(
+		`SELECT "lastMigration" FROM public."migrations" WHERE "migrations".id = 1`
+	);
+
+	// migrate initial data upon db initialization
+	for (
+		let fetchNum = 1;
+		fetchNum * callsPerFetch <= totalNumberOfCities;
+		fetchNum++
+	) {
+		fetchWeatherDataForCities((fetchNum - 1) * 50 + 1, fetchNum * 50);
+		await sleep(120000); // 2 mins between 50 fetches(API limit)
+	}
+
+	// fetch every x hour
+	// 50 locations get updated every 2 minutes (API limit: 60 calls/min)
+	// Eg. 1-50 gets updated at 1:02 AM, 51-100 gets updated at 1:04 AM
+	for (
+		let fetchNum = 1;
+		fetchNum * callsPerFetch <= totalNumberOfCities;
+		fetchNum++
+	) {
+		cron.schedule(
+			`0 ${fetchNum * 2} */${hoursBetweenFetch} * * *`,
+			async () => {
+				const lastMigration = lastMigrationData?.rows[0].lastMigration;
+				var timeDiff = new Date().getTime() - new Date(lastMigration).getTime();
+				var diffMins = Math.round(timeDiff / (1000 * 60));
+				console.log(diffMins);
+				if (diffMins >= 20) {
+					await fetchWeatherDataForCities(
+						(fetchNum - 1) * 50 + 1,
+						fetchNum * 50
+					);
+				}
+			}
+		);
+	}
 };
 
-const fetchWeatherDataForCities = async (latlonOfBigCities: CityWeather[]) => {
-	latlonOfBigCities.forEach(async (cityWeather: CityWeather) => {
-		const jsonData = await reverseWeatherDataUsingLatLon(cityWeather.latlon);
-		await client.query(
-			`
-      INSERT INTO "cityWeather" ("cityName", "weatherData") VALUES ($1, $2)
-      ON CONFLICT ("cityName")
-      DO UPDATE SET
-				"weatherData" = EXCLUDED."weatherData";
-    `,
-			[cityWeather.cityName, jsonData]
-		);
-	});
+const fetchWeatherDataForCities = async (startRow: number, endRow: number) => {
+	let index = 0;
+	fs.createReadStream(__dirname + '/cityWeather.csv')
+		.pipe(csv())
+		.on('data', async function (data: any) {
+			try {
+				index += 1;
+				if (index >= startRow && index <= endRow) {
+					const latLon = [data.lat, data.lon];
+					const jsonData = await reverseWeatherDataUsingLatLon(latLon);
+
+					await client.query(
+						`
+					INSERT INTO "cityWeather" ("cityName", "weatherData") VALUES ($1, $2)
+					ON CONFLICT ("cityName")
+					DO UPDATE SET
+						"weatherData" = EXCLUDED."weatherData";
+				`,
+						[data.cityName, jsonData]
+					);
+				}
+			} catch (err) {
+				//error handler
+				console.log(err);
+			}
+		})
+		.on('end', async function () {
+			//some final operation
+			console.log(
+				`cron job: done updating cityWeather table rows #${startRow} - #${endRow}`
+			);
+		});
 };
 
 export const getCityIdFromName = async (cityName: string): Promise<number> => {
