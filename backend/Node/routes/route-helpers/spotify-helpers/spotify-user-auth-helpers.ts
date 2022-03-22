@@ -131,6 +131,7 @@ export async function getMe(req: any, res: any) {
 
 	try {
 		const me = await spotifyApi.getMe();
+		upsertUserDataUponLogin(me.body.id, me);
 
 		if (!me) {
 			return res.status(204).send('error while retrieving user info');

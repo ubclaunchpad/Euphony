@@ -37,7 +37,19 @@ class AuthenticationHandler {
 
     async onLogin() {
         try {
-            const result = await authorize(this.spotifyAuthConfig);
+            const result: any = await authorize(this.spotifyAuthConfig);
+            let endpoint = `http://localhost:4000/spotify/getMe`
+            let options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'access_token': result.accessToken,
+                }
+            }
+            let response = await fetch(endpoint, options)
+            const user = await response.json();
+            result.userID = user.body.id;
+            console.log(JSON.stringify(result))
             return result;
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -45,10 +57,14 @@ class AuthenticationHandler {
     }
 
     async refreshLogin(refreshToken: any) {
-        const result = await refresh(this.spotifyAuthConfig, {
-            refreshToken: refreshToken,
-        });
-        return result;
+        try {
+            const result = await refresh(this.spotifyAuthConfig, {
+                refreshToken: refreshToken,
+            });
+            return result
+        } catch (error) {
+            console.log(JSON.stringify(error));
+        }
     }
 
 }
