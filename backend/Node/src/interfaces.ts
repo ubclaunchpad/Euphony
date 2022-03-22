@@ -20,7 +20,7 @@ export enum Mood {
 	ANGER,
 }
 
-export const genres = ['work-out', 'study', 'chill', 'party', 'chill', 'sleep'];
+export const Genres = ['pop', 'r-n-b', 'indie', 'hip-hop'];
 
 export interface Metrics {
 	location: Location;

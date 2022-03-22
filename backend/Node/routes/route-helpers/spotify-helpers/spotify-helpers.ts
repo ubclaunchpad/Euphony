@@ -1,5 +1,5 @@
 const SpotifyWebApi = require('spotify-web-api-node');
-import { Activity, genres, Location, Mood } from '../../../src/interfaces';
+import { Activity, Genres, Location, Mood } from '../../../src/interfaces';
 import axios from 'axios';
 import {
 	getSeedArtistIdsFromTopTracks,
@@ -136,6 +136,7 @@ export async function getRecommendations(req: any, res: any) {
 	const mood = req.body.mood ? req.body.mood : Mood.HAPPY;
 	const activity = req.body.activity ? req.body.activity : Activity.CHILL;
 	const limit = req.body.limit ? req.body.limit : 10;
+	const genres = req.body.genres ? req.body.genres : 0;
 
 	// data from spotify API
 	const audio_features = res.locals.audio_features_w_popularity;
@@ -157,19 +158,28 @@ export async function getRecommendations(req: any, res: any) {
 		// Get the first 2 track ids to pass as seed_tracks into the recommendation API
 		const seedTracksIds = trackIds.slice(0, 2).join(',');
 		// Get the seed genre from the user
-		const seedGenre = genres[activity];
+		let seedGenre = ''; //needs to be a string separated by commas
+		let tempG = genres;
+		Genres.forEach(
+			(element) => { 
+				if ((tempG & 1) == 1) {
+					seedGenre.concat(element, ',');
+				}
+				tempG /= 2;
+			}); 
+		console.log(seedGenre);
+
 		// Get the top 2 artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
-		const seedArtistIds = await getSeedArtistIdsFromTopTracks(
-			trackIds,
-			auth.access_token!
-		);
+		// const seedArtistIds = await getSeedArtistIdsFromTopTracks(
+		// 	trackIds,
+		// 	auth.access_token!
+		// );
 
 		/**
 		 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
 		 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
 		 **/
-		let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_artists=${seedArtistIds}&seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
-		// let recommendationsUrl = SpotifyAPIs.recommendations.replace('%seedArtistIds%', seedArtistIds);
+		let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
 		Object.keys(MLServerRes.data).forEach(
 			(property: string) =>
 				(recommendationsUrl += `&${property}=${MLServerRes.data[property]}`)

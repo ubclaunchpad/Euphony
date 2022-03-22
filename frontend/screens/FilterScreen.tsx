@@ -158,6 +158,7 @@ function FilterScreen({ navigation }) {
                       "mood": mood,
                       "activity": activity,
                       "limit": playlistLength,
+                      "genres": genres,
                     },
                     coords: {
                       lat: "37.7614",
