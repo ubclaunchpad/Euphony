@@ -8,36 +8,47 @@ import PlaylistInfo from './screens/PlaylistInfo';
 
 import AppContext from './AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import authHandler from './networking/AppAuth';
 
 const Stack = createNativeStackNavigator();
 
 
 function App() {
   const [token, setAuthToken] = React.useState<string | null>("");
-
+  const [refreshToken, setRefreshToken] = React.useState<string | null>("");
   const userSettings = {
     authToken: token,
     setAuthToken: setAuthToken,
+    refreshToken: refreshToken,
+    setRefreshToken: setRefreshToken
   };
 
   React.useEffect(() => {
-    AsyncStorage.getItem('@token').then((value) => {
+    AsyncStorage.getItem('@token').then(async (value) => {
       if (value) {
-        console.log("Token from async storage is " + value)
-        setAuthToken(value);
+        console.log("refresh from async storage is " + value)
+        let result = await authHandler.refreshLogin(value)
+        if (result) {
+          console.log("result from refresh login is " + result.accessToken)
+          setAuthToken(result.accessToken);
+          setRefreshToken(result.refreshToken);
+        } else {
+          setAuthToken(null);
+        }
       } else {
         setAuthToken(null);
+        setRefreshToken(null);
       }
     });
   }, []);
 
 
   React.useEffect(() => {
-    if (token != null) {
-      console.log("Setting token as " + token);
-      AsyncStorage.setItem('@token', token)
+    if (refreshToken != null) {
+      console.log("Setting token as " + refreshToken);
+      AsyncStorage.setItem('@token', refreshToken)
     }
-  }, [token]);
+  }, [refreshToken]);
   return (
     <AppContext.Provider value={userSettings}>
       <NavigationContainer>
