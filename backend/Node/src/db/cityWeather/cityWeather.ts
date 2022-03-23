@@ -42,7 +42,7 @@ export const fetchWeatherData = async (hoursBetweenFetch: number) => {
 				const lastMigration = lastMigrationData?.rows[0].lastMigration;
 				var timeDiff = new Date().getTime() - new Date(lastMigration).getTime();
 				var diffMins = Math.round(timeDiff / (1000 * 60));
-				console.log(diffMins);
+
 				if (diffMins >= 20) {
 					await fetchWeatherDataForCities(
 						(fetchNum - 1) * 50 + 1,

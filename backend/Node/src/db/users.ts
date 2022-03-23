@@ -1,5 +1,8 @@
 import { client } from '../index';
-import { getCountryCodeFromName, getCountryNameFromId } from './countries/countries';
+import {
+	getCountryCodeFromName,
+	getCountryNameFromId,
+} from './countries/countries';
 import { getCityIdFromName } from './cityWeather/cityWeather';
 
 /**
@@ -26,7 +29,10 @@ export const shouldUpdateLatLon = async (
 	const latDiff = findAbsoluteDiff(latDb, parseFloat(lat));
 	const lonDiff = findAbsoluteDiff(lonDb, parseFloat(lon));
 
-	return latDiff > 2 || lonDiff > 2;
+	// 0.1 ~ 11 km
+	// 0.2 ~ 22 km
+	// distance between Vancouver and Richmond is 15 km
+	return latDiff > 0.2 || lonDiff > 0.2;
 };
 
 /**
@@ -79,7 +85,9 @@ const findAbsoluteDiff = (a: number, b: number): number => {
 /**
  * get weather data of specified a user
  */
-export const getUserWeather = async (userId: string): Promise<JSON | undefined> => {
+export const getUserWeather = async (
+	userId: string
+): Promise<JSON | undefined> => {
 	try {
 		const weatherData = await client.query(
 			`
