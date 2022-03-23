@@ -36,6 +36,8 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
                     </View>
                     <JGButton style={{ marginTop: 20 }} icon={JGButtonImageType.Spotify} title="CONNECT SPOTIFY" onClick={async () => {
                         let result = await authHandler.onLogin();
+                        result?.userID && authContext.setUserID(result.userID);
+                        result?.refreshToken && authContext.setRefreshToken(result.refreshToken);
                         result?.accessToken && authContext.setAuthToken(result.accessToken);
                     }}></JGButton>
                 </View>
