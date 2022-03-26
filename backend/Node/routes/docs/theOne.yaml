@@ -7,6 +7,12 @@ paths:
       description: get the weather, location, mood, activity, user's spotify preferences and input that to the ML server. The ML server will return the best recommended tracks.
 
       parameters:
+        - name: userId
+          in: header
+          required: true
+          description: userId for spotify, get it from the spotify/login endpoint (PART OF HEADERS)
+          schema:
+            type: string
         - name: access_token
           in: header
           required: false

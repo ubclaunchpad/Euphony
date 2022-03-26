@@ -21,7 +21,7 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 const AlbumScreen = ({ route, navigation }) => {
   const { obj, coords, initName } = route.params;
 
-  const { authToken } = React.useContext(AppContext);
+  const { authToken, userID } = React.useContext(AppContext);
   const [refreshToken, setRefreshToken] = useState(null);
 
   const API_ENDPOINT = `http://localhost:4000/theOne/${coords.lat},${coords.long}/`;
@@ -31,6 +31,7 @@ const AlbumScreen = ({ route, navigation }) => {
     headers: {
       'Content-Type': 'application/json',
       'access_token': authToken,
+      'userid': userID,
       // 'refresh_token': refreshToken,
     }
   };
@@ -150,7 +151,7 @@ const AlbumScreen = ({ route, navigation }) => {
     fetch(API_ENDPOINT, REQUEST_OPTIONS)
       .then(response => response.json())
       .then(results => {
-        console.log(results);
+        console.log("results " + JSON.stringify(results));
         setData(results.body);
         setIsLoading(false);
       })

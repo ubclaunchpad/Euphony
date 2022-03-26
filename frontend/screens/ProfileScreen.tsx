@@ -81,6 +81,8 @@ const ProfileScreen = ({ navigation }) => {
                         <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
                             navigation.goBack();
                             AsyncStorage.removeItem('@token');
+                            AsyncStorage.removeItem('@userId');
+                            globalContext.setUserID(null);
                             globalContext.setAuthToken(null);
                             globalContext.setRefreshToken(null);
                         }}>
