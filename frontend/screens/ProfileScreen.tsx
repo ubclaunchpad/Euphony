@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ActivityIndicator, Linking  } from 'react-native';
+import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ActivityIndicator, Linking } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/elements';
 
@@ -10,7 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const profileImage = require('./images/profile.png');
 
 import UserInfo, { dataType } from '../networking/UserInfo';
-import AppContext from '../AppContext';
 
 function getValidUserInfo(userInfo: any) {
     if (checkValidUserInfo(userInfo)) { return UserInfo }
@@ -21,7 +20,7 @@ function checkValidUserInfo(userInfo: any) {
     return userInfo === undefined;
 }
 
-const ProfileScreen = ({route, navigation}) => {
+const ProfileScreen = ({ route, navigation }) => {
     const { userInfo } = route.params;
 
     const headerHeight = useHeaderHeight();
@@ -59,28 +58,28 @@ const ProfileScreen = ({route, navigation}) => {
         });
     }, [navigation]);
 
-  // compile all the playlists into text elements for display
-  useEffect(() => {
-    const playlists = getValidUserInfo(userInfo).getPlaylists();
-    let playlistTexts = [];
+    // compile all the playlists into text elements for display
+    useEffect(() => {
+        const playlists = getValidUserInfo(userInfo).getPlaylists();
+        let playlistTexts = [];
 
-    for (let i = 0; i < playlists.length && i < 5; i++) {
-        playlistTexts.push(<Text key={i} style={styles.item}>{playlists[i]}</Text>);
-    }
+        for (let i = 0; i < playlists.length && i < 5; i++) {
+            playlistTexts.push(<Text key={i} style={styles.item}>{playlists[i]}</Text>);
+        }
 
-    setPlaylists(playlistTexts);
-  }, [])
+        setPlaylists(playlistTexts);
+    }, [])
 
     return (
         <View style={{ backgroundColor: 'white', flex: 1, }}>
-            <StatusBar translucent barStyle="light-content" backgroundColor="transparent"/>
-            
-            <LinearGradient colors={['#843CDE', '#4A18DD', '#2E1181']} style={{flex: 1}}>
-                { isLoading == true ? <ActivityIndicator size="large" color="#5500dc" /> :
-                    <SafeAreaView style={{alignItems: 'center', marginTop: headerHeight}}>
-                        <View style={{backgroundColor: 'white', marginTop: 20, width: 340, borderRadius: 15, padding: 25}}>
+            <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
+
+            <LinearGradient colors={['#843CDE', '#4A18DD', '#2E1181']} style={{ flex: 1 }}>
+                {isLoading == true ? <ActivityIndicator size="large" color="#5500dc" /> :
+                    <SafeAreaView style={{ alignItems: 'center', marginTop: headerHeight }}>
+                        <View style={{ backgroundColor: 'white', marginTop: 20, width: 340, borderRadius: 15, padding: 25 }}>
                             <View style={styles.playlistInformation}>
-                                <Image source={getValidUserInfo(userInfo).getProfileImage()} style={styles.image}/>
+                                <Image source={getValidUserInfo(userInfo).getProfileImage()} style={styles.image} />
                                 <View style={styles.info}>
                                     <Text style={styles.spotifyName}>{getValidUserInfo(userInfo).getName()}</Text>
                                     <TouchableOpacity onPress={() => Linking.openURL(getValidUserInfo(userInfo).getSpotifyURL())}>
@@ -88,38 +87,38 @@ const ProfileScreen = ({route, navigation}) => {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                            { checkValidUserInfo(userInfo) == true ? <></> : 
-                            <>
-                                <View style={styles.divider}>
-                                    <View style={styles.line} />
-                                </View>
-                                <View>
-                                    <Text style={styles.playlistTitle}>Your Playlists</Text>
-                                    <Text style={styles.redirectText}>List of Spotify playlists used to personalize results for you</Text>
-                                </View>
-                                <View style={styles.divider}>
-                                    <View style={styles.line} />
-                                </View>
-                                <View>
-                                    {Playlists}
-                                </View>
-                                <View style={styles.divider}>
-                                    <View style={styles.line} />
-                                </View>
-                                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
-                                    navigation.goBack();
-                                    AsyncStorage.removeItem('@token');
-                                    AsyncStorage.removeItem('@userId');
-                                    globalContext.setUserID(null);
-                                    globalContext.setAuthToken(null);
-                                    globalContext.setRefreshToken(null);
-                                }}>
-                                    <View style={styles.button}>
-                                        <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
-                                        <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
+                            {checkValidUserInfo(userInfo) == true ? <></> :
+                                <>
+                                    <View style={styles.divider}>
+                                        <View style={styles.line} />
                                     </View>
-                                </TouchableOpacity>
-                            </>
+                                    <View>
+                                        <Text style={styles.playlistTitle}>Your Playlists</Text>
+                                        <Text style={styles.redirectText}>List of Spotify playlists used to personalize results for you</Text>
+                                    </View>
+                                    <View style={styles.divider}>
+                                        <View style={styles.line} />
+                                    </View>
+                                    <View>
+                                        {Playlists}
+                                    </View>
+                                    <View style={styles.divider}>
+                                        <View style={styles.line} />
+                                    </View>
+                                    <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
+                                        navigation.goBack();
+                                        AsyncStorage.removeItem('@token');
+                                        AsyncStorage.removeItem('@userId');
+                                        globalContext.setUserID(null);
+                                        globalContext.setAuthToken(null);
+                                        globalContext.setRefreshToken(null);
+                                    }}>
+                                        <View style={styles.button}>
+                                            <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
+                                            <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </>
                             }
                         </View>
 
