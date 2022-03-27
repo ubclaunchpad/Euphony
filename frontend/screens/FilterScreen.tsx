@@ -41,7 +41,7 @@ function FilterScreen({ navigation }) {
         </TouchableOpacity>
       </View>
   }
-
+  
   React.useEffect(() => {
     const fetchData = async () => {
         const user = new UserInfo(authContext.authToken as string);
@@ -85,7 +85,7 @@ function FilterScreen({ navigation }) {
 
       <Modal
         animationType="slide"
-        visible={authContext.authToken === null}
+        visible={authContext.authToken == null}
         onRequestClose={() => {
           authContext.setAuthToken("");
         }}

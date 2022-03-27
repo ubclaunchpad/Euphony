@@ -5,6 +5,8 @@ import { useHeaderHeight } from '@react-navigation/elements';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AppContext from '../AppContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const profileImage = require('./images/profile.png');
 
 import UserInfo, { dataType } from '../networking/UserInfo';
@@ -27,34 +29,35 @@ const ProfileScreen = ({route, navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [Playlists, setPlaylists] = useState<JSX.Element[]>([]);
+    const globalContext = React.useContext(AppContext);
 
     // set Navigation Screen options leaving
-   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLargeTitle: true,
-      headerTitleStyle: {
-        fontSize: 30,
-        fontFamily: 'Raleway-Bold',
-        color:'white',
-      },
-      headerTitleAlign: "left",
-      headerTransparent: true,
-      headerShadowVisible: false,
-      headerLeft: () => (
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}
-          style={{paddingRight: 8}}>
-            <MaterialIcons
-              name="arrow-back-ios"
-              size={24}
-              color={'hsl(0, 0%, 100%)'}
-              style={{ paddingLeft: 10 }}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation]);
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLargeTitle: true,
+            headerTitleStyle: {
+                fontSize: 30,
+                fontFamily: 'Raleway-Bold',
+                color: 'white',
+            },
+            headerTitleAlign: "left",
+            headerTransparent: true,
+            headerShadowVisible: false,
+            headerLeft: () => (
+                <View>
+                    <TouchableOpacity onPress={() => navigation.goBack()}
+                        style={{ paddingRight: 8 }}>
+                        <MaterialIcons
+                            name="arrow-back-ios"
+                            size={24}
+                            color={'hsl(0, 0%, 100%)'}
+                            style={{ paddingLeft: 10 }}
+                        />
+                    </TouchableOpacity>
+                </View>
+            ),
+        });
+    }, [navigation]);
 
   // compile all the playlists into text elements for display
   useEffect(() => {
@@ -103,11 +106,18 @@ const ProfileScreen = ({route, navigation}) => {
                                 <View style={styles.divider}>
                                     <View style={styles.line} />
                                 </View>
-                                <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}>
-                                        <View style={styles.button}>
-                                            <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
-                                            <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
-                                        </View>
+                                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
+                                    navigation.goBack();
+                                    AsyncStorage.removeItem('@token');
+                                    AsyncStorage.removeItem('@userId');
+                                    globalContext.setUserID(null);
+                                    globalContext.setAuthToken(null);
+                                    globalContext.setRefreshToken(null);
+                                }}>
+                                    <View style={styles.button}>
+                                        <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
+                                        <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
+                                    </View>
                                 </TouchableOpacity>
                             </>
                             }
@@ -191,8 +201,8 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     line: {
-        flex: 1, 
-        height: 0.5, 
+        flex: 1,
+        height: 0.5,
         backgroundColor: '#CDC4F2'
     },
     playlistInformation: {
@@ -216,13 +226,13 @@ const styles = StyleSheet.create({
         margin: 10
     },
     informationButton: {
-        backgroundColor: 'white', 
-        marginTop: 20, 
-        width: 340, 
-        borderRadius: 15, 
-        padding: 25, 
-        flexDirection: 'row', 
-        alignItems: 'center', 
+        backgroundColor: 'white',
+        marginTop: 20,
+        width: 340,
+        borderRadius: 15,
+        padding: 25,
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
     },
 })
