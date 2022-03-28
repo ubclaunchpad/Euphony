@@ -291,6 +291,8 @@ PODS:
   - react-native-app-auth (6.4.3):
     - AppAuth (= 1.4.0)
     - React-Core
+  - react-native-geolocation (2.0.2):
+    - React
   - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-slider (4.2.1):
@@ -429,6 +431,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-app-auth (from `../node_modules/react-native-app-auth`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -511,6 +514,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-app-auth:
     :path: "../node_modules/react-native-app-auth"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
@@ -589,6 +594,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 1e1e03345cf6d47779e2061d679d0a87d9ae73d8
   React-logger: 1e10789cb84f99288479ba5f20822ce43ced6ffe
   react-native-app-auth: fd1eaa667c0bc014199456d14a6440cb74de814e
+  react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-slider: 241935e3ea8e47599c317f512f96ee8de607d4cb
   React-perflogger: 93d3f142d6d9a46e635f09ba0518027215a41098

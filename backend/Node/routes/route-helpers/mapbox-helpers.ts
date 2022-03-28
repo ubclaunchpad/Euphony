@@ -44,6 +44,7 @@ export async function reverseLocation(req: any, res: any) {
 		res.status(400).send('Invalid lat/lon value(s)');
 	}
 	const result: any = await reverseGeocoding(latLon[0], latLon[1]);
+	console.log(result)
 	res.send(result.features.length ? result.features[0].context : []);
 }
 
@@ -120,10 +121,12 @@ export async function getLocation(req: any, res: any, next: any) {
 	// TODO: send country text (United States) or code (id in our db)?
 	try {
 		if (res.locals.theOne) {
-			res.locals.location = getUserCountryName(req.headers['userid']);
+			res.locals.location = await getUserCountryName(req.headers['userid']);
 			next();
 		} else {
-			res.send(getUserCountryName(req.headers['userid']));
+			let country = await getUserCountryName(req.headers['userid']);
+			// TODO: send city as well
+			res.send({ country: country, city: null });
 		}
 	} catch (err) {
 		return res.status(404).send(err);
