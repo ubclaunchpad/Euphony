@@ -1,6 +1,6 @@
 import axios from 'axios';
 require('dotenv').config();
-import { shouldUpdateLatLon, updateUserLocation, getUserCountryName } from '../../src/db/users';
+import { shouldUpdateLatLon, updateUserLocation, getUserCountryName, getUserCityName } from '../../src/db/users';
 
 const token = process.env.MAPBOX_TOKEN;
 
@@ -125,9 +125,22 @@ export async function getLocation(req: any, res: any, next: any) {
 			next();
 		} else {
 			let country = await getUserCountryName(req.headers['userid']);
-			// TODO: send city as well
-			res.send({ country: country, city: null });
+			res.send(country);
 		}
+	} catch (err) {
+		return res.status(404).send(err);
+	}
+}
+
+
+
+export async function getCityCountry(req: any, res: any, next: any) {
+	// TODO: send country text (United States) or code (id in our db)?
+	try {
+		let country = await getUserCountryName(req.headers['userid']);
+		let city = await getUserCityName(req.headers['userid']);
+		// TODO: send city as well
+		res.send({ country: country, city: city });
 	} catch (err) {
 		return res.status(404).send(err);
 	}

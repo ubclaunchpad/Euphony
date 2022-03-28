@@ -30,7 +30,8 @@ type WeatherInfo = {
   weatherC: number,
   weatherF: number,
   feelsLikeC: number,
-  feelsLikeF: number
+  feelsLikeF: number,
+  weatherDesc: string,
 }
 
 
@@ -40,7 +41,7 @@ const LocationPicker = (props: Props) => {
   let [info, setInfo] = React.useState<WeatherInfo | null>(null);
   let [isCelsius, setIsCelsius] = React.useState(true);
   let buttonView = <JGButton style={{ marginHorizontal: 20, paddingTop: 13, paddingBottom: 30, }}
-    title="GET CURRENT LOCATION"
+    title="USE CURRENT LOCATION"
     onClick={() => {
       getWeatherData();
     }} />
@@ -49,7 +50,16 @@ const LocationPicker = (props: Props) => {
 
   let locationContentView = <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', marginHorizontal: 25 }}>
 
-    <Text style={{ fontSize: 15, fontFamily: 'Avenir', color: "#3700AB", fontWeight: 'bold', marginVertical: 17 }}>{info?.country}</Text>
+    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+        <Image source={require("./images/location.png")} style={{ marginRight: 10 }}></Image>
+        <Text style={{ fontSize: 15, fontFamily: 'Avenir', color: "#3700AB", fontWeight: 'bold', marginVertical: 14 }}>{info?.city ? info?.city + ", " : ""}{info?.country}</Text>
+      </View>
+
+      <TouchableOpacity onPress={() => { getWeatherData() }}>
+        <Image source={require("./images/refresh.png")} style={{ marginRight: 10, resizeMode: 'contain', marginBottom: 4 }}></Image>
+      </TouchableOpacity>
+    </View>
 
     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: 'rgba(1,0,0,0.6)', borderRadius: 16, overflow: 'hidden', marginBottom: 16 }}>
       <ImageBackground source={require('./images/location-background.png')} resizeMode="cover">
@@ -63,8 +73,9 @@ const LocationPicker = (props: Props) => {
           </TouchableOpacity>
 
         </View>
-        <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', color: "#2B0084" }}>{isCelsius ? info?.weatherC : info?.weatherF}{unit}</Text>
-        <Text style={{ fontSize: 13, fontWeight: 'bold', textAlign: 'center', marginBottom: 20, color: "#2B0084", marginTop: 10 }}>Feels like {isCelsius ? info?.feelsLikeC : info?.feelsLikeF}{unit}</Text>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', color: "#2B0084", marginBottom: 5, shadowColor: "black", marginTop: -10, shadowRadius: 4, shadowOpacity: 0.3, shadowOffset: { width: 0, height: 2 } }}>{info?.weatherDesc}</Text>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', color: "#2B0084", shadowColor: "black", shadowRadius: 4, shadowOpacity: 0.3, shadowOffset: { width: 0, height: 2 } }}>{isCelsius ? info?.weatherC : info?.weatherF}{unit}</Text>
+        <Text style={{ fontSize: 13, fontWeight: 'bold', textAlign: 'center', marginBottom: 20, color: "#2B0084", marginTop: 10, shadowColor: "black", shadowRadius: 4, shadowOpacity: 0.3, shadowOffset: { width: 0, height: 2 } }}>Feels like {isCelsius ? info?.feelsLikeC : info?.feelsLikeF}{unit}</Text>
 
       </ImageBackground>
 
@@ -104,7 +115,7 @@ const LocationPicker = (props: Props) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'userid': userID,
+          'userid': `${userID}`,
         }
       };
       let weather = fetch(API_ENDPOINT, REQUEST_OPTIONS)
@@ -129,6 +140,7 @@ const LocationPicker = (props: Props) => {
             weatherF: Math.round(weatherData.temp_f),
             feelsLikeC: Math.round(weatherData.feels_like_c),
             feelsLikeF: Math.round(weatherData.feels_like_f),
+            weatherDesc: weatherData.mainWeather,
           })
 
         })

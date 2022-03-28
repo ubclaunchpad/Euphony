@@ -3,7 +3,7 @@ import {
 	getCountryCodeFromName,
 	getCountryNameFromId,
 } from './countries/countries';
-import { getCityIdFromName } from './cityWeather/cityWeather';
+import { getCityIdFromName, getCityNameFromId } from './cityWeather/cityWeather';
 
 /**
  * determine whether the lat/lon is different by more than 2 degrees
@@ -72,6 +72,20 @@ export const getUserCountryName = async (userId: string): Promise<string> => {
 			`
 		);
 		return getCountryNameFromId(matchingUserData.rows[0].countryId);
+	} catch (err) {
+		console.log('error getting user country', err);
+		return '';
+	}
+};
+
+export const getUserCityName = async (userId: string): Promise<string> => {
+	try {
+		const matchingUserData = await client.query(
+			`
+				SELECT "cityId" FROM users WHERE "userId" = '${userId}' LIMIT 1;
+			`
+		);
+		return getCityNameFromId(matchingUserData.rows[0].cityId);
 	} catch (err) {
 		console.log('error getting user country', err);
 		return '';

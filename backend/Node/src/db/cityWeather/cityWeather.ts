@@ -64,7 +64,6 @@ const fetchWeatherDataForCities = async (startRow: number, endRow: number) => {
 				if (index >= startRow && index <= endRow) {
 					const latLon = [data.lat, data.lon];
 					const jsonData = await reverseWeatherDataUsingLatLon(latLon);
-
 					await client.query(
 						`
 					INSERT INTO "cityWeather" ("cityName", "weatherData") VALUES ($1, $2)
@@ -99,5 +98,20 @@ export const getCityIdFromName = async (cityName: string): Promise<number> => {
 	} catch (err) {
 		console.log('error getting city id from city name', err);
 		return 0;
+	}
+};
+
+export const getCityNameFromId = async (cityId: string): Promise<string> => {
+	try {
+		const matchingUserData = await client.query(
+			`
+				SELECT "cityName" FROM "cityWeather" WHERE "id" = '${cityId}' LIMIT 1;
+			`
+		);
+		console.log(matchingUserData.rows[0].cityName);
+		return matchingUserData.rows[0].cityName;
+	} catch (err) {
+		console.log('error getting city name from id', err);
+		return '';
 	}
 };
