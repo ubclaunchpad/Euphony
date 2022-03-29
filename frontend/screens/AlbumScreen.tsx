@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { FlatList, StatusBar, SafeAreaView, Text, View, ActivityIndicator, Alert, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { StatusBar, SafeAreaView, Text, View, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
 
 import AppContext from '../AppContext';
-
-import { Animated } from 'react-native';
 
 import SongListItem from '../components/SongListItem';
 import AlbumHeader from '../components/AlbumHeader';
 import AddedModal from '../components/AddedModal';
 import LeaveModal from '../components/LeaveModal';
-import InfoModal from '../components/InfoModal';
+import PlaylistSettings from '../components/InfoModal';
 
 import Modal from "react-native-modal";
 import { Modalize } from 'react-native-modalize';
@@ -17,62 +15,20 @@ import { Modalize } from 'react-native-modalize';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
+import Endpoints from '../networking/Endpoints';
 
 const AlbumScreen = ({ route, navigation }) => {
-  const { obj, coords, initName } = route.params;
+  const { filters, coords, initName } = route.params;
 
-  const { authToken, userID } = React.useContext(AppContext);
-  const [refreshToken, setRefreshToken] = useState(null);
-
-  const API_ENDPOINT = `http://localhost:4000/theOne/${coords.lat},${coords.long}/`;
-  const REQUEST_OPTIONS = {
-    method: 'POST',
-    body: JSON.stringify(obj),
-    headers: {
-      'Content-Type': 'application/json',
-      'access_token': authToken,
-      'userid': userID,
-      // 'refresh_token': refreshToken,
-    }
-  };
-  // dummy API endpoint and request, to be replaced with user-input theOne parameters
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [privatePlaylist, setIsPrivatePlaylist] = useState(true);
   const [searchData, setSearchData] = useState([]);
   const [query, setQuery] = useState('');
 
-  // where we push current copy of songs to the API
-  const updateSaved = () => {
-    setSaved(true);
-    setIsLoading(true);
-    const NEW_ENDPOINT = `http://localhost:4000/spotify/createSpotifyPlaylist/${authToken}`
-    const NEW_OPTIONS = {
-      method: 'POST',
-      body: JSON.stringify({
-        "name": name,
-        "public": !privatePlaylist, // opposite of private is public :)
-        "trackIds": data.map(song => { return song.id })
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        'access_token': authToken,
-        // 'refresh_token': refreshToken,
-      }
-    }
-    fetch(NEW_ENDPOINT, NEW_OPTIONS)
-      .then(results => {
-        setIsLoading(false);
-        setAddModalVisible(true);
-      })
-      .catch(err => {
-        setIsLoading(false);
-        console.error(err);
-        setError(err);
-      });
-  }
+
 
   // hooks for modal visibilities
   const [isAddModalVisible, setAddModalVisible] = useState(false);
@@ -145,21 +101,54 @@ const AlbumScreen = ({ route, navigation }) => {
     });
   }, [navigation, name]);
 
+  // where we push current copy of songs to the API
+  const updateSaved = () => {
+    setSaved(true);
+    setIsLoading(true);
+
+    Endpoints.createPlaylist({
+      "name": name,
+      "public": !privatePlaylist, // opposite of private is public :)
+      "trackIds": data.map(song => { return song.id })
+    })
+      .then(_ => {
+        setError(null);
+        setIsLoading(false);
+        setAddModalVisible(true);
+      })
+      .catch(err => {
+        if (err instanceof Error) {
+          setError(err.message);
+          setIsLoading(false);
+          console.error(err.message);
+        } else {
+          setError("Something went wrong, try again later!")
+          setIsLoading(false);
+        }
+      });
+  }
+
   // generate playlist with props from FilterScreen, fetch from API
   const genPlaylist = () => {
     setIsLoading(true);
-    fetch(API_ENDPOINT, REQUEST_OPTIONS)
-      .then(response => response.json())
+    Endpoints.theOne(filters, coords.lat, coords.long)
       .then(results => {
         console.log("results " + JSON.stringify(results));
         setData(results.body);
+        setError(null);
         setIsLoading(false);
       })
       .catch(err => {
-        setIsLoading(false);
-        console.error(err);
-        setError(err);
+        if (err instanceof Error) {
+          setError(err.message);
+          setIsLoading(false);
+          console.error(err.message);
+        } else {
+          setError("Something went wrong, try again later!")
+          setIsLoading(false);
+        }
       });
+
   }
 
   const deleteSong = (id) => {
@@ -220,71 +209,58 @@ const AlbumScreen = ({ route, navigation }) => {
     return (
       <View style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ fontSize: 18 }}>
-          Error fetching data... Check your network connection!
+          {error}
         </Text>
       </View>
     );
   }
 
-  if (!isLoading) {
-    if (data.name == "Error") {
-      return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 18 }}>
-            {data.message}
-          </Text>
+  return (
+    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
+
+      <Modal isVisible={isAddModalVisible} backdropOpacity={0.4} animationInTiming={700}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <AddedModal toggle={isAddModalVisible} onPress={toggleAddModal} name={name}></AddedModal>
         </View>
-      );
-    }
-    else {
-      return (
-        <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
-          <StatusBar barStyle="dark-content" backgroundColor="white" />
+      </Modal>
 
-          <Modal isVisible={isAddModalVisible} backdropOpacity={0.4} animationInTiming={700}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <AddedModal toggle={isAddModalVisible} onPress={toggleAddModal} name={name}></AddedModal>
-            </View>
-          </Modal>
+      <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationIn={"wobble"} animationInTiming={700} useNativeDriver={true} >
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <LeaveModal
+            toggle={true}
+            onLeave={onLeave}
+            onCancel={onCancel}
+            e={i}
+            name={name}>
+          </LeaveModal>
+        </View>
+      </Modal>
 
-          <Modal isVisible={isLeaveModalVisible} backdropOpacity={0.4} animationIn={"wobble"} animationInTiming={700} useNativeDriver={true} >
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <LeaveModal
-                toggle={true}
-                onLeave={onLeave}
-                onCancel={onCancel}
-                e={i}
-                name={name}>
-              </LeaveModal>
-            </View>
-          </Modal>
+      <Modalize ref={modalRef} adjustToContentHeight={toggle}>
+        <PlaylistSettings info={filters} toggle={toggle} handleClose={handleClose} title={name} />
+      </Modalize>
 
-          <Modalize ref={modalRef} adjustToContentHeight={toggle}>
-            <InfoModal info={obj} toggle={toggle} handleClose={handleClose} title={name} />
-          </Modalize>
-
-          <KeyboardAwareFlatList
-            data={query ? searchData : data}
-            renderItem={({ item }) => <SongListItem song={item} deleteSong={deleteSong} />}
-            keyExtractor={item => item.id}
-            ListHeaderComponent={() =>
-              <AlbumHeader
-                album={data}
-                setSearchData={setSearchData}
-                query={query}
-                setQuery={setQuery}
-                saved={saved}
-                updateSaved={updateSaved}
-                name={name}
-                setName={setName}
-                privatePlaylist={privatePlaylist}
-                setIsPrivatePlaylist={setIsPrivatePlaylist}
-              />}
-          />
-        </SafeAreaView>
-      );
-    }
-  };
+      <KeyboardAwareFlatList
+        data={query ? searchData : data}
+        renderItem={({ item }) => <SongListItem song={item} deleteSong={deleteSong} />}
+        keyExtractor={item => item.id}
+        ListHeaderComponent={() =>
+          <AlbumHeader
+            album={data}
+            setSearchData={setSearchData}
+            query={query}
+            setQuery={setQuery}
+            saved={saved}
+            updateSaved={updateSaved}
+            name={name}
+            setName={setName}
+            privatePlaylist={privatePlaylist}
+            setIsPrivatePlaylist={setIsPrivatePlaylist}
+          />}
+      />
+    </SafeAreaView>
+  );
 };
 
 export default AlbumScreen;

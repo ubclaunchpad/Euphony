@@ -39,6 +39,7 @@ class UserInfo {
         } catch (error) {
             console.warn(error)
         }
+        return this
     }
 
     getName(): string {

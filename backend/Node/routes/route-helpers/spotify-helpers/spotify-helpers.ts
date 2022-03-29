@@ -34,12 +34,10 @@ export const scopes = [
 const port = process.env.PORT || 4000;
 const mlServerPort = process.env.TZML_SERVER_PORT || 5000;
 // TODO (later): change 'localhost' after : to whatever prod's using
-const apiPrefix = `http://${
-	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
-}:${port}/`;
-const apiPrefixML = `http://${
-	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
-}:${mlServerPort}/`;
+const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+	}:${port}/`;
+const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+	}:${mlServerPort}/`;
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
 const NodeServerAPIs = {
@@ -82,7 +80,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 		} else {
 			return res
 				.status(204)
-				.send('users need to use spotify more to get top tracks');
+				.send('Users need to use spotify more to get top tracks');
 		}
 
 		res.locals.trackIds = topTracksIds;
@@ -99,7 +97,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 			popularityArr = tracksData.body.tracks;
 			popularityArr = popularityArr.map((track: any) => track.popularity);
 		} else {
-			return res.status(204).send('no popularity returned');
+			return res.status(204).send('No popularity returned');
 		}
 
 		if (audioFeaturesData && tracksData) {
@@ -115,7 +113,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 				res.send(inputForML);
 			}
 		} else {
-			return res.status(204).send('no audio features returned');
+			return res.status(204).send('No audio features returned');
 		}
 	} catch (error) {
 		return res.status(404).send(error);
@@ -143,7 +141,6 @@ export async function getRecommendations(req: any, res: any) {
 	// data from spotify API
 	const audio_features = res.locals.audio_features_w_popularity;
 	const trackIds = res.locals.trackIds;
-
 	console.log({
 		location,
 		pop,
@@ -174,7 +171,6 @@ export async function getRecommendations(req: any, res: any) {
 			trackIds,
 			auth.access_token!
 		);
-
 		/**
 		 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
 		 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
@@ -209,7 +205,7 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 
 	try {
 		if (!req.body.name)
-			return res.status(400).send("playlist's name is missing");
+			return res.status(400).send("Playlist's name is missing");
 		if (!req.body.trackIds)
 			return res
 				.status(400)
@@ -235,7 +231,7 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 
 				if (addTracks) {
 					return res.status(200).send({
-						body: 'playlist created successfully. Enjoy!',
+						body: 'Playlist created successfully. Enjoy!',
 						access_token: auth.access_token,
 					});
 				} else {

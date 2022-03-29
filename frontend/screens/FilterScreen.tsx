@@ -10,11 +10,11 @@ import LengthPicker from '../components/filter/LengthPicker';
 import JGButton from '../components/shared/JGButton/JGButton';
 
 import { useLayoutEffect } from 'react';
-import UserInfo, { dataType } from '../networking/UserInfo';
+import UserInfo from '../networking/UserInfo';
 import FastImage from 'react-native-fast-image';
 const defaultProfileImage = require('./images/profile.png');
 
-function FilterScreen({ navigation }) {
+function FilterScreen({ navigation }: any) {
   const MAX_LENGTH = 100;
 
   const authContext = React.useContext(AppContext);
@@ -25,13 +25,12 @@ function FilterScreen({ navigation }) {
   const [genres, setGenres] = React.useState(0);
   const [mood, setMood] = React.useState(-1);
   const [activity, setActivity] = React.useState(-1);
-  const [lat, setLat] = React.useState(undefined)
-  const [long, setLong] = React.useState(undefined)
+  const [lat, setLat] = React.useState<number | null>(null)
+  const [long, setLong] = React.useState<number | null>(null)
   const [playlistLength, setPlaylistLength] = React.useState(1);
 
   // object of User Info, with getters.
-  const [userInfo, setUserInfo] = React.useState();
-  const [isLoadingUserInfo, setIsLoadingUserInfo] = React.useState(true);
+  const [userInfo, setUserInfo] = React.useState<UserInfo>();
 
   var messageText;
   if (authContext.authToken === "") {
@@ -54,7 +53,6 @@ function FilterScreen({ navigation }) {
     if (authContext.authToken) {
       fetchData()
         .then(() => {
-          setIsLoadingUserInfo(false)
         })
         .catch(console.error);
     }
@@ -73,12 +71,12 @@ function FilterScreen({ navigation }) {
         <View style={{}}>
           <TouchableOpacity onPress={() => navigation.navigate('Profile', { userInfo: userInfo })}
             style={{ paddingBottom: 10, paddingRight: 8 }}>
-            <FastImage source={isLoadingUserInfo == true ? defaultProfileImage : userInfo.getProfileImage()} style={{ width: 40, height: 40, borderRadius: 35, }} />
+            <FastImage source={userInfo ? userInfo.getProfileImage() : defaultProfileImage} style={{ width: 40, height: 40, borderRadius: 35, }} />
           </TouchableOpacity>
         </View>
       ),
     });
-  }, [isLoadingUserInfo, navigation]);
+  }, [userInfo, navigation]);
 
   return (
     <View style={styles.container}>
@@ -181,15 +179,15 @@ function FilterScreen({ navigation }) {
 
                 if (mood !== -1 && genres !== 0 && activity !== -1) {
                   navigation.navigate('Playlist', {
-                    obj: {
+                    filters: {
                       "genres": genres,
                       "mood": mood,
                       "activity": activity,
                       "limit": playlistLength,
                     },
                     coords: {
-                      lat: lat,
-                      long: long
+                      lat: lat ? lat : 27,
+                      long: long ? long : 133,
                     },
                     initName: text ? text : "My Playlist",
                   })

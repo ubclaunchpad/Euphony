@@ -13,18 +13,17 @@ interface Props {
 
   /* The description placed under the header */
   description: string,
-
-  lat: number | null,
-  lng: number | null,
   onChange: (lat: number, lng: number) => void,
 }
 
 const LocationPicker = (props: Props) => {
-  let [buttonTitle, setButtonLabel] = React.useState<string>("USE CURRENT LOCATION");
   let [info, setInfo] = React.useState<WeatherInfo | null>(null);
   let [isCelsius, setIsCelsius] = React.useState(true);
+  let [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  let [isLoading, setIsLoading] = React.useState(false);
   let buttonView = <JGButton style={{ marginHorizontal: 20, paddingTop: 13, paddingBottom: 30, }}
-    title={buttonTitle}
+    title={"USE CURRENT LOCATION"}
+    isLoading={isLoading}
     onClick={() => {
       getWeatherData();
     }} />
@@ -71,6 +70,10 @@ const LocationPicker = (props: Props) => {
   if (info) {
     bottomView = locationContentView;
   }
+  let errorLabel;
+  if (errorMessage) {
+    errorLabel = <Text style={{ fontSize: 12, fontFamily: 'Avenir', color: "red", marginTop: 14, marginHorizontal: 25 }}>{errorMessage}</Text>
+  }
 
   return (
     <View>
@@ -78,19 +81,21 @@ const LocationPicker = (props: Props) => {
         title={props.title}
         description={props.description}
         callback={() => {
-          setButtonLabel("USE CURRENT LOCATION");
+          setErrorMessage(null);
           setInfo(null);
         }}
         required={false}
       />
+      {errorLabel}
       {bottomView}
 
-    </View>
+    </View >
   );
 
 
 
   async function getWeatherData() {
+    setIsLoading(true)
 
     try {
       let location = await GetLocation.getCurrentPosition({
@@ -102,17 +107,20 @@ const LocationPicker = (props: Props) => {
       let weatherInfo = await Endpoints.getWeatherInfo(location.latitude, location.longitude)
 
       if (weatherInfo.weatherC == null || weatherInfo.weatherF == null) {
-        throw new Error("Weather Couldn't Be Found, Try Later");
+        throw new Error("Location Couldn't Be Found, Try Later");
       }
       setInfo(weatherInfo)
     } catch (error) {
       if ((error as LocationError).code) {
-        setButtonLabel("LOCATION " + (error as LocationError).code);
+        setErrorMessage("Location " + (error as LocationError).code);
       } else if (error instanceof Error) {
-        setButtonLabel(error.message);
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Network Error, try again later.")
       }
-
     }
+    setIsLoading(false)
+
   }
 
 

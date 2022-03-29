@@ -77,10 +77,10 @@ export async function updateLatLon(req: any, res: any, next: any) {
 		const latLon = req.params.latLon.split(',');
 		const userId = req.headers['userid'];
 		if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
-			res.status(400).send('Invalid lat/lon value(s)');
+			return res.status(400).send('Invalid lat/lon value(s)');
 		}
 		if (!userId) {
-			res.status(400).send('invalid user');
+			return res.status(400).send('Invalid User');
 		}
 
 		// determine if the new lat lon is different from the one in the db

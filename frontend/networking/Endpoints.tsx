@@ -17,14 +17,38 @@ enum APIReqType {
     post = "POST",
 }
 
-function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = [2]) {
-    return req.then(res => {
-        if (validStatusHundreds.includes(Math.floor(res.status / 100))) {
-            return res.json();
-        } else {
-            throw new Error(`Network Error With Code: ${res.status}`);
-        }
-    })
+function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = [2], isJSON = true) {
+    return req
+        .then(res => {
+            return Promise.all([res.text(), res.status])
+        })
+        .then(([text, status]) => {
+            if (validStatusHundreds.includes(Math.floor(status / 100))) {
+                return text;
+            } else {
+                try {
+                    let json = JSON.parse(text);
+                    if (json.message) {
+                        throw new Error(`Network Error: ${json.message.substring(0, 50)} (${status})`);
+                    } else {
+                        throw new Error(`Network Error:  ${status}`);
+                    }
+                } catch {
+                    throw new Error(`Network Error: ${text.substring(0, 50)} (${status})`);
+                }
+            }
+        })
+        .then(data => {
+            if (isJSON) {
+                try {
+                    return JSON.parse(data);
+                } catch {
+                    throw new Error("There was a networking error")
+                }
+            } else {
+                return data;
+            }
+        })
 }
 
 function getHeader(type: APIReqType) {
@@ -74,4 +98,22 @@ export default class Endpoints {
         const endpoint = `${baseURL}spotify/getMe`;
         return defaultHandler(fetch(endpoint, getHeader(APIReqType.get)))
     }
+
+    static async theOne(body: any, latitude: number, longitude: number): Promise<any> {
+        const endpoint = `${baseURL}theOne/${latitude},${longitude}`;
+        console.log("the ONE")
+        return defaultHandler(fetch(endpoint, {
+            ...getHeader(APIReqType.post),
+            body: JSON.stringify(body),
+        }))
+    }
+
+    static async createPlaylist(body: any): Promise<any> {
+        const endpoint = `${baseURL}spotify/createSpotifyPlaylist`;
+        return defaultHandler(fetch(endpoint, {
+            ...getHeader(APIReqType.post),
+            body: JSON.stringify(body),
+        }))
+    }
+
 }
