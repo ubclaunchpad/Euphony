@@ -9,6 +9,7 @@ import PlaylistInfo from './screens/PlaylistInfo';
 import AppContext from './AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authHandler from './networking/AppAuth';
+import Endpoints from './networking/Endpoints';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ function App() {
         console.log("Token found in storage " + value);
         let result = await authHandler.refreshLogin(value)
         if (result) {
+          Endpoints.authToken = result.accessToken;
           setAuthToken(result.accessToken);
           setRefreshToken(result.refreshToken);
         } else {
@@ -51,6 +53,7 @@ function App() {
   React.useEffect(() => {
     AsyncStorage.getItem('@userID').then(async (value) => {
       if (value) {
+        Endpoints.userID = value;
         setUserID(value);
       } else {
         setUserID(null);

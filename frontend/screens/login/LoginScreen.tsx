@@ -3,6 +3,7 @@ import { SafeAreaView, TouchableOpacity, StyleSheet, Button, Text, View, Image, 
 import authHandler from '../../networking/AppAuth';
 import AppContext from '../../AppContext';
 import JGButton, { JGButtonImageType } from '../../components/shared/JGButton/JGButton';
+import Endpoints from '../../networking/Endpoints';
 export default function LoginScreen({ dismissAction }: { dismissAction: () => void }) {
     const authContext = React.useContext(AppContext);
 
@@ -39,6 +40,9 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
                         result?.userID && authContext.setUserID(result.userID);
                         result?.refreshToken && authContext.setRefreshToken(result.refreshToken);
                         result?.accessToken && authContext.setAuthToken(result.accessToken);
+
+                        Endpoints.userID = result.userID;
+                        Endpoints.authToken = result.accessToken;
                     }}></JGButton>
                 </View>
             </SafeAreaView >

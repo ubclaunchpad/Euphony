@@ -71,7 +71,11 @@ export const getUserCountryName = async (userId: string): Promise<string> => {
 				SELECT "countryId" FROM users WHERE "userId" = '${userId}' LIMIT 1;
 			`
 		);
-		return getCountryNameFromId(matchingUserData.rows[0].countryId);
+		if (matchingUserData.rows[0].countryId) {
+			return getCountryNameFromId(matchingUserData.rows[0].countryId);
+		} else {
+			throw new Error("user's countryId is null");
+		}
 	} catch (err) {
 		console.log('error getting user country', err);
 		return '';
@@ -113,7 +117,10 @@ export const getUserWeather = async (
 			`
 		);
 
-		return weatherData.rows[0].weatherData;
+		if (weatherData.rows[0]) {
+			return weatherData.rows[0].weatherData;
+		}
+		return undefined;
 	} catch (err) {
 		console.log('error getting user country', err);
 		return undefined;

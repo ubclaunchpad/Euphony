@@ -108,7 +108,6 @@ export const getCityNameFromId = async (cityId: string): Promise<string> => {
 				SELECT "cityName" FROM "cityWeather" WHERE "id" = '${cityId}' LIMIT 1;
 			`
 		);
-		console.log(matchingUserData.rows[0].cityName);
 		return matchingUserData.rows[0].cityName;
 	} catch (err) {
 		console.log('error getting city name from id', err);

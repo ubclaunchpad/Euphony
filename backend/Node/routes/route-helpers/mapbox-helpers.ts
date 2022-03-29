@@ -44,7 +44,6 @@ export async function reverseLocation(req: any, res: any) {
 		res.status(400).send('Invalid lat/lon value(s)');
 	}
 	const result: any = await reverseGeocoding(latLon[0], latLon[1]);
-	console.log(result)
 	res.send(result.features.length ? result.features[0].context : []);
 }
 
@@ -135,12 +134,16 @@ export async function getLocation(req: any, res: any, next: any) {
 
 
 export async function getCityCountry(req: any, res: any, next: any) {
-	// TODO: send country text (United States) or code (id in our db)?
 	try {
 		let country = await getUserCountryName(req.headers['userid']);
 		let city = await getUserCityName(req.headers['userid']);
-		// TODO: send city as well
-		res.send({ country: country, city: city });
+
+		//Just need country to show something on UI, city is not necessary but nice to have
+		if (country !== "") {
+			res.send({ country: country, city: city });
+		} else {
+			res.status(404).send('Location not found');
+		}
 	} catch (err) {
 		return res.status(404).send(err);
 	}

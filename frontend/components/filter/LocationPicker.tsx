@@ -2,15 +2,10 @@ import React from 'react';
 import { Image, ImageBackground, View, Text, TouchableOpacity } from 'react-native';
 import JGButton from '../shared/JGButton/JGButton';
 import FilterHeader from './FilterHeader';
-import Geolocation from '@react-native-community/geolocation';
-import AppContext from '../../AppContext';
 
-import { privateName } from '@babel/types';
+import Endpoints, { WeatherInfo } from '../../networking/Endpoints';
+import GetLocation, { LocationError } from 'react-native-get-location'
 
-Geolocation.setRNConfiguration({
-  skipPermissionRequests: true,
-  authorizationLevel: 'whenInUse',
-});
 
 interface Props {
   /* The title */
@@ -24,24 +19,12 @@ interface Props {
   onChange: (lat: number, lng: number) => void,
 }
 
-type WeatherInfo = {
-  city: string | null,
-  country: string,
-  weatherC: number,
-  weatherF: number,
-  feelsLikeC: number,
-  feelsLikeF: number,
-  weatherDesc: string,
-}
-
-
 const LocationPicker = (props: Props) => {
-  const { authToken, userID } = React.useContext(AppContext);
-
+  let [buttonTitle, setButtonLabel] = React.useState<string>("USE CURRENT LOCATION");
   let [info, setInfo] = React.useState<WeatherInfo | null>(null);
   let [isCelsius, setIsCelsius] = React.useState(true);
   let buttonView = <JGButton style={{ marginHorizontal: 20, paddingTop: 13, paddingBottom: 30, }}
-    title="USE CURRENT LOCATION"
+    title={buttonTitle}
     onClick={() => {
       getWeatherData();
     }} />
@@ -95,6 +78,7 @@ const LocationPicker = (props: Props) => {
         title={props.title}
         description={props.description}
         callback={() => {
+          setButtonLabel("USE CURRENT LOCATION");
           setInfo(null);
         }}
         required={false}
@@ -105,48 +89,35 @@ const LocationPicker = (props: Props) => {
   );
 
 
-  function getWeatherData() {
-    Geolocation.requestAuthorization()
-    Geolocation.getCurrentPosition((position) => {
-      props.onChange(position.coords.latitude, position.coords.longitude);
 
-      const API_ENDPOINT = `http://localhost:4000/openWeather/weather/${position.coords.latitude},${position.coords.longitude}/`;
-      const REQUEST_OPTIONS = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'userid': `${userID}`,
-        }
-      };
-      let weather = fetch(API_ENDPOINT, REQUEST_OPTIONS)
-        .then(results => {
-          return results.json();
-        })
-      console.log(userID)
-      const locationEndpoint = `http://localhost:4000/mapbox/location/${position.coords.latitude},${position.coords.longitude}/`;
-      let location = fetch(locationEndpoint, REQUEST_OPTIONS)
-        .then(results => {
-          return results.json();
-        })
+  async function getWeatherData() {
 
+    try {
+      let location = await GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 15000,
+      })
+      console.log(location);
 
-      return Promise.all([weather, location])
-        .then(([weatherData, locationData]) => {
-          console.log(locationData)
-          setInfo({
-            city: locationData.city,
-            country: locationData.country,
-            weatherC: Math.round(weatherData.temp_c),
-            weatherF: Math.round(weatherData.temp_f),
-            feelsLikeC: Math.round(weatherData.feels_like_c),
-            feelsLikeF: Math.round(weatherData.feels_like_f),
-            weatherDesc: weatherData.mainWeather,
-          })
+      let weatherInfo = await Endpoints.getWeatherInfo(location.latitude, location.longitude)
 
-        })
-        .catch(err => console.error(err));
-    })
+      if (weatherInfo.weatherC == null || weatherInfo.weatherF == null) {
+        throw new Error("Weather Couldn't Be Found, Try Later");
+      }
+      setInfo(weatherInfo)
+    } catch (error) {
+      if ((error as LocationError).code) {
+        setButtonLabel("LOCATION " + (error as LocationError).code);
+      } else if (error instanceof Error) {
+        setButtonLabel(error.message);
+      }
+
+    }
   }
+
+
+  // }
+
 
 }
 
