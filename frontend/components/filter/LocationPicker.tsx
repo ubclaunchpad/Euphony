@@ -5,6 +5,7 @@ import FilterHeader from './FilterHeader';
 
 import Endpoints, { WeatherInfo } from '../../networking/Endpoints';
 import GetLocation, { LocationError } from 'react-native-get-location'
+import { FilterWeatherInfo } from '../../screens/FilterScreen';
 
 
 interface Props {
@@ -13,7 +14,8 @@ interface Props {
 
   /* The description placed under the header */
   description: string,
-  onChange: (lat: number, lng: number) => void,
+  onChange: (lat: number | null, lng: number | null) => void,
+  locInfoObtained: (info: FilterWeatherInfo | null) => void
 }
 
 const LocationPicker = (props: Props) => {
@@ -29,6 +31,22 @@ const LocationPicker = (props: Props) => {
     }} />
 
   let unit = isCelsius ? "°C" : "°F"
+
+  React.useEffect(
+    () => {
+      if (info) {
+        let weatherDesc = isCelsius ? `${info.weatherC}°C` : `${info.weatherF}°F`;
+        props.locInfoObtained({
+          locationName: `${info.country}`,
+          weatherString: `${info.weatherDesc} ${weatherDesc}`,
+        })
+      } else {
+        props.locInfoObtained(null)
+        props.onChange(null, null);
+      }
+    },
+    [isCelsius, info]
+  )
 
   let locationContentView = <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', marginHorizontal: 25 }}>
 
@@ -102,13 +120,13 @@ const LocationPicker = (props: Props) => {
         enableHighAccuracy: true,
         timeout: 15000,
       })
-      console.log(location);
-
       let weatherInfo = await Endpoints.getWeatherInfo(location.latitude, location.longitude)
 
       if (weatherInfo.weatherC == null || weatherInfo.weatherF == null) {
         throw new Error("Location Couldn't Be Found, Try Later");
       }
+
+      props.onChange(location.latitude, location.longitude);
       setInfo(weatherInfo)
     } catch (error) {
       if ((error as LocationError).code) {

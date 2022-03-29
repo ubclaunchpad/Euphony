@@ -18,9 +18,10 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 import Endpoints from '../networking/Endpoints';
 
 const AlbumScreen = ({ route, navigation }) => {
-  const { filters, coords, initName } = route.params;
+  const { filters, coords, initName, locInfo } = route.params;
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isAddingToSpotify, setIsAddingToSpotify] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -102,9 +103,9 @@ const AlbumScreen = ({ route, navigation }) => {
   }, [navigation, name]);
 
   // where we push current copy of songs to the API
-  const updateSaved = () => {
+  const addToSpotify = () => {
     setSaved(true);
-    setIsLoading(true);
+    setIsAddingToSpotify(true);
 
     Endpoints.createPlaylist({
       "name": name,
@@ -113,17 +114,17 @@ const AlbumScreen = ({ route, navigation }) => {
     })
       .then(_ => {
         setError(null);
-        setIsLoading(false);
+        setIsAddingToSpotify(false);
         setAddModalVisible(true);
       })
       .catch(err => {
         if (err instanceof Error) {
           setError(err.message);
-          setIsLoading(false);
+          setIsAddingToSpotify(false);
           console.error(err.message);
         } else {
           setError("Something went wrong, try again later!")
-          setIsLoading(false);
+          setIsAddingToSpotify(false);
         }
       });
   }
@@ -238,7 +239,7 @@ const AlbumScreen = ({ route, navigation }) => {
       </Modal>
 
       <Modalize ref={modalRef} adjustToContentHeight={toggle}>
-        <PlaylistSettings info={filters} toggle={toggle} handleClose={handleClose} title={name} />
+        <PlaylistSettings weatherInfo={locInfo} info={filters} toggle={toggle} handleClose={handleClose} title={name} />
       </Modalize>
 
       <KeyboardAwareFlatList
@@ -247,12 +248,14 @@ const AlbumScreen = ({ route, navigation }) => {
         keyExtractor={item => item.id}
         ListHeaderComponent={() =>
           <AlbumHeader
+            isLoading={isAddingToSpotify}
+            info
             album={data}
             setSearchData={setSearchData}
             query={query}
             setQuery={setQuery}
             saved={saved}
-            updateSaved={updateSaved}
+            updateSaved={addToSpotify}
             name={name}
             setName={setName}
             privatePlaylist={privatePlaylist}

@@ -26,16 +26,25 @@ function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = 
             if (validStatusHundreds.includes(Math.floor(status / 100))) {
                 return text;
             } else {
+                // handle a status code error
+
+                let errorMessage = ""
                 try {
+                    console.log("HELLO");
                     let json = JSON.parse(text);
                     if (json.message) {
-                        throw new Error(`Network Error: ${json.message.substring(0, 50)} (${status})`);
+                        errorMessage = json.message.substring(0, 50) + ` (${status})`;
                     } else {
-                        throw new Error(`Network Error:  ${status}`);
+                        errorMessage = `(${status})`;
                     }
-                } catch {
-                    throw new Error(`Network Error: ${text.substring(0, 50)} (${status})`);
+                } catch (err) {
+                    if (err instanceof Error) {
+                        errorMessage = err.message;
+                    } else {
+                        errorMessage = text.substring(0, 50) + ` (${status})`;
+                    }
                 }
+                throw new Error("Network Error: " + errorMessage);
             }
         })
         .then(data => {

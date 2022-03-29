@@ -14,6 +14,11 @@ import UserInfo from '../networking/UserInfo';
 import FastImage from 'react-native-fast-image';
 const defaultProfileImage = require('./images/profile.png');
 
+export type FilterWeatherInfo = {
+  locationName: string;
+  weatherString: string;
+}
+
 function FilterScreen({ navigation }: any) {
   const MAX_LENGTH = 100;
 
@@ -32,6 +37,7 @@ function FilterScreen({ navigation }: any) {
   // object of User Info, with getters.
   const [userInfo, setUserInfo] = React.useState<UserInfo>();
 
+  const [locInfo, setLocInfo] = React.useState<FilterWeatherInfo | null>(null);
   var messageText;
   if (authContext.authToken === "") {
     messageText =
@@ -154,6 +160,7 @@ function FilterScreen({ navigation }: any) {
             setLat(lat)
             setLong(lng)
           }}
+          locInfoObtained={setLocInfo}
         />
         {/* <Carousel
           title="Weather"
@@ -190,6 +197,7 @@ function FilterScreen({ navigation }: any) {
                       long: long ? long : 133,
                     },
                     initName: text ? text : "My Playlist",
+                    locInfo: locInfo,
                   })
                 }
               }

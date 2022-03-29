@@ -6,10 +6,11 @@ import styles from './styles';
 
 import Svg, {
   Circle,
-  Ellipse,
 } from 'react-native-svg';
+import { FilterWeatherInfo } from '../../screens/FilterScreen';
 
 export type AlbumHeaderProps = {
+  weatherInfo?: FilterWeatherInfo
   album: Album;
 };
 
@@ -17,8 +18,8 @@ const mood = ['Happy', 'Melancholic', 'Lonely', 'Angry', 'Compassionate'];
 const activity = ['Shower', 'Gym', 'Study', 'Party', 'Bed'];
 const genres = ['Pop', 'R&B', 'Indie', 'Hip-Hop'];
 
-const PlaylistSettings = (props) => {
-  const { info, toggle, handleClose, title } = props;
+const PlaylistSettings = (props: AlbumHeaderProps) => {
+  const { info, toggle, handleClose, title, weatherInfo } = props;
   console.log(info)
   let addedGenres: String[] = [];
   for (let i = 0; i < genres.length; i++) {
@@ -28,6 +29,28 @@ const PlaylistSettings = (props) => {
   }
   let genresString = addedGenres.join(', ').replace(/, ([^,]*)$/, ' and $1')
 
+  let weatherFilterView;
+
+
+
+  if (weatherInfo) {
+    weatherFilterView = <>
+      <View style={styles.divider}>
+        <View style={styles.line} />
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.leftText}>✈  Location</Text>
+        <Text style={styles.rightText}>{weatherInfo.locationName}</Text>
+      </View>
+      <View style={styles.divider}>
+        <View style={styles.line} />
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.leftText}>🌦  Weather</Text>
+        <Text style={styles.rightText}>{weatherInfo.weatherString}</Text>
+      </View>
+    </>
+  }
   // THIS IS A VERY POOR IMPLEMENTATION OF THE FILTER OPTIONS SCREEN
   // but it will be refactored after finals :)
   return (
@@ -54,7 +77,7 @@ const PlaylistSettings = (props) => {
       </View>
       <View style={styles.header}>
         <Text style={styles.name}>{title} Filters</Text>
-        <Text style={styles.p}>Please go back to the Filters page to modify the selected filters.</Text>
+        <Text style={{ ...styles.p, marginTop: 8 }}>Please go back to the Filters page to modify the selected filters.</Text>
       </View>
       <View style={styles.divider}>
         <View style={styles.line} />
@@ -77,23 +100,7 @@ const PlaylistSettings = (props) => {
         <Text style={styles.leftText}>🎧  Activity</Text>
         <Text style={styles.rightText}>{info['activity'] >= 0 ? activity[info['activity']] : "N/A"}</Text>
       </View>
-      <View style={styles.divider}>
-        <View style={styles.line} />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.leftText}>✈  Location</Text>
-        <Text style={styles.rightText}>Canada</Text>
-      </View>
-      <View style={styles.divider}>
-        <View style={styles.line} />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.leftText}>🌦  Weather</Text>
-        <View style={{ alignItems: 'flex-end' }}>
-          <Text style={styles.rightText}>Cloudy (3°)</Text>
-          <Text style={styles.leftText}>(Current Weather)</Text>
-        </View>
-      </View>
+      {weatherFilterView}
     </View>
   );
 };
