@@ -13,8 +13,8 @@ export type WeatherInfo = {
 let baseURL = __DEV__ ? "http://localhost:4000/" : "http://localhost:4000/"
 
 enum APIReqType {
-    get = "GET",
-    post = "POST",
+    Get = "GET",
+    Post = "POST",
 }
 
 function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = [2], isJSON = true) {
@@ -80,8 +80,8 @@ export default class Endpoints {
         const weatherEndpoint = `${baseURL}openWeather/weather/${latitude},${longitude}/`;
         const locationEndpoint = `${baseURL}mapbox/location/${latitude},${longitude}/`;
 
-        let weather = defaultHandler(fetch(weatherEndpoint, getHeader(APIReqType.get)))
-        let location = defaultHandler(fetch(locationEndpoint, getHeader(APIReqType.get)))
+        let weather = defaultHandler(fetch(weatherEndpoint, getHeader(APIReqType.Get)))
+        let location = defaultHandler(fetch(locationEndpoint, getHeader(APIReqType.Get)))
 
         return Promise.all([weather, location])
             .then(([weatherData, locationData]) => {
@@ -105,14 +105,14 @@ export default class Endpoints {
         }
         console.log(this.authToken)
         const endpoint = `${baseURL}spotify/getMe`;
-        return defaultHandler(fetch(endpoint, getHeader(APIReqType.get)))
+        return defaultHandler(fetch(endpoint, getHeader(APIReqType.Get)))
     }
 
     static async theOne(body: any, latitude: number, longitude: number): Promise<any> {
         const endpoint = `${baseURL}theOne/${latitude},${longitude}`;
         console.log("the ONE")
         return defaultHandler(fetch(endpoint, {
-            ...getHeader(APIReqType.post),
+            ...getHeader(APIReqType.Post),
             body: JSON.stringify(body),
         }))
     }
@@ -120,7 +120,7 @@ export default class Endpoints {
     static async createPlaylist(body: any): Promise<any> {
         const endpoint = `${baseURL}spotify/createSpotifyPlaylist`;
         return defaultHandler(fetch(endpoint, {
-            ...getHeader(APIReqType.post),
+            ...getHeader(APIReqType.Post),
             body: JSON.stringify(body),
         }))
     }

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "frontend.app"
-               BlueprintName = "frontend"
-               ReferencedContainer = "container:frontend.xcodeproj">
+               BuildableName = "Euphony.app"
+               BlueprintName = "Euphony"
+               ReferencedContainer = "container:Euphony.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "frontendTests.xctest"
-               BlueprintName = "frontendTests"
-               ReferencedContainer = "container:frontend.xcodeproj">
+               BuildableName = "EuphonyTests.xctest"
+               BlueprintName = "EuphonyTests"
+               ReferencedContainer = "container:Euphony.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "frontend.app"
-            BlueprintName = "frontend"
-            ReferencedContainer = "container:frontend.xcodeproj">
+            BuildableName = "Euphony.app"
+            BlueprintName = "Euphony"
+            ReferencedContainer = "container:Euphony.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "frontend.app"
-            BlueprintName = "frontend"
-            ReferencedContainer = "container:frontend.xcodeproj">
+            BuildableName = "Euphony.app"
+            BlueprintName = "Euphony"
+            ReferencedContainer = "container:Euphony.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
