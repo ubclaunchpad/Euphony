@@ -33,7 +33,7 @@ function getHeader(type: APIReqType) {
         headers: {
             'Content-Type': 'application/json',
             'userid': `${Endpoints.userID}`,
-            'authtoken': `${Endpoints.authToken}`,
+            'access_token': `${Endpoints.authToken}`,
         }
     };
 }
@@ -66,11 +66,12 @@ export default class Endpoints {
             })
     }
 
-    static async getMe(accessToken: string) {
-        this.authToken = accessToken;
+    static async getMe(accessToken?: string): Promise<any> {
+        if (accessToken) {
+            this.authToken = accessToken;
+        }
+        console.log(this.authToken)
         const endpoint = `${baseURL}spotify/getMe`;
-        const response = await fetch(endpoint, getHeader(APIReqType.get))
-        const user = await response.json();
-        return user;
+        return defaultHandler(fetch(endpoint, getHeader(APIReqType.get)))
     }
 }

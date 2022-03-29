@@ -1,4 +1,5 @@
-const profileEndpoint = "http://localhost:4000/spotify/getMe"
+import Endpoints from "./Endpoints";
+
 const defaultProfileImage = require('../screens/images/profile.png');
 const defaultPlaylists = ["Liked Songs", "On Repeat", "Time Capsule", "Playlist Name 1", "Playlist Name 2"];
 const defaultSpotifyURL = "https://www.spotify.com";
@@ -13,7 +14,7 @@ type dataType = {
 class UserInfo {
     data: dataType;
     access_token: string;
-    
+
     constructor(access_token: string) {
         // initialize empty before updating data
         this.access_token = access_token;
@@ -26,31 +27,18 @@ class UserInfo {
         this.updateData()
     }
 
-    async updateData():Promise<any> {
-        const REQUEST_OPTIONS = {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'access_token': this.access_token,
-              // 'refresh_token': refreshToken,
-            }
-        };
-        await fetch(profileEndpoint, REQUEST_OPTIONS)
-            .then(response => response.json())
-            .then(results => {
-                this.data.name = results.body.display_name == false ? results.body.id : results.body.display_name;
-                // if the user does NOT have an image on Spotify, use the default. otherwise, grab the Spotify pfp
-                this.data.profileImageURL = results.body.images.length == 0 ? "null_string" : results.body.images[0].url;
-                // TODO: update with real playlist names
-                this.data.playlists = ["Liked Songs", "On Repeat", "Time Capsule", "Playlist Name 1", "Playlist Name 2"];
-                this.data.spotifyRedirect = results.body.external_urls.spotify;
-            })
-            .catch(err => {
-                console.error(err);
-            });
-        
-        return this;
-        
+    async updateData() {
+        try {
+            let user = await Endpoints.getMe()
+            this.data.name = user.body.display_name == false ? user.body.id : user.body.display_name;
+            // if the user does NOT have an image on Spotify, use the default. otherwise, grab the Spotify pfp
+            this.data.profileImageURL = user.body.images.length === 0 ? "null_string" : user.body.images[0].url;
+            // TODO: update with real playlist names
+            this.data.playlists = ["Liked Songs", "On Repeat", "Time Capsule", "Playlist Name 1", "Playlist Name 2"];
+            this.data.spotifyRedirect = user.body.external_urls.spotify;
+        } catch (error) {
+            console.warn(error)
+        }
     }
 
     getName(): string {
@@ -66,7 +54,7 @@ class UserInfo {
 
     getProfileImage(): object {
         if (this.checkAccessTokenValid()) {
-            return {uri: this.data.profileImageURL};
+            return { uri: this.data.profileImageURL };
         }
         return defaultProfileImage;
     }
