@@ -65,4 +65,12 @@ export default class Endpoints {
 
             })
     }
+
+    static async getMe(accessToken: string) {
+        this.authToken = accessToken;
+        const endpoint = `${baseURL}spotify/getMe`;
+        const response = await fetch(endpoint, getHeader(APIReqType.get))
+        const user = await response.json();
+        return user;
+    }
 }

@@ -6,7 +6,24 @@ import JGButton, { JGButtonImageType } from '../../components/shared/JGButton/JG
 import Endpoints from '../../networking/Endpoints';
 export default function LoginScreen({ dismissAction }: { dismissAction: () => void }) {
     const authContext = React.useContext(AppContext);
+    let [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
+    let errorBody: Element | null = <Text style={{
+        color: 'red',
+        fontFamily: "Avenir",
+        fontSize: 16,
+        fontWeight: "500",
+        paddingHorizontal: 40,
+        textAlign: "center",
+        marginTop: 20,
+        marginBottom: -50,
+    }}>
+        {errorMessage}
+    </Text>
+
+    if (errorMessage == null) {
+        errorBody = null
+    }
     return (
         <ImageBackground source={require('./images/login-background.png')} style={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1 }}>
@@ -24,6 +41,7 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
                     </TouchableOpacity>
                 </View>
 
+                {errorBody}
                 <View style={styles.contentContainer}>
                     <View style={{ flex: 0, justifyContent: "center", alignItems: "center" }}>
                         <Image source={require('./images/login-image.png')}></Image>
@@ -36,13 +54,17 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
 
                     </View>
                     <JGButton style={{ marginTop: 20 }} icon={JGButtonImageType.Spotify} title="CONNECT SPOTIFY" onClick={async () => {
-                        let result = await authHandler.onLogin();
-                        result?.userID && authContext.setUserID(result.userID);
-                        result?.refreshToken && authContext.setRefreshToken(result.refreshToken);
-                        result?.accessToken && authContext.setAuthToken(result.accessToken);
-
-                        Endpoints.userID = result.userID;
-                        Endpoints.authToken = result.accessToken;
+                        try {
+                            setErrorMessage(null);
+                            let result = await authHandler.onLogin();
+                            authContext.setUserID(result.userID);
+                            authContext.setRefreshToken(result.refreshToken);
+                            authContext.setAuthToken(result.accessToken);
+                        } catch (error) {
+                            if (error instanceof Error) {
+                                setErrorMessage(error.message)
+                            }
+                        }
                     }}></JGButton>
                 </View>
             </SafeAreaView >

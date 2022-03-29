@@ -1,5 +1,6 @@
 import { authorize, refresh } from 'react-native-app-auth';
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from '@env';
+import Endpoints from './Endpoints';
 class AuthenticationHandler {
     spotifyAuthConfig: { clientId: string; clientSecret: string; redirectUrl: string; scopes: string[]; serviceConfiguration: { authorizationEndpoint: string; tokenEndpoint: string; }; };
     constructor() {
@@ -36,24 +37,11 @@ class AuthenticationHandler {
     }
 
     async onLogin() {
-        try {
-            const result: any = await authorize(this.spotifyAuthConfig);
-            let endpoint = `http://localhost:4000/spotify/getMe`
-            let options = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'access_token': result.accessToken,
-                }
-            }
-            let response = await fetch(endpoint, options)
-            const user = await response.json();
-            result.userID = user.body.id;
-            console.log(JSON.stringify(result))
-            return result;
-        } catch (error) {
-            console.log(JSON.stringify(error));
-        }
+        const result: any = await authorize(this.spotifyAuthConfig);
+        const user = await Endpoints.getMe(result.accessToken)
+        result.userID = user.body.id;
+        Endpoints.userID = user.body.id;
+        return result;
     }
 
     async refreshLogin(refreshToken: any) {
