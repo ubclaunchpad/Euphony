@@ -2,7 +2,12 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "concurrently": "^7.0.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0"
+  },
+  "scripts": {
+    "node_server": "cd backend/Node && npm start",
+    "start": "concurrently \"npm run node_server\""
   }
 }
