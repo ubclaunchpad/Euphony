@@ -8,6 +8,7 @@ import AppContext from './AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authHandler from './networking/AppAuth';
 import Endpoints from './networking/Endpoints';
+import CustomHeader from './components/CustomHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,7 +77,7 @@ function App() {
   return (
     <AppContext.Provider value={userSettings}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{
+        <Stack.Navigator initialRouteName="Creation" screenOptions={{
           headerLargeTitle: true,
           headerShadowVisible: true,
           headerTitleAlign: 'left',
@@ -91,7 +92,7 @@ function App() {
           headerLargeTitleStyle: {
             fontFamily: 'Raleway-ExtraBold',
           },
-
+          header: (props) => <CustomHeader {...props} />
         }}>
           <Stack.Screen name="Filters" component={FilterScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />

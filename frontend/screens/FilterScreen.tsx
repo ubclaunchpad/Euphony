@@ -67,17 +67,13 @@ function FilterScreen({ navigation }: any) {
   // set Navigation Screen options leaving
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLargeTitle: false,
-      headerTitleStyle: {
-        fontSize: 30,
-        fontFamily: 'Raleway-ExtraBold',
-      },
       headerTitleAlign: "left",
+      title: "Filter",
       headerRight: () => (
         <View style={{}}>
           <TouchableOpacity onPress={() => navigation.navigate('Profile', { userInfo: userInfo })}
-            style={{ paddingBottom: 10, paddingRight: 8 }}>
-            <FastImage source={userInfo ? userInfo.getProfileImage() : defaultProfileImage} style={{ width: 40, height: 40, borderRadius: 35, }} />
+            style={{ paddingBottom: 5 }}>
+            <FastImage source={userInfo ? userInfo.getProfileImage() : defaultProfileImage} style={{ width: 45, height: 45, borderRadius: 35, }} />
           </TouchableOpacity>
         </View>
       ),

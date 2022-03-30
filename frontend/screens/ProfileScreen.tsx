@@ -41,6 +41,7 @@ const ProfileScreen = ({ route, navigation }) => {
             headerTitleAlign: "left",
             headerTransparent: true,
             headerShadowVisible: false,
+            header: undefined,
             headerLeft: () => (
                 <View>
                     <TouchableOpacity onPress={() => navigation.goBack()}
