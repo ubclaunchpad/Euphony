@@ -38,8 +38,17 @@ class UserInfo {
             this.data.spotifyRedirect = user.body.external_urls.spotify;
         } catch (error) {
             console.warn(error)
+            // update everyhing to default
         }
         return this
+    }
+
+    async removeData() {
+        this.data.name = "User Not Logged In";
+        this.data.profileImageURL = "null_string";
+        this.data.playlists = defaultPlaylists;
+        this.data.spotifyRedirect = defaultSpotifyURL;
+        this.access_token = "";
     }
 
     getName(): string {

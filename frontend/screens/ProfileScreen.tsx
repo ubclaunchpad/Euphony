@@ -16,7 +16,7 @@ function getValidUserInfo(userInfo: any) {
 }
 
 function checkValidUserInfo(userInfo: any) {
-    return userInfo === undefined;
+    return userInfo === undefined || userInfo.access_token == "";
 }
 
 const ProfileScreen = ({ route, navigation }) => {
@@ -112,6 +112,7 @@ const ProfileScreen = ({ route, navigation }) => {
                                         globalContext.setUserID(null);
                                         globalContext.setAuthToken(null);
                                         globalContext.setRefreshToken(null);
+                                        getValidUserInfo(userInfo).removeData();
                                     }}>
                                         <View style={styles.button}>
                                             <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
