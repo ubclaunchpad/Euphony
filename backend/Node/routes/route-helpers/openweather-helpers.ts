@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { getUserWeather } from '../../src/db/users';
 import { isLatitude, isLongitude } from './mapbox-helpers';
 
 const API_KEY = process.env.OPEN_WEATHER_KEY;
 
+// TODO: replace all the console.log() with logic to handle errors
 export async function currentWeatherData(lat: String, lon: String) {
 	//Need HTTPS prefix in endpoint
 	const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
@@ -30,6 +32,18 @@ export async function reverseWeather(req: any, res: any, next: any) {
 	if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
 		res.status(400).send('Invalid lat/lon value(s)');
 	}
+
+	const relevantData = await reverseWeatherDataUsingLatLon(latLon);
+
+	if (res.locals.theOne) {
+		res.locals.weather = relevantData || {};
+		next();
+	} else {
+		res.send(relevantData || {});
+	}
+}
+
+export async function reverseWeatherDataUsingLatLon(latLon: string[]) {
 	const weatherData = await currentWeatherData(latLon[0], latLon[1]);
 
 	const mainTempC = weatherData.main.temp - 273.15;
@@ -39,7 +53,7 @@ export async function reverseWeather(req: any, res: any, next: any) {
 	const mainHumidity = weatherData.main.humidity / 100;
 	const mainClouds = weatherData.clouds.all / 100;
 
-	const relevantData = {
+	return {
 		temp_c: mainTempC,
 		temp_f: mainTempF,
 		feels_like_c: mainFeelsLikeC,
@@ -47,11 +61,19 @@ export async function reverseWeather(req: any, res: any, next: any) {
 		pop: mainHumidity,
 		clouds: mainClouds,
 	};
+}
 
-	if (res.locals.theOne) {
-		res.locals.weather = relevantData || {};
-		next();
-	} else {
-		res.send(relevantData || {});
+export async function getWeather(req: any, res: any, next: any) {
+	try {
+		const userWeatherData = await getUserWeather(req.headers['userid']);
+
+		if (res.locals.theOne) {
+			res.locals.weather = userWeatherData || {};
+			next();
+		} else {
+			res.send(userWeatherData || {});
+		}
+	} catch (err) {
+		return res.status(404).send(err);
 	}
 }

@@ -21,14 +21,18 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 const AlbumScreen = ({ route, navigation }) => {
   const { obj, coords, initName } = route.params;
 
-  const { authToken } = React.useContext(AppContext);
+  const { authToken, userID } = React.useContext(AppContext);
+  const [refreshToken, setRefreshToken] = useState(null);
 
-  const API_ENDPOINT = `http://localhost:4000/theOne/${coords.lat},${coords.long}/${authToken}`;
+  const API_ENDPOINT = `http://localhost:4000/theOne/${coords.lat},${coords.long}/`;
   const REQUEST_OPTIONS = {
     method: 'POST',
     body: JSON.stringify(obj),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'access_token': authToken,
+      'userid': userID,
+      // 'refresh_token': refreshToken,
     }
   };
   // dummy API endpoint and request, to be replaced with user-input theOne parameters
@@ -53,7 +57,9 @@ const AlbumScreen = ({ route, navigation }) => {
         "trackIds": data.map(song => { return song.id })
       }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'access_token': authToken,
+        // 'refresh_token': refreshToken,
       }
     }
     fetch(NEW_ENDPOINT, NEW_OPTIONS)
@@ -105,7 +111,7 @@ const AlbumScreen = ({ route, navigation }) => {
         fontFamily: 'Raleway-ExtraBold',
       },
       headerLeft: () => (
-        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingRight: 20  }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', paddingRight: 20 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <MaterialIcons
               name="arrow-back-ios"
@@ -145,8 +151,8 @@ const AlbumScreen = ({ route, navigation }) => {
     fetch(API_ENDPOINT, REQUEST_OPTIONS)
       .then(response => response.json())
       .then(results => {
-        console.log(results);
-        setData(results);
+        console.log("results " + JSON.stringify(results));
+        setData(results.body);
         setIsLoading(false);
       })
       .catch(err => {
@@ -225,7 +231,7 @@ const AlbumScreen = ({ route, navigation }) => {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ fontSize: 18 }}>
-            Access token outdated!
+            {data.message}
           </Text>
         </View>
       );

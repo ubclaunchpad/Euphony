@@ -5,16 +5,24 @@
 **Requirement**
 
 - NodeJS latest v
+- PostgreSQL
+
+**Postgres setup locally**
+
+- Install and run PostgreSQL
+- Create a db called 'euphony' without quotation marks
+- Use the default postgres user
 
 **Environment Variable**
 
 Create a .env file in ./backend/Node folder, ask backend devs for them:
 
-- PORTNUM=4000
+- PORT=4000
 - SPOTIFY_CLIENT_ID=
 - SPOTIFY_CLIENT_SECRET=
 - MAPBOX_TOKEN=
 - OPEN_WEATHER_KEY=
+- PG_CONNECTION_URL =
 
 **Install**
 Run `npm install` to install all dependencies

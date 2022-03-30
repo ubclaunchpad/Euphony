@@ -1,6 +1,6 @@
 import * as React from 'react';
 import LoginScreen from './login/LoginScreen';
-import { Modal, TouchableOpacity, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { Modal, TouchableOpacity, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, StatusBar, View, Image } from 'react-native';
 import LocationPicker from '../components/filter/LocationPicker';
 import Carousel from '../components/filter/Carousel';
 import AppContext from '../AppContext';
@@ -9,6 +9,11 @@ import { genreChoices, moodChoices, activityChoices, weatherChoices } from '../d
 import LengthPicker from '../components/filter/LengthPicker';
 import JGButton from '../components/shared/JGButton/JGButton';
 
+import { useLayoutEffect } from 'react';
+import UserInfo, { dataType } from '../networking/UserInfo';
+import FastImage from 'react-native-fast-image';
+const defaultProfileImage = require('./images/profile.png');
+
 function FilterScreen({ navigation }) {
   const MAX_LENGTH = 100;
 
@@ -16,30 +21,71 @@ function FilterScreen({ navigation }) {
 
   const [text, onChangeText] = React.useState("");
   const [textLength, setTextLength] = React.useState(MAX_LENGTH);
-  
-  const [genres, setGenres] = React.useState(0); 
+
+  const [genres, setGenres] = React.useState(0);
   const [mood, setMood] = React.useState(-1);
   const [activity, setActivity] = React.useState(-1);
 
   const [playlistLength, setPlaylistLength] = React.useState(1);
 
+  // object of User Info, with getters.
+  const [userInfo, setUserInfo] = React.useState();
+  const [isLoadingUserInfo, setIsLoadingUserInfo] = React.useState(true);
+
   var messageText;
   if (authContext.authToken === "") {
     messageText =
       <View>
-        <TouchableOpacity onPress={() => { authContext.setAuthToken(undefined) }}>
+        <TouchableOpacity onPress={() => { authContext.setAuthToken(null) }}>
           <Text style={styles.connectSpotifyText}>Connect your Spotify account for more personalized results.</Text>
         </TouchableOpacity>
       </View>
-
   }
+  
+  React.useEffect(() => {
+    const fetchData = async () => {
+        const user = new UserInfo(authContext.authToken as string);
+        const getUserInfo = await user.updateData();
+        // sets userInfo to be the object
+        setUserInfo(getUserInfo);
+    }
+
+    if (authContext.authToken) {
+      fetchData()
+          .then(() => {
+            setIsLoadingUserInfo(false)
+          })
+          .catch(console.error);
+    }
+  }, [authContext.authToken]);
+
+   // set Navigation Screen options leaving
+   useLayoutEffect(() => {
+      navigation.setOptions({
+        headerLargeTitle: false,
+        headerTitleStyle: {
+          fontSize: 30,
+          fontFamily: 'Raleway-ExtraBold',
+        },
+        headerTitleAlign: "left",
+        headerRight: () => (
+          <View style={{  }}>
+            <TouchableOpacity onPress={() => navigation.navigate('Profile', {userInfo: userInfo})}
+            style={{paddingBottom: 10, paddingRight: 8}}>
+              <FastImage source={isLoadingUserInfo == true ? defaultProfileImage : userInfo.getProfileImage()} style={{width: 40, height: 40, borderRadius: 35,}}/>
+            </TouchableOpacity>
+          </View>
+        ),
+      });
+    }, [isLoadingUserInfo, navigation]);
+
   return (
     <View style={styles.container}>
       <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
 
       <Modal
         animationType="slide"
-        visible={authContext.authToken === undefined}
+        visible={authContext.authToken == null}
         onRequestClose={() => {
           authContext.setAuthToken("");
         }}
@@ -131,6 +177,7 @@ function FilterScreen({ navigation }) {
                 if (mood !== -1 && genres !== 0 && activity !== -1) {
                   navigation.navigate('Playlist', {
                     obj: {
+                      "genres": genres,
                       "mood": mood,
                       "activity": activity,
                       "limit": playlistLength,
@@ -143,7 +190,7 @@ function FilterScreen({ navigation }) {
                   })
                 }
               }
-              else { authContext.setAuthToken(undefined); }
+              else { authContext.setAuthToken(null); }
             }
           } />
         </View>
