@@ -80,24 +80,24 @@ function App() {
 
   React.useEffect(() => {
     AsyncStorage.getItem('alreadyLaunched')
-    .then(value => {
-      console.log("Onboarding " + value)
-      setIsLoading(false);
-      if (value) {
-        //setIsFirstLaunch(false);
-      } else {
-        setIsFirstLaunch(true);
-      }
-    })
+      .then(value => {
+        console.log("Onboarding " + value)
+        setIsLoading(false);
+        if (value) {
+          setIsFirstLaunch(false);
+        } else {
+          setIsFirstLaunch(true);
+        }
+      })
   }, [])
 
 
   if (isLoading) {
-    return <ActivityIndicator size="large" color ="#7432FF"></ActivityIndicator>
+    return <ActivityIndicator size="large" color="#7432FF"></ActivityIndicator>
   }
   else if (isFirstLaunch == true) {
     // First launch, onboarding screen
-    return <OnboardingScreen onComplete = {() => {
+    return <OnboardingScreen onComplete={() => {
       setIsFirstLaunch(false);
     }} />;
   } else {
