@@ -123,7 +123,9 @@ const ProfileScreen = ({ route, navigation }) => {
                             }
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            Linking.openURL('https://alanyan.ca/Euphony/privacy')
+                        }}>
                             <View style={styles.informationButton}>
                                 <Text style={styles.disclaimer}>HOW WE USE YOUR INFORMATION</Text>
                                 <MaterialIcons

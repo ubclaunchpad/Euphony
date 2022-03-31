@@ -167,7 +167,7 @@ function FilterScreen({ navigation }: any) {
               }
               value={text}
               style={styles.textInput}
-              placeholder="Enter playlist name"
+              placeholder="My Playlist"
               placeholderTextColor={'#867CC0'}
               maxLength={MAX_LENGTH} //TODO confirm this
             />

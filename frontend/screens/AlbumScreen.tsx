@@ -221,7 +221,7 @@ const AlbumScreen = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
+    <View style={{ backgroundColor: 'white', flex: 1 }}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
 
       <Modal isVisible={isAddModalVisible} backdropOpacity={0.4} animationInTiming={700}>
@@ -266,7 +266,7 @@ const AlbumScreen = ({ route, navigation }) => {
             setIsPrivatePlaylist={setIsPrivatePlaylist}
           />}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
