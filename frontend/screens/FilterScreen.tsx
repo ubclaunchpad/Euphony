@@ -10,11 +10,18 @@ import LengthPicker from '../components/filter/LengthPicker';
 import JGButton from '../components/shared/JGButton/JGButton';
 
 import { useLayoutEffect } from 'react';
-import UserInfo, { dataType } from '../networking/UserInfo';
+import UserInfo from '../networking/UserInfo';
 import FastImage from 'react-native-fast-image';
+import authHandler from '../networking/AppAuth';
+import { useFocusEffect } from '@react-navigation/native';
 const defaultProfileImage = require('./images/profile.png');
 
-function FilterScreen({ navigation }) {
+export type FilterWeatherInfo = {
+  locationName: string;
+  weatherString: string;
+}
+
+function FilterScreen({ navigation }: any) {
   const MAX_LENGTH = 100;
 
   const authContext = React.useContext(AppContext);
@@ -25,59 +32,101 @@ function FilterScreen({ navigation }) {
   const [genres, setGenres] = React.useState(0);
   const [mood, setMood] = React.useState(-1);
   const [activity, setActivity] = React.useState(-1);
-
+  const [lat, setLat] = React.useState<number | null>(null)
+  const [long, setLong] = React.useState<number | null>(null)
   const [playlistLength, setPlaylistLength] = React.useState(1);
 
   // object of User Info, with getters.
-  const [userInfo, setUserInfo] = React.useState();
-  const [isLoadingUserInfo, setIsLoadingUserInfo] = React.useState(true);
+  const [userInfo, setUserInfo] = React.useState<UserInfo | null>(null);
 
+  const [locInfo, setLocInfo] = React.useState<FilterWeatherInfo | null>(null);
+  const [networkError, setNetworkError] = React.useState<string | null>(null);
   var messageText;
-  if (authContext.authToken === "") {
+
+  if (networkError) {
     messageText =
       <View>
-        <TouchableOpacity onPress={() => { authContext.setAuthToken(null) }}>
-          <Text style={styles.connectSpotifyText}>Connect your Spotify account for more personalized results.</Text>
+        <TouchableOpacity onPress={() => {
+          fetchUser().then(() => {
+            setNetworkError(null)
+          }).catch(() => {
+            setNetworkError("Could not fetch user info")
+          })
+        }}>
+          <Text style={styles.connectSpotifyText}>Could not retrieve profile, tap to reconnect.</Text>
         </TouchableOpacity>
       </View>
   }
-  
-  React.useEffect(() => {
-    const fetchData = async () => {
-        const user = new UserInfo(authContext.authToken as string);
-        const getUserInfo = await user.updateData();
-        // sets userInfo to be the object
-        setUserInfo(getUserInfo);
-    }
 
-    if (authContext.authToken) {
-      fetchData()
-          .then(() => {
-            setIsLoadingUserInfo(false)
+  const fetchUser = async () => {
+    if (authContext.authToken == null) {
+      if (authContext.refreshToken) {
+        let result = await authHandler.refreshLogin(authContext.refreshToken);
+        if (result) {
+          authContext.setAuthToken(result.accessToken);
+          authContext.setRefreshToken(result.refreshToken);
+        }
+      }
+    }
+    const user = new UserInfo(authContext.authToken as string, authContext);
+    const getUserInfo = await user.updateData(authContext);
+    setUserInfo(getUserInfo);
+    return getUserInfo
+
+  }
+
+  const headerTapped = () => {
+    console.log(authContext)
+    if (authContext.userID) {
+      console.log("User ID exists")
+      if (userInfo == null) {
+        fetchUser()
+          .then((info) => {
+            navigation.navigate('Profile', { userInfo: info })
           })
-          .catch(console.error);
+          .catch(error => {
+            setNetworkError(error.message)
+          })
+      } else {
+        navigation.navigate('Profile', { userInfo: userInfo })
+      }
+    } else {
+      console.log("User ID does not exist" + authContext.userID)
+      authContext.setAuthToken(null);
     }
-  }, [authContext.authToken]);
+  }
 
-   // set Navigation Screen options leaving
-   useLayoutEffect(() => {
-      navigation.setOptions({
-        headerLargeTitle: false,
-        headerTitleStyle: {
-          fontSize: 30,
-          fontFamily: 'Raleway-ExtraBold',
-        },
-        headerTitleAlign: "left",
-        headerRight: () => (
-          <View style={{  }}>
-            <TouchableOpacity onPress={() => navigation.navigate('Profile', {userInfo: userInfo})}
-            style={{paddingBottom: 10, paddingRight: 8}}>
-              <FastImage source={isLoadingUserInfo == true ? defaultProfileImage : userInfo.getProfileImage()} style={{width: 40, height: 40, borderRadius: 35,}}/>
-            </TouchableOpacity>
-          </View>
-        ),
-      });
-    }, [isLoadingUserInfo, navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (authContext.refreshToken) {
+        fetchUser()
+          .catch(error => {
+            console.warn(error)
+          })
+      }
+    }, [authContext.refreshToken])
+  );
+
+
+
+
+  // set Navigation Screen options leaving
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Filters",
+      headerRight: () => (
+        <View style={{}}>
+          <TouchableOpacity onPress={() => {
+            headerTapped()
+          }}
+            style={{ paddingVertical: 5 }}>
+            <FastImage source={userInfo ? userInfo.getProfileImage() : defaultProfileImage} style={{ width: 45, height: 45, borderRadius: 35, }} />
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, [userInfo, navigation, authContext]);
 
   return (
     <View style={styles.container}>
@@ -85,7 +134,7 @@ function FilterScreen({ navigation }) {
 
       <Modal
         animationType="slide"
-        visible={authContext.authToken == null}
+        visible={authContext.authToken == null && authContext.refreshToken == null}
         onRequestClose={() => {
           authContext.setAuthToken("");
         }}
@@ -118,7 +167,7 @@ function FilterScreen({ navigation }) {
               }
               value={text}
               style={styles.textInput}
-              placeholder="Enter playlist name"
+              placeholder="My Playlist"
               placeholderTextColor={'#867CC0'}
               maxLength={MAX_LENGTH} //TODO confirm this
             />
@@ -151,6 +200,11 @@ function FilterScreen({ navigation }) {
         <LocationPicker
           title="Location"
           description="See what people are listening to in your area"
+          onChange={(lat, lng) => {
+            setLat(lat)
+            setLong(lng)
+          }}
+          locInfoObtained={setLocInfo}
         />
         {/* <Carousel
           title="Weather"
@@ -176,17 +230,18 @@ function FilterScreen({ navigation }) {
 
                 if (mood !== -1 && genres !== 0 && activity !== -1) {
                   navigation.navigate('Playlist', {
-                    obj: {
+                    filters: {
                       "genres": genres,
                       "mood": mood,
                       "activity": activity,
                       "limit": playlistLength,
                     },
                     coords: {
-                      lat: "37.7614",
-                      long: "-122.4241"
+                      lat: lat ? lat : 27,
+                      long: long ? long : 133,
                     },
                     initName: text ? text : "My Playlist",
+                    locInfo: locInfo,
                   })
                 }
               }

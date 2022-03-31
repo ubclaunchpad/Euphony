@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ActivityIndicator, Linking } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/elements';
@@ -7,7 +7,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const profileImage = require('./images/profile.png');
 
 import UserInfo, { dataType } from '../networking/UserInfo';
 
@@ -17,7 +16,7 @@ function getValidUserInfo(userInfo: any) {
 }
 
 function checkValidUserInfo(userInfo: any) {
-    return userInfo === undefined;
+    return userInfo === undefined || userInfo.access_token == "";
 }
 
 const ProfileScreen = ({ route, navigation }) => {
@@ -42,6 +41,7 @@ const ProfileScreen = ({ route, navigation }) => {
             headerTitleAlign: "left",
             headerTransparent: true,
             headerShadowVisible: false,
+            header: undefined,
             headerLeft: () => (
                 <View>
                     <TouchableOpacity onPress={() => navigation.goBack()}
@@ -112,6 +112,7 @@ const ProfileScreen = ({ route, navigation }) => {
                                         globalContext.setUserID(null);
                                         globalContext.setAuthToken(null);
                                         globalContext.setRefreshToken(null);
+                                        getValidUserInfo(userInfo).removeData();
                                     }}>
                                         <View style={styles.button}>
                                             <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
@@ -122,7 +123,9 @@ const ProfileScreen = ({ route, navigation }) => {
                             }
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            Linking.openURL('https://alanyan.ca/Euphony/privacy')
+                        }}>
                             <View style={styles.informationButton}>
                                 <Text style={styles.disclaimer}>HOW WE USE YOUR INFORMATION</Text>
                                 <MaterialIcons

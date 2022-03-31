@@ -4,11 +4,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FilterScreen from './screens/FilterScreen';
 import AlbumScreen from './screens/AlbumScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import PlaylistInfo from './screens/PlaylistInfo';
-
 import AppContext from './AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authHandler from './networking/AppAuth';
+import Endpoints from './networking/Endpoints';
+import CustomHeader from './components/CustomHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,12 +37,11 @@ function App() {
           setRefreshToken(result.refreshToken);
         } else {
           setAuthToken(null);
-          setRefreshToken(null);
+          setRefreshToken(value);
         }
       } else {
         setAuthToken(null);
         setRefreshToken(null);
-        setUserID(null);
       }
     });
   }, []);
@@ -60,6 +59,9 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    console.log("Global Context Changed: " + JSON.stringify(userSettings));
+  }, [userSettings])
+  React.useEffect(() => {
     if (refreshToken != null) {
       console.log("Setting token as " + refreshToken);
       AsyncStorage.setItem('@token', refreshToken)
@@ -75,7 +77,7 @@ function App() {
   return (
     <AppContext.Provider value={userSettings}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{
+        <Stack.Navigator initialRouteName="Creation" screenOptions={{
           headerLargeTitle: true,
           headerShadowVisible: true,
           headerTitleAlign: 'left',
@@ -90,15 +92,11 @@ function App() {
           headerLargeTitleStyle: {
             fontFamily: 'Raleway-ExtraBold',
           },
-
+          header: (props) => <CustomHeader {...props} />
         }}>
           <Stack.Screen name="Filters" component={FilterScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Playlist" component={AlbumScreen} />
-          <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}
-            options={() => ({
-              title: "Results Info"
-            })} />
 
         </Stack.Navigator>
       </NavigationContainer>
