@@ -33,17 +33,15 @@ function App() {
         console.log("Token found in storage " + value);
         let result = await authHandler.refreshLogin(value)
         if (result) {
-          Endpoints.authToken = result.accessToken;
           setAuthToken(result.accessToken);
           setRefreshToken(result.refreshToken);
         } else {
           setAuthToken(null);
-          setRefreshToken(null);
+          setRefreshToken(value);
         }
       } else {
         setAuthToken(null);
         setRefreshToken(null);
-        setUserID(null);
       }
     });
   }, []);
@@ -52,7 +50,6 @@ function App() {
   React.useEffect(() => {
     AsyncStorage.getItem('@userID').then(async (value) => {
       if (value) {
-        Endpoints.userID = value;
         setUserID(value);
       } else {
         setUserID(null);
@@ -61,6 +58,9 @@ function App() {
     );
   }, []);
 
+  React.useEffect(() => {
+    console.log("Global Context Changed: " + JSON.stringify(userSettings));
+  }, [userSettings])
   React.useEffect(() => {
     if (refreshToken != null) {
       console.log("Setting token as " + refreshToken);

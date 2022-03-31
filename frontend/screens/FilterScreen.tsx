@@ -12,6 +12,8 @@ import JGButton from '../components/shared/JGButton/JGButton';
 import { useLayoutEffect } from 'react';
 import UserInfo from '../networking/UserInfo';
 import FastImage from 'react-native-fast-image';
+import authHandler from '../networking/AppAuth';
+import { useFocusEffect } from '@react-navigation/native';
 const defaultProfileImage = require('./images/profile.png');
 
 export type FilterWeatherInfo = {
@@ -35,50 +37,96 @@ function FilterScreen({ navigation }: any) {
   const [playlistLength, setPlaylistLength] = React.useState(1);
 
   // object of User Info, with getters.
-  const [userInfo, setUserInfo] = React.useState<UserInfo>();
+  const [userInfo, setUserInfo] = React.useState<UserInfo | null>(null);
 
   const [locInfo, setLocInfo] = React.useState<FilterWeatherInfo | null>(null);
+  const [networkError, setNetworkError] = React.useState<string | null>(null);
   var messageText;
-  if (authContext.authToken === "") {
+
+  if (networkError) {
     messageText =
       <View>
-        <TouchableOpacity onPress={() => { authContext.setAuthToken(null) }}>
-          <Text style={styles.connectSpotifyText}>Connect your Spotify account for more personalized results.</Text>
+        <TouchableOpacity onPress={() => {
+          fetchUser().then(() => {
+            setNetworkError(null)
+          }).catch(() => {
+            setNetworkError("Could not fetch user info")
+          })
+        }}>
+          <Text style={styles.connectSpotifyText}>Could not retrieve profile, tap to reconnect.</Text>
         </TouchableOpacity>
       </View>
   }
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const user = new UserInfo(authContext.authToken as string);
-      const getUserInfo = await user.updateData();
-      // sets userInfo to be the object
-      setUserInfo(getUserInfo);
+  const fetchUser = async () => {
+    if (authContext.authToken == null) {
+      if (authContext.refreshToken) {
+        let result = await authHandler.refreshLogin(authContext.refreshToken);
+        if (result) {
+          authContext.setAuthToken(result.accessToken);
+          authContext.setRefreshToken(result.refreshToken);
+        }
+      }
     }
+    const user = new UserInfo(authContext.authToken as string, authContext);
+    const getUserInfo = await user.updateData(authContext);
+    setUserInfo(getUserInfo);
+    return getUserInfo
 
-    if (authContext.authToken) {
-      fetchData()
-        .then(() => {
-        })
-        .catch(console.error);
+  }
+
+  const headerTapped = () => {
+    console.log(authContext)
+    if (authContext.userID) {
+      console.log("User ID exists")
+      if (userInfo == null) {
+        fetchUser()
+          .then((info) => {
+            navigation.navigate('Profile', { userInfo: info })
+          })
+          .catch(error => {
+            setNetworkError(error.message)
+          })
+      } else {
+        navigation.navigate('Profile', { userInfo: userInfo })
+      }
+    } else {
+      console.log("User ID does not exist" + authContext.userID)
+      authContext.setAuthToken(null);
     }
-  }, [authContext.authToken]);
+  }
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (authContext.refreshToken) {
+        fetchUser()
+          .catch(error => {
+            console.warn(error)
+          })
+      }
+    }, [authContext.refreshToken])
+  );
+
+
+
 
   // set Navigation Screen options leaving
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitleAlign: "left",
-      title: "Filter",
+      title: "Filters",
       headerRight: () => (
         <View style={{}}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile', { userInfo: userInfo })}
-            style={{ paddingBottom: 5 }}>
+          <TouchableOpacity onPress={() => {
+            headerTapped()
+          }}
+            style={{ paddingVertical: 5 }}>
             <FastImage source={userInfo ? userInfo.getProfileImage() : defaultProfileImage} style={{ width: 45, height: 45, borderRadius: 35, }} />
           </TouchableOpacity>
         </View>
       ),
     });
-  }, [userInfo, navigation]);
+  }, [userInfo, navigation, authContext]);
 
   return (
     <View style={styles.container}>
@@ -86,7 +134,7 @@ function FilterScreen({ navigation }: any) {
 
       <Modal
         animationType="slide"
-        visible={authContext.authToken == null}
+        visible={authContext.authToken == null && authContext.refreshToken == null}
         onRequestClose={() => {
           authContext.setAuthToken("");
         }}

@@ -1,3 +1,4 @@
+import { GlobalContent } from "../AppContext";
 import Endpoints from "./Endpoints";
 
 const defaultProfileImage = require('../screens/images/profile.png');
@@ -15,7 +16,7 @@ class UserInfo {
     data: dataType;
     access_token: string;
 
-    constructor(access_token: string) {
+    constructor(access_token: string, context: GlobalContent) {
         // initialize empty before updating data
         this.access_token = access_token;
         this.data = {
@@ -24,12 +25,16 @@ class UserInfo {
             playlists: [],
             spotifyRedirect: "",
         }
-        this.updateData()
+        this.updateData(context)
+            .catch(e => {
+                console.warn(e)
+            })
+
     }
 
-    async updateData() {
+    async updateData(context: GlobalContent) {
         try {
-            let user = await Endpoints.getMe()
+            let user = await Endpoints.getMe(context);
             this.data.name = user.body.display_name == false ? user.body.id : user.body.display_name;
             // if the user does NOT have an image on Spotify, use the default. otherwise, grab the Spotify pfp
             this.data.profileImageURL = user.body.images.length === 0 ? "null_string" : user.body.images[0].url;
@@ -38,7 +43,7 @@ class UserInfo {
             this.data.spotifyRedirect = user.body.external_urls.spotify;
         } catch (error) {
             console.warn(error)
-            // update everyhing to default
+            throw new Error("Could not update user data");
         }
         return this
     }

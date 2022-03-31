@@ -36,7 +36,7 @@ const mlServerPort = process.env.TZML_SERVER_PORT || 5000;
 // TODO (later): change 'localhost' after : to whatever prod's using
 const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
 	}:${port}/`;
-const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? '127.0.0.1' : '127.0.0.1'
 	}:${mlServerPort}/`;
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
@@ -115,8 +115,12 @@ export async function getInputForML(req: any, res: any, next: any) {
 		} else {
 			return res.status(204).send('No audio features returned');
 		}
-	} catch (error) {
-		return res.status(404).send(error);
+	} catch (error: any) {
+		if (axios.isAxiosError(error) && error.response) {
+			return res.status(error.response.status).send("Hi");
+		} else {
+			return res.status(404).send(error);
+		}
 	}
 }
 

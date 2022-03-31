@@ -28,9 +28,8 @@ class AuthenticationHandler {
 
     async onLogin() {
         const result: any = await authorize(this.spotifyAuthConfig);
-        const user = await Endpoints.getMe(result.accessToken)
+        const user = await Endpoints.getUserID(result.accessToken)
         result.userID = user.body.id;
-        Endpoints.userID = user.body.id;
         return result;
     }
 

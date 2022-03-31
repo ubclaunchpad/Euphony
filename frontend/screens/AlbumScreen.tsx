@@ -18,6 +18,7 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 import Endpoints from '../networking/Endpoints';
 
 const AlbumScreen = ({ route, navigation }) => {
+  const context = React.useContext(AppContext);
   const { filters, coords, initName, locInfo } = route.params;
 
   const [isLoading, setIsLoading] = useState(true);
@@ -107,7 +108,7 @@ const AlbumScreen = ({ route, navigation }) => {
     setSaved(true);
     setIsAddingToSpotify(true);
 
-    Endpoints.createPlaylist({
+    Endpoints.createPlaylist(context, {
       "name": name,
       "public": !privatePlaylist, // opposite of private is public :)
       "trackIds": data.map(song => { return song.id })
@@ -121,7 +122,7 @@ const AlbumScreen = ({ route, navigation }) => {
         if (err instanceof Error) {
           setError(err.message);
           setIsAddingToSpotify(false);
-          console.error(err.message);
+          console.warn(err.message);
         } else {
           setError("Something went wrong, try again later!")
           setIsAddingToSpotify(false);
@@ -132,7 +133,7 @@ const AlbumScreen = ({ route, navigation }) => {
   // generate playlist with props from FilterScreen, fetch from API
   const genPlaylist = () => {
     setIsLoading(true);
-    Endpoints.theOne(filters, coords.lat, coords.long)
+    Endpoints.theOne(context, filters, coords.lat, coords.long)
       .then(results => {
         console.log("results " + JSON.stringify(results));
         setData(results.body);
@@ -143,7 +144,7 @@ const AlbumScreen = ({ route, navigation }) => {
         if (err instanceof Error) {
           setError(err.message);
           setIsLoading(false);
-          console.error(err.message);
+          console.warn(err.message);
         } else {
           setError("Something went wrong, try again later!")
           setIsLoading(false);
@@ -181,6 +182,9 @@ const AlbumScreen = ({ route, navigation }) => {
   // prevent going back
   React.useEffect(
     () => navigation.addListener('beforeRemove', (e) => {
+      if (error) {
+        return;
+      }
       if (saved) {
         // If we don't have unsaved changes, then we don't need to do anything
         return;
@@ -195,7 +199,7 @@ const AlbumScreen = ({ route, navigation }) => {
       // Prompt the user before leaving the screen
       setLeaveModalVisible(true);
 
-    }), [navigation, saved]
+    }), [navigation, saved, error]
   );
 
   if (isLoading) {

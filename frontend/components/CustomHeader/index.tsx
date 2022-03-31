@@ -4,7 +4,6 @@ import React from 'react';
 import { View, Text, SafeAreaView } from 'react-native'
 
 export default function CustomHeader(headerOptions: NativeStackHeaderProps) {
-    console.log(headerOptions)
 
     let right;
     if (headerOptions.options.headerRight) {
@@ -14,13 +13,15 @@ export default function CustomHeader(headerOptions: NativeStackHeaderProps) {
     if (headerOptions.options.headerLeft) {
         left = headerOptions.options.headerLeft({})
     }
+
     return (
         <SafeAreaView style={{
+            backgroundColor: '#fff',
         }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, marginHorizontal: 25 }
             } >
                 {left}
-                <Text style={{ textAlign: 'left', fontFamily: "Raleway-ExtraBold", fontSize: headerOptions.options.headerTitleStyle.fontSize ?? 32 }}>{headerOptions.options.title}</Text>
+                <Text numberOfLines={1} style={{ textAlign: 'left', fontFamily: "Raleway-ExtraBold", fontSize: headerOptions.options.headerTitleStyle.fontSize ?? 32, maxWidth: 180 }}>{headerOptions.options.title?.substring(0, 20)}</Text>
                 {right}
             </ View>
             <View style={{ height: 1, backgroundColor: '#4E2296', opacity: 0.35 }}></View>

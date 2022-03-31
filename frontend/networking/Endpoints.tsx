@@ -1,3 +1,5 @@
+import { GlobalContent } from "../AppContext";
+import authHandler from "./AppAuth";
 
 export type WeatherInfo = {
     city: string | null,
@@ -17,9 +19,25 @@ enum APIReqType {
     Post = "POST",
 }
 
-function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = [2], isJSON = true) {
-    return req
+function defaultHandler(context: GlobalContent, endpoint: string, type: APIReqType, validStatusHundreds: number[] = [2], isJSON = true, body: any = null) {
+    return fetch(baseURL + endpoint, {
+        ...getHeader(context, type),
+        body: body ? JSON.stringify(body) : null,
+    })
         .then(res => {
+            if (res.status === 401) {
+                return getNewCredentials(context)
+                    .then(() => {
+                        return fetch(baseURL + endpoint, {
+                            ...getHeader(context, type),
+                            body: body,
+                        })
+                    })
+                    .then((secondRes) => {
+                        console.log(secondRes)
+                        return Promise.all([secondRes.text(), secondRes.status])
+                    })
+            }
             return Promise.all([res.text(), res.status])
         })
         .then(([text, status]) => {
@@ -30,7 +48,6 @@ function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = 
 
                 let errorMessage = ""
                 try {
-                    console.log("HELLO");
                     let json = JSON.parse(text);
                     if (json.message) {
                         errorMessage = json.message.substring(0, 50) + ` (${status})`;
@@ -38,11 +55,7 @@ function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = 
                         errorMessage = `(${status})`;
                     }
                 } catch (err) {
-                    if (err instanceof Error) {
-                        errorMessage = err.message;
-                    } else {
-                        errorMessage = text.substring(0, 50) + ` (${status})`;
-                    }
+                    errorMessage = text.substring(0, 50) + ` (${status})`;
                 }
                 throw new Error("Network Error: " + errorMessage);
             }
@@ -60,30 +73,70 @@ function defaultHandler(req: Promise<Response>, validStatusHundreds: number[] = 
         })
 }
 
-function getHeader(type: APIReqType) {
-    return {
+function getHeader(context: GlobalContent, type: APIReqType) {
+    let obj = {
         method: type,
         headers: {
             'Content-Type': 'application/json',
-            'userid': `${Endpoints.userID}`,
-            'access_token': `${Endpoints.authToken}`,
+            'userid': `${context.userID}`,
+            'access_token': `${context.authToken}`,
         }
     };
+    console.log("HEADERS" + JSON.stringify(obj))
+    return obj;
+}
+
+async function getNewCredentials(context: GlobalContent): Promise<string> {
+    if (context.refreshToken) {
+        let user = await authHandler.refreshLogin(context.refreshToken)
+        if (user) {
+            console.log("GET NEW CREDENTIALS " + JSON.stringify(user))
+            context.authToken = user.accessToken
+            context.refreshToken = user.refreshToken
+            context.setRefreshToken(user.refreshToken);
+            context.setAuthToken(user.accessToken);
+            console.log("SET NEW CONTEXT TO" + JSON.stringify(context))
+            return Promise.resolve("Success");
+        } else {
+            return Promise.reject("Could not obtain credentials, try again later!");
+        }
+    } else {
+        return Promise.reject("Not Logged In!");
+    }
+}
+async function obtainCredentials(context: GlobalContent): Promise<string> {
+    if (context.refreshToken) {
+        if (context.userID && context.authToken == null) {
+            let user = await authHandler.refreshLogin(context.refreshToken)
+            if (user) {
+                context.authToken = user.accessToken
+                context.refreshToken = user.refreshToken
+                context.setRefreshToken(user.refreshToken);
+                context.setAuthToken(user.accessToken);
+                return Promise.resolve("Success");
+            } else {
+                return Promise.reject("Could not obtain credentials, try again later!");
+            }
+        }
+        return Promise.resolve("Success");
+    } else {
+        return Promise.reject("Not Logged In!");
+    }
 }
 
 export default class Endpoints {
-    static userID: string;
-    static authToken: string;
+    static async getWeatherInfo(context: GlobalContent, latitude: number, longitude: number): Promise<WeatherInfo> {
+        const weatherEndpoint = `openWeather/weather/${latitude},${longitude}/`;
+        const locationEndpoint = `mapbox/location/${latitude},${longitude}/`;
 
+        let weather = defaultHandler(context, weatherEndpoint, APIReqType.Get)
+        let location = defaultHandler(context, locationEndpoint, APIReqType.Get)
 
-    static async getWeatherInfo(latitude: number, longitude: number): Promise<WeatherInfo> {
-        const weatherEndpoint = `${baseURL}openWeather/weather/${latitude},${longitude}/`;
-        const locationEndpoint = `${baseURL}mapbox/location/${latitude},${longitude}/`;
-
-        let weather = defaultHandler(fetch(weatherEndpoint, getHeader(APIReqType.Get)))
-        let location = defaultHandler(fetch(locationEndpoint, getHeader(APIReqType.Get)))
-
-        return Promise.all([weather, location])
+        return obtainCredentials(context).then(
+            () => {
+                return Promise.all([weather, location])
+            }
+        )
             .then(([weatherData, locationData]) => {
                 console.log(locationData)
                 return {
@@ -99,30 +152,26 @@ export default class Endpoints {
             })
     }
 
-    static async getMe(accessToken?: string): Promise<any> {
-        if (accessToken) {
-            this.authToken = accessToken;
-        }
-        console.log(this.authToken)
-        const endpoint = `${baseURL}spotify/getMe`;
-        return defaultHandler(fetch(endpoint, getHeader(APIReqType.Get)))
+    static async getMe(context: GlobalContent): Promise<any> {
+        const endpoint = `spotify/getMe`;
+        return obtainCredentials(context).then(() => defaultHandler(context, endpoint, APIReqType.Get))
+    }
+    static async getUserID(auth_token: string): Promise<any> {
+        const endpoint = `spotify/getMe`;
+
+        let context: GlobalContent = { authToken: auth_token }
+        return defaultHandler(context, endpoint, APIReqType.Get)
     }
 
-    static async theOne(body: any, latitude: number, longitude: number): Promise<any> {
-        const endpoint = `${baseURL}theOne/${latitude},${longitude}`;
-        console.log("the ONE")
-        return defaultHandler(fetch(endpoint, {
-            ...getHeader(APIReqType.Post),
-            body: JSON.stringify(body),
-        }))
+    static async theOne(context: GlobalContent, body: any, latitude: number, longitude: number): Promise<any> {
+        const endpoint = `theOne/${latitude},${longitude}`;
+        return obtainCredentials(context).then(() => defaultHandler(context, endpoint, APIReqType.Post, [2], true, body))
     }
 
-    static async createPlaylist(body: any): Promise<any> {
-        const endpoint = `${baseURL}spotify/createSpotifyPlaylist`;
-        return defaultHandler(fetch(endpoint, {
-            ...getHeader(APIReqType.Post),
-            body: JSON.stringify(body),
-        }))
+    static async createPlaylist(context: GlobalContent, body: any): Promise<any> {
+        const endpoint = `spotify/createSpotifyPlaylist`;
+        return obtainCredentials(context).then(() => defaultHandler(context, endpoint, APIReqType.Post, [2], true, body))
+
     }
 
 }

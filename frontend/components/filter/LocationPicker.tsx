@@ -6,6 +6,7 @@ import FilterHeader from './FilterHeader';
 import Endpoints, { WeatherInfo } from '../../networking/Endpoints';
 import GetLocation, { LocationError } from 'react-native-get-location'
 import { FilterWeatherInfo } from '../../screens/FilterScreen';
+import AppContext from '../../AppContext';
 
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const LocationPicker = (props: Props) => {
+  let appContext = React.useContext(AppContext);
   let [info, setInfo] = React.useState<WeatherInfo | null>(null);
   let [isCelsius, setIsCelsius] = React.useState(true);
   let [errorMessage, setErrorMessage] = React.useState<string | null>(null);
@@ -120,7 +122,7 @@ const LocationPicker = (props: Props) => {
         enableHighAccuracy: true,
         timeout: 15000,
       })
-      let weatherInfo = await Endpoints.getWeatherInfo(location.latitude, location.longitude)
+      let weatherInfo = await Endpoints.getWeatherInfo(appContext, location.latitude, location.longitude)
 
       if (weatherInfo.weatherC == null || weatherInfo.weatherF == null) {
         throw new Error("Location Couldn't Be Found, Try Later");
@@ -128,6 +130,7 @@ const LocationPicker = (props: Props) => {
 
       props.onChange(location.latitude, location.longitude);
       setInfo(weatherInfo)
+      setErrorMessage(null);
     } catch (error) {
       if ((error as LocationError).code) {
         setErrorMessage("Location " + (error as LocationError).code);

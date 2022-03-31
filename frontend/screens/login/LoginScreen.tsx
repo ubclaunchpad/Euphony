@@ -3,7 +3,7 @@ import { SafeAreaView, TouchableOpacity, StyleSheet, Button, Text, View, Image, 
 import authHandler from '../../networking/AppAuth';
 import AppContext from '../../AppContext';
 import JGButton, { JGButtonImageType } from '../../components/shared/JGButton/JGButton';
-import Endpoints from '../../networking/Endpoints';
+
 export default function LoginScreen({ dismissAction }: { dismissAction: () => void }) {
     const authContext = React.useContext(AppContext);
     let [errorMessage, setErrorMessage] = React.useState<string | null>(null);
