@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Text,
   TextInput,
@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   Switch,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
-import {Album} from '../../types';
+import { Album } from '../../types';
 import styles from './styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -22,6 +23,7 @@ import FastImage from 'react-native-fast-image';
 import filter from 'lodash.filter';
 
 export type AlbumHeaderProps = {
+  isLoading: boolean
   album: Album;
 };
 
@@ -30,17 +32,17 @@ import "moment-duration-format";
 
 const AlbumHeader = (props: AlbumHeaderProps) => {
 
-  const {album} = props;
+  const { album, isLoading } = props;
 
   const [toggle, setToggle] = useState(false);
 
   const toggleSwitch = () => props.setIsPrivatePlaylist(previousState => !previousState);
 
   const [title, setTitle] = useState(props.name ? props.name : "My Playlist");
-  
+
   const [textLength, setTextLength] = React.useState(MAX_LENGTH);
   const [isEditing, setIsEditing] = useState(false);
-  const toggleEditing = () => { 
+  const toggleEditing = () => {
     setIsEditing(previousState => !previousState);
     setTextLength(MAX_LENGTH - title.length);
     props.setName(title);
@@ -49,7 +51,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   const focusTitleInput = useRef(null);
   const focusFindInput = useRef(null);
 
-  const createThreeButtonAlert = () => { 
+  const createThreeButtonAlert = () => {
     props.updateSaved();
   }
 
@@ -79,50 +81,56 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
     return false
   }
 
+  let loadingView;
+
+  if (isLoading) {
+    loadingView = <ActivityIndicator size='small' color='white' style={{ marginLeft: 12 }}></ActivityIndicator>
+  }
+
   return (
     <View>
       <View style={styles.container}>
         {/* cover image */}
         <View style={styles.center}>
-          <Shadow distance={10} containerViewStyle={{marginVertical: 10}} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
-            {props.album.length>=4? 
-            <View style={styles.image}>
-              <View style={{flexDirection: 'row'}}>
-                <FastImage source={{uri: props.album[0].imageUrl}} style={styles.miniImage}/>
-                <FastImage source={{uri: props.album[1].imageUrl}} style={styles.miniImage}/>
-              </View>
-              <View style={{flexDirection: 'row'}}>
-                <FastImage source={{uri: props.album[2].imageUrl}} style={styles.miniImage}/>
-                <FastImage source={{uri: props.album[3].imageUrl}} style={styles.miniImage}/>
-              </View>
-            </View>:<View style={styles.image}>
-              <FastImage source={{uri: props.album[0].imageUrl}} style={styles.largeImage}/>
-            </View>}
-            
+          <Shadow distance={10} containerViewStyle={{ marginVertical: 10 }} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
+            {props.album.length >= 4 ?
+              <View style={styles.image}>
+                <View style={{ flexDirection: 'row' }}>
+                  <FastImage source={{ uri: props.album[0].imageUrl }} style={styles.miniImage} />
+                  <FastImage source={{ uri: props.album[1].imageUrl }} style={styles.miniImage} />
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <FastImage source={{ uri: props.album[2].imageUrl }} style={styles.miniImage} />
+                  <FastImage source={{ uri: props.album[3].imageUrl }} style={styles.miniImage} />
+                </View>
+              </View> : <View style={styles.image}>
+                <FastImage source={{ uri: props.album[0].imageUrl }} style={styles.largeImage} />
+              </View>}
+
           </Shadow>
         </View>
 
         {/* Header text */}
 
-      <View style={styles.title}>
-        <TouchableOpacity style={[styles.title]} onPress={() => {focusTitleInput.current.focus()}}>
-          <View style={styles.leftContainer}>
-          <TextInput
-            autoCorrect={false}
-            onChangeText={t => {setTextLength(MAX_LENGTH - t.length); setTitle(t)}}
-            onFocus={toggleEditing}
-            onEndEditing={toggleEditing}
-            defaultValue={title}
-            style={[styles.name]}
-            maxLength={MAX_LENGTH}
-            returnKeyType='done'
-            ref={focusTitleInput}
-          />
-          </View>
+        <View style={styles.title}>
+          <TouchableOpacity style={[styles.title]} onPress={() => { focusTitleInput.current.focus() }}>
+            <View style={styles.leftContainer}>
+              <TextInput
+                autoCorrect={false}
+                onChangeText={t => { setTextLength(MAX_LENGTH - t.length); setTitle(t) }}
+                onFocus={toggleEditing}
+                onEndEditing={toggleEditing}
+                defaultValue={title}
+                style={[styles.name]}
+                maxLength={MAX_LENGTH}
+                returnKeyType='done'
+                ref={focusTitleInput}
+              />
+            </View>
 
-          <View style={styles.rightContainer}>
-              {isEditing?
-                <Text style={styles.counter}>{textLength}</Text>: 
+            <View style={styles.rightContainer}>
+              {isEditing ?
+                <Text style={styles.counter}>{textLength}</Text> :
                 <MaterialIcons
                   name="mode-edit"
                   size={25}
@@ -130,14 +138,14 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                   style={styles.edit}
                 />
               }
-          </View>
-        </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
 
-        
-      </View>
-      <View style={styles.divider}>
-        {isEditing? <View style={styles.line} />:<View style={styles.lineOff} />}
-      </View>
+
+        </View>
+        <View style={styles.divider}>
+          {isEditing ? <View style={styles.line} /> : <View style={styles.lineOff} />}
+        </View>
 
         {/* public or private toggle*/}
         <View style={styles.headerInfo}>
@@ -145,12 +153,12 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             {/* Name */}
             <View>
               <View>
-                
+
                 <View style={styles.creatorContainer}>
                   {/* TODO: need to rename style names*/}
-                  {props.album.length==1? 
+                  {props.album.length == 1 ?
                     <Text style={styles.middleText}>{props.album.length} song</Text>
-                    :<Text style={styles.middleText}>{props.album.length} songs</Text>
+                    : <Text style={styles.middleText}>{props.album.length} songs</Text>
                   }
                   <Entypo
                     name="dot-single"
@@ -170,7 +178,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             </View>
             <View style={styles.rightContainer}>
               <Switch
-                trackColor={{false: 'white', true: '#7432FF'}}
+                trackColor={{ false: 'white', true: '#7432FF' }}
                 thumbColor={props.privatePlaylist ? 'hsl(0, 0%, 95%)' : 'hsl(0, 0%, 95%)'}
                 ios_backgroundColor="#C4C4C4"
                 onValueChange={toggleSwitch}
@@ -181,20 +189,22 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         </View>
 
         {/* play button */}
-        <TouchableOpacity onPress={createThreeButtonAlert} style={{flexDirection: 'row', marginTop: 10}}>
-          <Shadow viewStyle={{alignSelf: 'stretch'}}>
-          <View style={styles.button}>
-            <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
-            <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>
-          </View>
+        <TouchableOpacity onPress={createThreeButtonAlert} style={{ flexDirection: 'row', marginTop: 10 }}>
+          <Shadow viewStyle={{ alignSelf: 'stretch' }}>
+            <View style={styles.button}>
+              <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
+              <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>
+
+              {loadingView}
+            </View>
           </Shadow>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.findInPlaylist} onPress={() => {focusFindInput.current.focus()}}>
+      <TouchableOpacity style={styles.findInPlaylist} onPress={() => { focusFindInput.current.focus() }}>
         <View style={styles.findContents}>
           <Feather name="search" size={25} color={'#3700AB'} />
-          <TextInput 
+          <TextInput
             autoCapitalize="none"
             autoCorrect={false}
             value={query}
@@ -204,7 +214,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             clearButtonMode="unless-editing"
             returnKeyType='done'
             ref={focusFindInput}
-            style={[styles.promptText, styles.gapAfterIcon]}/>
+            style={[styles.promptText, styles.gapAfterIcon]} />
         </View>
       </TouchableOpacity>
     </View>
