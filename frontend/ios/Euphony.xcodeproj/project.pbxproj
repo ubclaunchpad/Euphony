@@ -606,7 +606,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jamgang.spotifygen;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alanyan.Euphony;
 				PRODUCT_NAME = Euphony;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -632,7 +632,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jamgang.spotifygen;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alanyan.Euphony;
 				PRODUCT_NAME = Euphony;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
