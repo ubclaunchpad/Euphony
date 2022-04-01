@@ -20,27 +20,27 @@ export const client = new Client({
 
 const port = process.env.PORT;
 const app = express();
-const apiPrefix = `http://${
-	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
-}:${port}/`;
+const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+	}:${port}/`;
 app.use(cookieParser());
 
 (async () => {
 	// database setup
-	client.connect((err: any) => {
-		if (err) {
-			console.error('postgres connection error', err.stack);
-		} else {
-			console.log('connected to postgres server');
-		}
-	});
+	try {
+		await client.connect()
+		console.log('connected to postgres server');
 
-	await createTables();
-	await initCountries();
+		await createTables();
+		await initCountries();
 
-	// cron job to fetch weather for big cities every x hours
-	const hoursBetweenFetch = 1;
-	fetchWeatherData(hoursBetweenFetch);
+		// cron job to fetch weather for big cities every x hours
+		const hoursBetweenFetch = 1;
+		fetchWeatherData(hoursBetweenFetch);
+
+	} catch (e) {
+		console.error("postgres connection error " + e);
+
+	}
 
 	const app = express();
 
