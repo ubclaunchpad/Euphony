@@ -15,7 +15,7 @@ require('dotenv').config();
 
 // postgres db
 export const client = new Client({
-	connectionString: process.env.PG_CONNECTION_URL,
+	connectionString: process.env.DATABASE_URL,
 });
 
 const port = process.env.PORT;
