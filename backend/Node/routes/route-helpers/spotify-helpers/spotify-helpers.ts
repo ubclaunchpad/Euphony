@@ -32,12 +32,11 @@ export const scopes = [
 ];
 
 const port = process.env.PORT || 4000;
-const mlServerPort = process.env.TZML_SERVER_PORT || 5000;
+const mlServer = process.env.ML_SERVER || "localhost:5000";
 // TODO (later): change 'localhost' after : to whatever prod's using
 const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
 	}:${port}/`;
-const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
-	}:${mlServerPort}/`;
+const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost:5000' : mlServer}/`;
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
 const NodeServerAPIs = {
