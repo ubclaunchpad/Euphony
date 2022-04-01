@@ -20,8 +20,7 @@ export const client = new Client({
 
 const port = process.env.PORT;
 const app = express();
-const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
-	}:${port}/`;
+const apiPrefix = process.env.NODE_ENV === 'development' ? 'https://euphony-launchpad.herokuapp.com/' : `http://localhost':${port}/`;
 app.use(cookieParser());
 
 (async () => {
