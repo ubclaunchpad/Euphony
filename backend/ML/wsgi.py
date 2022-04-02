@@ -1,4 +1,4 @@
-from flaskapp import app
+from server import app
 
-if __name == "__main__":
+if __name__ == "__main__":
     app.run()
