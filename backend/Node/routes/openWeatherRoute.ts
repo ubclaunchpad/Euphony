@@ -1,5 +1,5 @@
 import express from 'express';
-import { reverseWeather } from './route-helpers/openweather-helpers';
+import { getWeather, reverseWeather } from './route-helpers/openweather-helpers';
 
 const router = express.Router();
 
@@ -8,5 +8,5 @@ router.get('/', (_, res) => {
 });
 
 router.get('/reverseWeather/:latLon', reverseWeather);
-
+router.get('/weather/:latLon', getWeather);
 module.exports = router;
