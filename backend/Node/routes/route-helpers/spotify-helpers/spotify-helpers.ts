@@ -35,7 +35,7 @@ const port = process.env.PORT || 4000;
 const mlServerPort = process.env.TZML_SERVER_PORT || 5000;
 // TODO (later): change 'localhost' after : to whatever prod's using
 const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'}:${port}/`;
-const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'}:${mlServerPort}/`;
+const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : '127.0.0.1'}:${mlServerPort}/`;
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
 const NodeServerAPIs = {
@@ -155,31 +155,48 @@ export async function getRecommendations(req: any, res: any) {
 				audio_features,
 			}
 		);
-		// Get the first 2 track ids to pass as seed_tracks into the recommendation API
-		const seedTracksIds = trackIds.slice(0, 2).join(',');
-		// Get the seed genre from the user
-		let seedGenre = ''; //needs to be a string separated by commas
+
+		// Max 5 seed values
+		const maxSeeds = 5;
+		let numSeeds = 0;
+
+		// Get the seed genres from the user
+		console.log("we got here");
+		let seedGenres = ''; 
 		let tempG = genres;
+		console.log(tempG);
 		Genres.forEach(
 			(element) => { 
 				if ((tempG & 1) == 1) {
-					seedGenre.concat(element, ',');
+					console.log("correct");
+					numSeeds++;
+					seedGenres += element;
+					if ((tempG >> 1) != 0) { seedGenres += ',';}
 				}
-				tempG /= 2;
-			}); 
-		console.log(seedGenre);
+				tempG >>= 1;
+				console.log(tempG);	
+			})
+		console.log(seedGenres);
 
+		// Get the first 2 track ids to pass as seed_tracks into the recommendation API
+		let numTracks = Math.round((maxSeeds - numSeeds) / 2);
+		numSeeds += numTracks;
+		console.log(numTracks);
+		console.log(maxSeeds - numSeeds);
+		const seedTracksIds = trackIds.slice(0, numTracks).join(',');
+		
 		// Get the top 2 artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
-		// const seedArtistIds = await getSeedArtistIdsFromTopTracks(
-		// 	trackIds,
-		// 	auth.access_token!
-		// );
+		const seedArtistIds = await getSeedArtistIdsFromTopTracks(
+			trackIds,
+			auth.access_token!,
+			(maxSeeds - numSeeds)
+		);
 
 		/**
 		 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
 		 * Append optional fields supplied from the ML server to the recommendations API params to refine this search
 		 **/
-		let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_genres=${seedGenre}&seed_tracks=${seedTracksIds}&limit=${limit}`;
+		let recommendationsUrl = `https://api.spotify.com/v1/recommendations?seed_genres=${seedGenres}&seed_tracks=${seedTracksIds}&seed_artists=${seedArtistIds}&limit=${limit}`;
 		Object.keys(MLServerRes.data).forEach(
 			(property: string) =>
 				(recommendationsUrl += `&${property}=${MLServerRes.data[property]}`)
