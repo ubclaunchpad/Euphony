@@ -7,7 +7,8 @@
     "react-native-screens": "^3.9.0"
   },
   "scripts": {
-    "node_server": "cd backend/Node && npm start",
+    "postinstall": "cd backend/Node && npm install",
+    "node_server": "cd backend/Node && npm run dev && npm run postinstall",
     "start": "concurrently \"npm run node_server\""
   }
 }
