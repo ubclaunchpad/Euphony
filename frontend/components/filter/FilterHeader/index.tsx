@@ -13,6 +13,8 @@ interface Props {
     /* The description placed under the header */
     description: string,
 
+    showError: boolean,
+
     /* The function that is called when the clear button is pressed */
     callback?: (a: any) => void,
 
@@ -37,7 +39,7 @@ const FilterHeader: FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.textStackView}>
-                <Text style={styles.title}>{props.title}</Text>
+                <Text style={props.showError ? styles.errorTitle : styles.title}>{props.title}</Text>
                 {requiredText}
             </View>
             <Text style={styles.description}>{props.description}</Text>
