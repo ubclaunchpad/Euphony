@@ -30,7 +30,7 @@ const Carousel: FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <FilterHeader
-                showError={props.showIncomplete && (props.choices[0].isGenre ? props.selectedChoice == 0 : props.selectedChoice < 0)}
+                showError={props.showIncomplete && props.required === true && (props.choices[0].isGenre ? props.selectedChoice == 0 : props.selectedChoice < 0)}
                 title={props.title}
                 description={props.description}
                 callback={() => props.onChange(-1)}
