@@ -34,6 +34,7 @@ function FilterScreen({ navigation }: any) {
   const [activity, setActivity] = React.useState(-1);
   const [lat, setLat] = React.useState<number | null>(null)
   const [long, setLong] = React.useState<number | null>(null)
+  const [showIncomplete, setShowIncomplete] = React.useState(false);
   const [playlistLength, setPlaylistLength] = React.useState(1);
 
   // object of User Info, with getters.
@@ -179,6 +180,7 @@ function FilterScreen({ navigation }: any) {
         <Carousel
           title={"Genre"}
           description={"Choose a genre from the ones below"}
+          showIncomplete={showIncomplete}
           choices={genreChoices}
           selectedChoice={genres}
           onChange={(choice) => { (choice < 0 || Object.is(choice, -0)) ? setGenres(genres & ~(1 << -choice)) : setGenres(genres | (1 << choice)) }}
@@ -186,6 +188,7 @@ function FilterScreen({ navigation }: any) {
         <Carousel
           title={"Mood"}
           description={"Choose a mood from the ones below"}
+          showIncomplete={showIncomplete}
           selectedChoice={mood}
           choices={moodChoices}
           onChange={(choice) => { setMood(choice) }}
@@ -193,6 +196,7 @@ function FilterScreen({ navigation }: any) {
         <Carousel
           title="Activity"
           description="Choose an activity that fits your playlist best."
+          showIncomplete={showIncomplete}
           choices={activityChoices}
           selectedChoice={activity}
           onChange={(choice) => { setActivity(choice) }}
@@ -243,6 +247,9 @@ function FilterScreen({ navigation }: any) {
                     initName: text ? text : "My Playlist",
                     locInfo: locInfo,
                   })
+                  setShowIncomplete(false)
+                } else {
+                  setShowIncomplete(true)
                 }
               }
               else { authContext.setAuthToken(null); }
