@@ -172,11 +172,21 @@ export async function getRecommendations(req: any, res: any) {
 		let numSeeds = 0;
 
 		// Get the seed genres from the user
+		/* 
+		 *	genres is a bitmask where each bit's position from the right is the index of the 
+		 *	corresponding element in Genres = ['pop', 'r-n-b', 'indie', 'hip-hop', 'jazz']
+		 *		0b     1 : pop
+		 *		0b    10 : r-n-b
+		 *		0b   100 : indie 
+		 *		0b  1000 : hip-hop 
+		 *		0b 10000 : jazz
+		 *	so pop + r-n-b = 0b 11, r-n-b + indie + hip-hop = 0b 1110
+		 */
 		let seedGenres = ''; 
-		let tempG = genres;
+		let tempG = genres;	
 		Genres.forEach(
 			(element) => { 
-				if ((tempG & 1) == 1) {
+				if ((tempG & 1) == 1) {		
 					numSeeds++;
 					seedGenres += element;
 					if ((tempG >> 1) != 0) { seedGenres += ',';}
