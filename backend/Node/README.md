@@ -22,7 +22,7 @@ Create a .env file in ./backend/Node folder, ask backend devs for them:
 - SPOTIFY_CLIENT_SECRET=
 - MAPBOX_TOKEN=
 - OPEN_WEATHER_KEY=
-- PG_CONNECTION_URL =
+- DATABASE_URL =
 
 **Install**
 Run `npm install` to install all dependencies
