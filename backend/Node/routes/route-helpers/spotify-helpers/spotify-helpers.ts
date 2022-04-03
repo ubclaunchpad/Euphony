@@ -32,11 +32,11 @@ export const scopes = [
 ];
 
 const port = process.env.PORT || 4000;
-const mlServer = process.env.ML_SERVER || "127.0.0.1:5000";
+const mlServer = process.env.ML_SERVER || "localhost:5000";
 // TODO (later): change 'localhost' after : to whatever prod's using
 const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
 	}:${port}/`;
-const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? '127.0.0.1:5000' : mlServer}/`;
+const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost:5000' : mlServer}/`;
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
 const NodeServerAPIs = {
@@ -194,12 +194,12 @@ export async function getRecommendations(req: any, res: any) {
 				tempG >>= 1;
 			})
 
-		// Get the first 2 track ids to pass as seed_tracks into the recommendation API
+		// Get the track ids to pass as seed_tracks into the recommendation API
 		let numTracks = Math.round((maxSeeds - numSeeds) / 2);
 		numSeeds += numTracks;
 		const seedTracksIds = trackIds.slice(0, numTracks).join(',');
 		
-		// Get the top 2 artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
+		// Get the top artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
 		const seedArtistIds = await getSeedArtistIdsFromTopTracks(
 			trackIds,
 			auth.access_token!,
