@@ -1,4 +1,4 @@
-import { Activity, genres, Location, Mood } from '../../src/interfaces';
+import { Activity, Genres, Location, Mood } from '../../src/interfaces';
 /**
  * TODO: hi Hung! I just hardcoded these fields below to isolate this part
  * 			you can populate these with values from the work in steps 1-4 that we have
