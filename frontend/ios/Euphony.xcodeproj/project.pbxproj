@@ -11,7 +11,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		193EDF8F42B3101A95319507 /* libPods-Euphony-EuphonyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C56C3A98616C9B191E2EB043 /* libPods-Euphony-EuphonyTests.a */; };
 		2533BDD827478979002D723A /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2533BDCC27478979002D723A /* Roboto-Thin.ttf */; };
 		2533BDD927478979002D723A /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2533BDCD27478979002D723A /* Roboto-Black.ttf */; };
 		2533BDDA27478979002D723A /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2533BDCE27478979002D723A /* Roboto-BlackItalic.ttf */; };
@@ -24,11 +23,12 @@
 		2533BDE127478979002D723A /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2533BDD527478979002D723A /* Roboto-BoldItalic.ttf */; };
 		2533BDE227478979002D723A /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2533BDD627478979002D723A /* Roboto-Medium.ttf */; };
 		2533BDE327478979002D723A /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2533BDD727478979002D723A /* Roboto-LightItalic.ttf */; };
+		49D7E66527AC66545CCCE26A /* libPods-Euphony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD7E78A47DD24D105D5D725 /* libPods-Euphony.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		971A5EAA2754959900BFE757 /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA72754959900BFE757 /* Raleway-Black.ttf */; };
 		971A5EAB2754959900BFE757 /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */; };
 		971A5EAC2754959900BFE757 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA92754959900BFE757 /* Raleway-Bold.ttf */; };
-		C173426AAB490B48F05DE301 /* libPods-Euphony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C020BD746BF144BD9514D /* libPods-Euphony.a */; };
+		B0BA20D0203E3E13A7957C83 /* libPods-Euphony-EuphonyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2930E427BAE301E9971F1A /* libPods-Euphony-EuphonyTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,13 +47,14 @@
 		00E356F21AD99517003FC87E /* EuphonyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EuphonyTests.m; sourceTree = "<group>"; };
 		01201D2D661B416696FEFF90 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		060249010F0C4F79B13FFA0B /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
-		11D491FDAB5BC89C62C2345F /* Pods-Euphony-EuphonyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony-EuphonyTests.release.xcconfig"; path = "Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests.release.xcconfig"; sourceTree = "<group>"; };
+		0AFD00EF299D7A7AF3373401 /* Pods-Euphony-EuphonyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony-EuphonyTests.debug.xcconfig"; path = "Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Euphony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Euphony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Euphony/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Euphony/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Euphony/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Euphony/main.m; sourceTree = "<group>"; };
 		15AD890D6CD745809DD33610 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		1BD7E78A47DD24D105D5D725 /* libPods-Euphony.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Euphony.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		20EC127F11EC440F89F74DDB /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		2533BDCC27478979002D723A /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		2533BDCD27478979002D723A /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
@@ -67,27 +68,25 @@
 		2533BDD527478979002D723A /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		2533BDD627478979002D723A /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		2533BDD727478979002D723A /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
-		359AF1FAD6D9799311C19381 /* libPods-frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D1EA086DE43B259A9610E41 /* Pods-Euphony.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony.debug.xcconfig"; path = "Target Support Files/Pods-Euphony/Pods-Euphony.debug.xcconfig"; sourceTree = "<group>"; };
 		3F3388D0EB524BD7B2742BFC /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
-		644BFEA6B1DAF999A01F9E04 /* Pods-Euphony.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony.debug.xcconfig"; path = "Target Support Files/Pods-Euphony/Pods-Euphony.debug.xcconfig"; sourceTree = "<group>"; };
+		43AA49E18DCF4A3D900FA3BB /* Pods-Euphony.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony.release.xcconfig"; path = "Target Support Files/Pods-Euphony/Pods-Euphony.release.xcconfig"; sourceTree = "<group>"; };
 		650930C4941049148BCAB9F4 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		65659D491BF24122A1BCC237 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
-		6D6C020BD746BF144BD9514D /* libPods-Euphony.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Euphony.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Euphony/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		88449F62FA2A45DB9E6FC9D9 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		8DE6872F1F99FD2AC0867634 /* Pods-Euphony-EuphonyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony-EuphonyTests.debug.xcconfig"; path = "Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		95257DCBE1684750B48907BA /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		971A5EA72754959900BFE757 /* Raleway-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Black.ttf"; sourceTree = "<group>"; };
 		971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
 		971A5EA92754959900BFE757 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		979762BE274997BC00C863D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Euphony/Info.plist; sourceTree = "<group>"; };
+		9E2930E427BAE301E9971F1A /* libPods-Euphony-EuphonyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Euphony-EuphonyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E44A698D97493EABB1AE82 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		C1C8F54B162145DF9649ACCB /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		C56C3A98616C9B191E2EB043 /* libPods-Euphony-EuphonyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Euphony-EuphonyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C65A2059DDA44864980EF6A6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		C682CD249BB361C10382FE40 /* Pods-Euphony.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony.release.xcconfig"; path = "Target Support Files/Pods-Euphony/Pods-Euphony.release.xcconfig"; sourceTree = "<group>"; };
 		CCD09B2090344133930C2098 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		E3A2A5B9B205453794659A9E /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		E500FB455D2B8FD60D4E51A2 /* Pods-Euphony-EuphonyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphony-EuphonyTests.release.xcconfig"; path = "Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F9C5A8C43C53409DB48E8383 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		FB8518DFF1494F28AEEA31C1 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -98,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				193EDF8F42B3101A95319507 /* libPods-Euphony-EuphonyTests.a in Frameworks */,
+				B0BA20D0203E3E13A7957C83 /* libPods-Euphony-EuphonyTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C173426AAB490B48F05DE301 /* libPods-Euphony.a in Frameworks */,
+				49D7E66527AC66545CCCE26A /* libPods-Euphony.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,8 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				6D6C020BD746BF144BD9514D /* libPods-Euphony.a */,
-				C56C3A98616C9B191E2EB043 /* libPods-Euphony-EuphonyTests.a */,
+				1BD7E78A47DD24D105D5D725 /* libPods-Euphony.a */,
+				9E2930E427BAE301E9971F1A /* libPods-Euphony-EuphonyTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -211,10 +210,10 @@
 		E233CBF5F47BEE60B243DCF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				644BFEA6B1DAF999A01F9E04 /* Pods-Euphony.debug.xcconfig */,
-				C682CD249BB361C10382FE40 /* Pods-Euphony.release.xcconfig */,
-				8DE6872F1F99FD2AC0867634 /* Pods-Euphony-EuphonyTests.debug.xcconfig */,
-				11D491FDAB5BC89C62C2345F /* Pods-Euphony-EuphonyTests.release.xcconfig */,
+				3D1EA086DE43B259A9610E41 /* Pods-Euphony.debug.xcconfig */,
+				43AA49E18DCF4A3D900FA3BB /* Pods-Euphony.release.xcconfig */,
+				0AFD00EF299D7A7AF3373401 /* Pods-Euphony-EuphonyTests.debug.xcconfig */,
+				E500FB455D2B8FD60D4E51A2 /* Pods-Euphony-EuphonyTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -249,12 +248,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EuphonyTests" */;
 			buildPhases = (
-				23E872AE53995B51E7A93A6E /* [CP] Check Pods Manifest.lock */,
+				EA1B09830CFC66908D99948A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				DED9BE5AF16F6525B8B4DB5C /* [CP] Embed Pods Frameworks */,
-				7811BA6B04EBEE9BB526DF5B /* [CP] Copy Pods Resources */,
+				FAE360C14AC89A1B7567FBE3 /* [CP] Embed Pods Frameworks */,
+				8DC4F98BCF5560D9F4B5DB0E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -270,14 +269,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Euphony" */;
 			buildPhases = (
-				F6E948EF12708A13815CF85E /* [CP] Check Pods Manifest.lock */,
+				89C56C036144DCF4038D0E4A /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				33FD6C4C5459D0FA5AE3CFF0 /* [CP] Embed Pods Frameworks */,
-				1A834D440289B7020B75611B /* [CP] Copy Pods Resources */,
+				5F3FF2A19D5527CBBF8A0777 /* [CP] Embed Pods Frameworks */,
+				01901AB586B6ABF9B1C10944 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -373,7 +372,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		1A834D440289B7020B75611B /* [CP] Copy Pods Resources */ = {
+		01901AB586B6ABF9B1C10944 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -390,7 +389,67 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		23E872AE53995B51E7A93A6E /* [CP] Check Pods Manifest.lock */ = {
+		5F3FF2A19D5527CBBF8A0777 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89C56C036144DCF4038D0E4A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Euphony-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8DC4F98BCF5560D9F4B5DB0E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA1B09830CFC66908D99948A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -412,45 +471,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		33FD6C4C5459D0FA5AE3CFF0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7811BA6B04EBEE9BB526DF5B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DED9BE5AF16F6525B8B4DB5C /* [CP] Embed Pods Frameworks */ = {
+		FAE360C14AC89A1B7567FBE3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -465,28 +486,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F6E948EF12708A13815CF85E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Euphony-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -541,7 +540,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8DE6872F1F99FD2AC0867634 /* Pods-Euphony-EuphonyTests.debug.xcconfig */;
+			baseConfigurationReference = 0AFD00EF299D7A7AF3373401 /* Pods-Euphony-EuphonyTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8VU5ULQ45F;
@@ -569,7 +568,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 11D491FDAB5BC89C62C2345F /* Pods-Euphony-EuphonyTests.release.xcconfig */;
+			baseConfigurationReference = E500FB455D2B8FD60D4E51A2 /* Pods-Euphony-EuphonyTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -594,7 +593,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 644BFEA6B1DAF999A01F9E04 /* Pods-Euphony.debug.xcconfig */;
+			baseConfigurationReference = 3D1EA086DE43B259A9610E41 /* Pods-Euphony.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -621,7 +620,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C682CD249BB361C10382FE40 /* Pods-Euphony.release.xcconfig */;
+			baseConfigurationReference = 43AA49E18DCF4A3D900FA3BB /* Pods-Euphony.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

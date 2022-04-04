@@ -11,8 +11,7 @@ export type WeatherInfo = {
     weatherDesc: string,
 }
 
-//TODO: Change the URL for prod
-let baseURL = __DEV__ ? "http://localhost:4000/" : "https://euphony-backend-2e3yo.ondigitalocean.app/"
+let baseURL = __DEV__ ? "https://euphony-backend-2e3yo.ondigitalocean.app/" : "https://euphony-backend-2e3yo.ondigitalocean.app/"
 
 enum APIReqType {
     Get = "GET",
