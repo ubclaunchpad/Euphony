@@ -18,6 +18,8 @@ interface Props {
     /* Whether this carousel is required */
     required?: boolean,
 
+    showIncomplete: boolean,
+
     selectedChoice: number,
     onChange: (choice: number) => void,
 }
@@ -28,6 +30,7 @@ const Carousel: FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <FilterHeader
+                showError={props.showIncomplete && props.required === true && (props.choices[0].isGenre ? props.selectedChoice == 0 : props.selectedChoice < 0)}
                 title={props.title}
                 description={props.description}
                 callback={() => props.onChange(-1)}
@@ -37,22 +40,22 @@ const Carousel: FunctionComponent<Props> = (props) => {
             <FlatList
                 style={styles.list}
                 data={props.choices}
-                renderItem={({ item, index }) => <ChoiceComponent 
-                                                    choice={item} 
-                                                    onPress={
-                                                        (event) => { 
-                                                            if (item.isGenre && ((props.selectedChoice & (1 << index)) !== 0)) {
-                                                                props.onChange(-index);
-                                                            } else if (!item.isGenre && props.selectedChoice === index) {
-                                                                props.onChange(-1);
-                                                            } else { 
-                                                                props.onChange(index); 
-                                                            }   
+                renderItem={({ item, index }) => <ChoiceComponent
+                    choice={item}
+                    onPress={
+                        (event) => {
+                            if (item.isGenre && ((props.selectedChoice & (1 << index)) !== 0)) {
+                                props.onChange(-index);
+                            } else if (!item.isGenre && props.selectedChoice === index) {
+                                props.onChange(-1);
+                            } else {
+                                props.onChange(index);
+                            }
 
-                                                        }
-                                                    } 
-                                                    selected={ item.isGenre ? (props.selectedChoice & (1 << index)) !== 0 : props.selectedChoice === index } 
-                                                />}  
+                        }
+                    }
+                    selected={item.isGenre ? (props.selectedChoice & (1 << index)) !== 0 : props.selectedChoice === index}
+                />}
                 keyExtractor={(item) => item.id}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.containerContent}

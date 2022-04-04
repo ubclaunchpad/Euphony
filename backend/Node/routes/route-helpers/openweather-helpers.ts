@@ -52,7 +52,7 @@ export async function reverseWeatherDataUsingLatLon(latLon: string[]) {
 	const mainFeelsLikeF = (weatherData.main.feels_like - 273.15) * (9 / 5) + 32;
 	const mainHumidity = weatherData.main.humidity / 100;
 	const mainClouds = weatherData.clouds.all / 100;
-
+	const mainWeather = weatherData.weather[0].main;
 	return {
 		temp_c: mainTempC,
 		temp_f: mainTempF,
@@ -60,6 +60,7 @@ export async function reverseWeatherDataUsingLatLon(latLon: string[]) {
 		feels_like_f: mainFeelsLikeF,
 		pop: mainHumidity,
 		clouds: mainClouds,
+		mainWeather: mainWeather,
 	};
 }
 

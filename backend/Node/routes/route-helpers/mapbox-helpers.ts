@@ -1,6 +1,6 @@
 import axios from 'axios';
 require('dotenv').config();
-import { shouldUpdateLatLon, updateUserLocation, getUserCountryName } from '../../src/db/users';
+import { shouldUpdateLatLon, updateUserLocation, getUserCountryName, getUserCityName } from '../../src/db/users';
 
 const token = process.env.MAPBOX_TOKEN;
 
@@ -77,10 +77,10 @@ export async function updateLatLon(req: any, res: any, next: any) {
 		const latLon = req.params.latLon.split(',');
 		const userId = req.headers['userid'];
 		if (!isLatitude(latLon[0]) || !isLongitude(latLon[1])) {
-			res.status(400).send('Invalid lat/lon value(s)');
+			return res.status(400).send('Invalid lat/lon value(s)');
 		}
 		if (!userId) {
-			res.status(400).send('invalid user');
+			return res.status(400).send('Invalid User');
 		}
 
 		// determine if the new lat lon is different from the one in the db
@@ -120,10 +120,29 @@ export async function getLocation(req: any, res: any, next: any) {
 	// TODO: send country text (United States) or code (id in our db)?
 	try {
 		if (res.locals.theOne) {
-			res.locals.location = getUserCountryName(req.headers['userid']);
+			res.locals.location = await getUserCountryName(req.headers['userid']);
 			next();
 		} else {
-			res.send(getUserCountryName(req.headers['userid']));
+			let country = await getUserCountryName(req.headers['userid']);
+			res.send(country);
+		}
+	} catch (err) {
+		return res.status(404).send(err);
+	}
+}
+
+
+
+export async function getCityCountry(req: any, res: any, next: any) {
+	try {
+		let country = await getUserCountryName(req.headers['userid']);
+		let city = await getUserCityName(req.headers['userid']);
+
+		//Just need country to show something on UI, city is not necessary but nice to have
+		if (country !== "") {
+			res.send({ country: country, city: city });
+		} else {
+			res.status(404).send('Location not found');
 		}
 	} catch (err) {
 		return res.status(404).send(err);
