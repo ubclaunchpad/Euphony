@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, TouchableHighlight, StyleSheet, Button, Text, View, Image, ImageBackground, Alert } from 'react-native';
+import { SafeAreaView, TouchableHighlight, StyleSheet, Button, Text, View, Image, ImageBackground, Alert, StatusBar } from 'react-native';
 import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,14 +7,18 @@ function OnboardingScreen(props) {
     const [page, setPage] = React.useState(<ScrollA/>);
 
     return (
-        <ImageBackground source={require('./images/onboarding-background.png')} style={{ flex: 1 }}>
-            {page}
-        </ImageBackground>
+        <SafeAreaView style={styles.main}>
+            <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
+            
+            <ImageBackground source={require('./images/onboarding-background.png')} style={{ flex: 1 }}>
+                {page}
+            </ImageBackground>
+        </SafeAreaView>
     );
 
     function ScrollA() {
         return (
-            <SafeAreaView style={styles.cardContainer}>
+            <View style={styles.cardContainer}>
                 <Text style={styles.skipText} onPress={() => {
                     props.onComplete()
                     AsyncStorage.setItem('alreadyLaunched', 'true')
@@ -37,13 +41,13 @@ function OnboardingScreen(props) {
                 <TouchableHighlight style={styles.rightButton} onPress={() => setPage(<ScrollB/>)} underlayColor="#9663ff">
                     <Image source={require('./images/rightarrow.png')} style={{width: 20, height: 10, resizeMode: 'stretch'}}/>
                 </TouchableHighlight>
-            </SafeAreaView>
+            </View>
         );
     }
 
     function ScrollB() {
         return (
-            <SafeAreaView style={styles.cardContainer}>
+            <View style={styles.cardContainer}>
                 <Text style={styles.skipText} onPress={() => {
                     props.onComplete()
                     AsyncStorage.setItem('alreadyLaunched', 'true')
@@ -70,13 +74,13 @@ function OnboardingScreen(props) {
                 <TouchableHighlight style={styles.rightButton} onPress={() => setPage(<ScrollC/>)} underlayColor="#9663ff">
                     <Image source={require('./images/rightarrow.png')} style={{width: 20, height: 10, resizeMode: 'stretch'}}/>
                 </TouchableHighlight>
-            </SafeAreaView>
+            </View>
         );
     }
 
     function ScrollC() {
         return (
-            <SafeAreaView style={styles.cardContainer}>
+            <View style={styles.cardContainer}>
                 <Text style={styles.skipText} onPress={() => {
                     props.onComplete()
                     AsyncStorage.setItem('alreadyLaunched', 'true')
@@ -106,31 +110,37 @@ function OnboardingScreen(props) {
                         <Text style={styles.spotifyText}>CONNECT SPOTIFY</Text>
                     </View>
                 </TouchableHighlight>
-            </SafeAreaView>
+            </View>
         );
     }
 }
 
 
 const styles = StyleSheet.create({
+    main: {
+        backgroundColor: 'white',
+        flex: 1
+    },
     cardContainer: {
-        flex: 1,
         display: "flex",
+        height: '100%',
+        padding: 40,
+        alignItems: 'center',
         flexDirection: "column",
         justifyContent: "center",
-        padding: 30
     },
     swipeable: {
         display: "flex",
         justifyContent: "center",
         position: 'relative',
-        bottom: 25
+        bottom: 25,
+        width: '100%',
     },
     graphicContainer: {
         height: 320,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     graphicA: {
         width: '130%',
@@ -146,7 +156,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     },
     skipText: {
-        fontFamily: "transat-bold",
+        fontFamily: "Avenir",
+        fontWeight: 'bold',
         fontSize: 18,
         color: "#7432FF",
         lineHeight: 40,
@@ -157,7 +168,7 @@ const styles = StyleSheet.create({
         right: 40
     },
     baseText: {
-        fontFamily: "Avenir-Medium",
+        fontFamily: "Avenir",
         fontSize: 16,
         lineHeight: 25,
         marginTop: 20,
@@ -165,7 +176,8 @@ const styles = StyleSheet.create({
         color: "#13008A"
     },
     headerText: {
-        fontFamily: "transat-bold",
+        fontWeight: 'bold',
+        fontFamily: 'Avenir',
         fontSize: 30,
         lineHeight: 40,
         textAlign: 'left',
@@ -186,7 +198,8 @@ const styles = StyleSheet.create({
     },
     purpleText: {
         color: "#7432FF",
-        fontFamily: "transat-black"
+        fontWeight: 'bold',
+        fontFamily: 'Avenir',
     },
     pageIndicator: {
         width: 60,

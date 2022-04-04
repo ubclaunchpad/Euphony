@@ -121,15 +121,11 @@ function App() {
             headerLargeTitleStyle: {
               fontFamily: 'Raleway-ExtraBold',
             },
-
+            header: (props) => <CustomHeader {...props} />
           }}>
             <Stack.Screen name="Filters" component={FilterScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Playlist" component={AlbumScreen} />
-            <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}
-              options={() => ({
-                title: "Results Info"
-              })} />
 
           </Stack.Navigator>
         </NavigationContainer>
