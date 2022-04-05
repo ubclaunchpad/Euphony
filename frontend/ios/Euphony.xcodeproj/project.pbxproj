@@ -28,6 +28,11 @@
 		971A5EAA2754959900BFE757 /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA72754959900BFE757 /* Raleway-Black.ttf */; };
 		971A5EAB2754959900BFE757 /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */; };
 		971A5EAC2754959900BFE757 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971A5EA92754959900BFE757 /* Raleway-Bold.ttf */; };
+		9768A6F427FB5F8D00FCA2DB /* transat-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9768A6EF27FB5F8C00FCA2DB /* transat-light.ttf */; };
+		9768A6F527FB5F8D00FCA2DB /* transat-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9768A6F027FB5F8C00FCA2DB /* transat-bold.ttf */; };
+		9768A6F627FB5F8D00FCA2DB /* transat-standard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9768A6F127FB5F8C00FCA2DB /* transat-standard.ttf */; };
+		9768A6F727FB5F8D00FCA2DB /* transat-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9768A6F227FB5F8D00FCA2DB /* transat-medium.ttf */; };
+		9768A6F827FB5F8D00FCA2DB /* transat-black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9768A6F327FB5F8D00FCA2DB /* transat-black.ttf */; };
 		B0BA20D0203E3E13A7957C83 /* libPods-Euphony-EuphonyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E2930E427BAE301E9971F1A /* libPods-Euphony-EuphonyTests.a */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +84,11 @@
 		971A5EA72754959900BFE757 /* Raleway-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Black.ttf"; sourceTree = "<group>"; };
 		971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
 		971A5EA92754959900BFE757 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		9768A6EF27FB5F8C00FCA2DB /* transat-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "transat-light.ttf"; sourceTree = "<group>"; };
+		9768A6F027FB5F8C00FCA2DB /* transat-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "transat-bold.ttf"; sourceTree = "<group>"; };
+		9768A6F127FB5F8C00FCA2DB /* transat-standard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "transat-standard.ttf"; sourceTree = "<group>"; };
+		9768A6F227FB5F8D00FCA2DB /* transat-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "transat-medium.ttf"; sourceTree = "<group>"; };
+		9768A6F327FB5F8D00FCA2DB /* transat-black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "transat-black.ttf"; sourceTree = "<group>"; };
 		979762BE274997BC00C863D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Euphony/Info.plist; sourceTree = "<group>"; };
 		9E2930E427BAE301E9971F1A /* libPods-Euphony-EuphonyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Euphony-EuphonyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E44A698D97493EABB1AE82 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
@@ -132,6 +142,11 @@
 		13B07FAE1A68108700A75B9A /* Euphony */ = {
 			isa = PBXGroup;
 			children = (
+				9768A6F327FB5F8D00FCA2DB /* transat-black.ttf */,
+				9768A6F027FB5F8C00FCA2DB /* transat-bold.ttf */,
+				9768A6EF27FB5F8C00FCA2DB /* transat-light.ttf */,
+				9768A6F227FB5F8D00FCA2DB /* transat-medium.ttf */,
+				9768A6F127FB5F8C00FCA2DB /* transat-standard.ttf */,
 				971A5EA72754959900BFE757 /* Raleway-Black.ttf */,
 				971A5EA92754959900BFE757 /* Raleway-Bold.ttf */,
 				971A5EA82754959900BFE757 /* Raleway-ExtraBold.ttf */,
@@ -335,6 +350,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9768A6F427FB5F8D00FCA2DB /* transat-light.ttf in Resources */,
+				9768A6F527FB5F8D00FCA2DB /* transat-bold.ttf in Resources */,
+				9768A6F627FB5F8D00FCA2DB /* transat-standard.ttf in Resources */,
+				9768A6F727FB5F8D00FCA2DB /* transat-medium.ttf in Resources */,
+				9768A6F827FB5F8D00FCA2DB /* transat-black.ttf in Resources */,
 				2533BDE227478979002D723A /* Roboto-Medium.ttf in Resources */,
 				2533BDDB27478979002D723A /* Roboto-ThinItalic.ttf in Resources */,
 				2533BDE327478979002D723A /* Roboto-LightItalic.ttf in Resources */,
