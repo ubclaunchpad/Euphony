@@ -57,14 +57,14 @@ const LeaveModal = (props: Props) => {
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity onPress={updateLeave}>
-                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                    <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{alignSelf: 'stretch'}}>
                         <View style={styles.buttonLeave}>
                             <Text style={styles.buttonLeaveText}>LEAVE</Text>
                         </View>
                     </Shadow>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={updateCancel}>
-                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                    <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{alignSelf: 'stretch'}}>
                         <View style={styles.buttonCancel}>
                             <Text style={styles.buttonCancelText}>CANCEL</Text>
                         </View>

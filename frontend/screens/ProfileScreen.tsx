@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ActivityIndicator, Linking } from 'react-native';
+import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ActivityIndicator, Linking, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/elements';
 
@@ -76,66 +76,68 @@ const ProfileScreen = ({ route, navigation }) => {
 
             <LinearGradient colors={['#843CDE', '#4A18DD', '#2E1181']} style={{ flex: 1 }}>
                 {isLoading == true ? <ActivityIndicator size="large" color="#5500dc" /> :
-                    <SafeAreaView style={{ alignItems: 'center', marginTop: headerHeight }}>
-                        <View style={{ backgroundColor: 'white', marginTop: 20, width: 340, borderRadius: 15, padding: 25 }}>
-                            <View style={styles.playlistInformation}>
-                                <Image source={getValidUserInfo(userInfo).getProfileImage()} style={styles.image} />
-                                <View style={styles.info}>
-                                    <Text style={styles.spotifyName}>{getValidUserInfo(userInfo).getName()}</Text>
-                                    <TouchableOpacity onPress={() => Linking.openURL(getValidUserInfo(userInfo).getSpotifyURL())}>
-                                        <Text style={[styles.redirectText, styles.underline]}>Open on Spotify </Text>
-                                    </TouchableOpacity>
+                    <SafeAreaView style={{ alignItems: 'center', marginTop: headerHeight, flex: 1 }}>
+                        <ScrollView>
+                            <View style={{ backgroundColor: 'white', marginTop: 20, width: 340, borderRadius: 15, padding: 25 }}>
+                                <View style={styles.playlistInformation}>
+                                    <Image source={getValidUserInfo(userInfo).getProfileImage()} style={styles.image} />
+                                    <View style={styles.info}>
+                                        <Text style={styles.spotifyName}>{getValidUserInfo(userInfo).getName()}</Text>
+                                        <TouchableOpacity onPress={() => Linking.openURL(getValidUserInfo(userInfo).getSpotifyURL())}>
+                                            <Text style={[styles.redirectText, styles.underline]}>Open on Spotify </Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                            </View>
-                            {checkValidUserInfo(userInfo) == true ? <></> :
-                                <>
-                                    <View style={styles.divider}>
-                                        <View style={styles.line} />
-                                    </View>
-                                    <View>
-                                        <Text style={styles.playlistTitle}>Your Playlists</Text>
-                                        <Text style={styles.redirectText}>List of Spotify playlists used to personalize results for you</Text>
-                                    </View>
-                                    <View style={styles.divider}>
-                                        <View style={styles.line} />
-                                    </View>
-                                    <View>
-                                        {Playlists}
-                                    </View>
-                                    <View style={styles.divider}>
-                                        <View style={styles.line} />
-                                    </View>
-                                    <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
-                                        navigation.goBack();
-                                        AsyncStorage.removeItem('@token');
-                                        AsyncStorage.removeItem('@userId');
-                                        globalContext.setUserID(null);
-                                        globalContext.setAuthToken(null);
-                                        globalContext.setRefreshToken(null);
-                                        getValidUserInfo(userInfo).removeData();
-                                    }}>
-                                        <View style={styles.button}>
-                                            <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
-                                            <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
+                                {checkValidUserInfo(userInfo) == true ? <></> :
+                                    <>
+                                        <View style={styles.divider}>
+                                            <View style={styles.line} />
                                         </View>
-                                    </TouchableOpacity>
-                                </>
-                            }
-                        </View>
-
-                        <TouchableOpacity onPress={() => {
-                            Linking.openURL('https://alanyan.ca/Euphony/privacy')
-                        }}>
-                            <View style={styles.informationButton}>
-                                <Text style={styles.disclaimer}>HOW WE USE YOUR INFORMATION</Text>
-                                <MaterialIcons
-                                    name="arrow-forward-ios"
-                                    size={15}
-                                    color={'#3700AB'}
-                                    style={{ paddingLeft: 10 }}
-                                />
+                                        <View>
+                                            <Text style={styles.playlistTitle}>Your Playlists</Text>
+                                            <Text style={styles.redirectText}>List of Spotify playlists used to personalize results for you</Text>
+                                        </View>
+                                        <View style={styles.divider}>
+                                            <View style={styles.line} />
+                                        </View>
+                                        <View>
+                                            {Playlists}
+                                        </View>
+                                        <View style={styles.divider}>
+                                            <View style={styles.line} />
+                                        </View>
+                                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
+                                            navigation.goBack();
+                                            AsyncStorage.removeItem('@token');
+                                            AsyncStorage.removeItem('@userId');
+                                            globalContext.setUserID(null);
+                                            globalContext.setAuthToken(null);
+                                            globalContext.setRefreshToken(null);
+                                            getValidUserInfo(userInfo).removeData();
+                                        }}>
+                                            <View style={styles.button}>
+                                                <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
+                                                <Text style={styles.buttonText}>DISCONNECT SPOTIFY</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </>
+                                }
                             </View>
-                        </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => {
+                                Linking.openURL('https://alanyan.ca/Euphony/privacy')
+                            }}>
+                                <View style={styles.informationButton}>
+                                    <Text style={styles.disclaimer}>HOW WE USE YOUR INFORMATION</Text>
+                                    <MaterialIcons
+                                        name="arrow-forward-ios"
+                                        size={15}
+                                        color={'#3700AB'}
+                                        style={{ paddingLeft: 10 }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                        </ScrollView>
                     </SafeAreaView>
                 }
             </LinearGradient>
