@@ -1,7 +1,7 @@
 import pandas as pd
 from data_process import ACTIVITY_ENUM
 
-WEATHER = ["rainy", "sunny"]
+WEATHER = ["rainy", "sunny", "cloudy"]
 
 def generate_df_list(feature=True):
 

@@ -9,6 +9,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'Raleway-Bold',
     },
+    errorTitle: {
+        color: 'red',
+        fontSize: 20,
+        fontFamily: 'Raleway-Bold',
+    },
     description: {
         color: '#867CC0',
         fontSize: 12,

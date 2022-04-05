@@ -6,11 +6,11 @@ import OnboardingScreen from './screens/onboarding/OnboardingScreen';
 import FilterScreen from './screens/FilterScreen';
 import AlbumScreen from './screens/AlbumScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import PlaylistInfo from './screens/PlaylistInfo';
-
 import AppContext from './AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authHandler from './networking/AppAuth';
+import Endpoints from './networking/Endpoints';
+import CustomHeader from './components/CustomHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,12 +43,11 @@ function App() {
           setRefreshToken(result.refreshToken);
         } else {
           setAuthToken(null);
-          setRefreshToken(null);
+          setRefreshToken(value);
         }
       } else {
         setAuthToken(null);
         setRefreshToken(null);
-        setUserID(null);
       }
     });
   }, []);
@@ -64,6 +63,9 @@ function App() {
     );
   }, []);
 
+  React.useEffect(() => {
+    console.log("Global Context Changed: " + JSON.stringify(userSettings));
+  }, [userSettings])
   React.useEffect(() => {
     if (refreshToken != null) {
       console.log("Setting token as " + refreshToken);

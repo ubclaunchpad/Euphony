@@ -52,7 +52,6 @@ export const getCountryNameFromId = async (countryId: string): Promise<string> =
 				SELECT "countryName" FROM countries WHERE "id" = '${countryId}' LIMIT 1;
 			`
 		);
-	
 		return matchingUserData.rows[0].countryName;
 	} catch (err) {
 		console.log('error getting country name from id', err);

@@ -140,7 +140,10 @@ export async function getMe(req: any, res: any) {
 			body: me.body,
 			access_token: auth.access_token,
 		});
-	} catch (error) {
+	} catch (error: any) {
+		if (error.statusCode) {
+			return res.status(error.statusCode).send(error.message);
+		}
 		return res.status(404).send(error);
 	}
 }

@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
         paddingRight: 25,
     },
     line: {
-        flex: 1, 
-        height: 0.5, 
+        flex: 1,
+        height: 1,
         backgroundColor: '#CDC4F2'
     },
     leftContainer: {
