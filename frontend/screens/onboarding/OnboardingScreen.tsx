@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { SafeAreaView, TouchableHighlight, StyleSheet, Button, Text, View, Image, ImageBackground, Alert, StatusBar } from 'react-native';
-import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppContext from '../../AppContext';
+import authHandler from '../../networking/AppAuth';
 
 function OnboardingScreen(props) {
-    const [page, setPage] = React.useState(<ScrollA/>);
+    const globalContext = React.useContext(AppContext);
+    const [page, setPage] = React.useState(<ScrollA />);
 
     return (
         <SafeAreaView style={styles.main}>
             <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
-            
+
             <ImageBackground source={require('./images/onboarding-background.png')} style={{ flex: 1 }}>
                 {page}
             </ImageBackground>
@@ -20,13 +22,14 @@ function OnboardingScreen(props) {
         return (
             <View style={styles.cardContainer}>
                 <Text style={styles.skipText} onPress={() => {
+                    globalContext.setAuthToken("")
                     props.onComplete()
                     AsyncStorage.setItem('alreadyLaunched', 'true')
                 }}>Skip</Text>
-    
+
                 <View style={styles.swipeable}>
                     <View style={styles.graphicContainer}>
-                        <Image source={require('./images/onboarding-a.png')} style={styles.graphicA}/>
+                        <Image source={require('./images/onboarding-a.png')} style={styles.graphicA} />
                     </View>
                     <View style={styles.textStack}>
                         <Text style={styles.headerText}>Welcome to</Text>
@@ -37,9 +40,9 @@ function OnboardingScreen(props) {
                         <Text style={styles.pageIndicatorTxt}>1 of 3</Text>
                     </View>
                 </View>
-    
-                <TouchableHighlight style={styles.rightButton} onPress={() => setPage(<ScrollB/>)} underlayColor="#9663ff">
-                    <Image source={require('./images/rightarrow.png')} style={{width: 20, height: 10, resizeMode: 'stretch'}}/>
+
+                <TouchableHighlight style={styles.rightButton} onPress={() => setPage(<ScrollB />)} underlayColor="#9663ff">
+                    <Image source={require('./images/rightarrow.png')} style={{ width: 20, height: 10, resizeMode: 'stretch' }} />
                 </TouchableHighlight>
             </View>
         );
@@ -49,13 +52,15 @@ function OnboardingScreen(props) {
         return (
             <View style={styles.cardContainer}>
                 <Text style={styles.skipText} onPress={() => {
+                    globalContext.setAuthToken("")
+
                     props.onComplete()
                     AsyncStorage.setItem('alreadyLaunched', 'true')
                 }}>Skip</Text>
-    
+
                 <View style={styles.swipeable}>
                     <View style={styles.graphicContainer}>
-                        <Image source={require('./images/onboarding-b.png')} style={styles.graphicB}/>
+                        <Image source={require('./images/onboarding-b.png')} style={styles.graphicB} />
                     </View>
                     <View style={styles.textStack}>
                         <Text style={styles.headerText}>Customize your</Text>
@@ -67,12 +72,12 @@ function OnboardingScreen(props) {
                     </View>
                 </View>
 
-                <TouchableHighlight style={styles.leftButton} onPress={() => setPage(<ScrollA/>)} underlayColor="#9663ff">
-                    <Image source={require('./images/leftarrow.png')} style={{width: 20, height: 10, resizeMode: 'stretch'}}/>
+                <TouchableHighlight style={styles.leftButton} onPress={() => setPage(<ScrollA />)} underlayColor="#9663ff">
+                    <Image source={require('./images/leftarrow.png')} style={{ width: 20, height: 10, resizeMode: 'stretch' }} />
                 </TouchableHighlight>
-    
-                <TouchableHighlight style={styles.rightButton} onPress={() => setPage(<ScrollC/>)} underlayColor="#9663ff">
-                    <Image source={require('./images/rightarrow.png')} style={{width: 20, height: 10, resizeMode: 'stretch'}}/>
+
+                <TouchableHighlight style={styles.rightButton} onPress={() => setPage(<ScrollC />)} underlayColor="#9663ff">
+                    <Image source={require('./images/rightarrow.png')} style={{ width: 20, height: 10, resizeMode: 'stretch' }} />
                 </TouchableHighlight>
             </View>
         );
@@ -82,13 +87,15 @@ function OnboardingScreen(props) {
         return (
             <View style={styles.cardContainer}>
                 <Text style={styles.skipText} onPress={() => {
+                    globalContext.setAuthToken("")
+
                     props.onComplete()
                     AsyncStorage.setItem('alreadyLaunched', 'true')
                 }}>Skip</Text>
-    
+
                 <View style={styles.swipeable}>
                     <View style={styles.graphicContainer}>
-                        <Image source={require('./images/onboarding-c.png')} style={styles.graphicC}/>
+                        <Image source={require('./images/onboarding-c.png')} style={styles.graphicC} />
                     </View>
                     <View style={styles.textStack}>
                         <Text style={styles.headerText}>Playlists curated by</Text>
@@ -99,14 +106,27 @@ function OnboardingScreen(props) {
                         <Text style={styles.pageIndicatorTxt}>3 of 3</Text>
                     </View>
                 </View>
-    
-                <TouchableHighlight style={styles.leftButton} onPress={() => setPage(<ScrollB/>)} underlayColor="#9663ff">
-                    <Image source={require('./images/leftarrow.png')} style={{width: 20, height: 10, resizeMode: 'stretch'}}/>
+
+                <TouchableHighlight style={styles.leftButton} onPress={() => setPage(<ScrollB />)} underlayColor="#9663ff">
+                    <Image source={require('./images/leftarrow.png')} style={{ width: 20, height: 10, resizeMode: 'stretch' }} />
                 </TouchableHighlight>
 
-                <TouchableHighlight style={[styles.spotifyButtonContainer, styles.shadowPropIOS, styles.shadowPropAndroid]} onPress={() => Alert.alert('bruh!')} underlayColor="#9663ff">
+                <TouchableHighlight style={[styles.spotifyButtonContainer, styles.shadowPropIOS, styles.shadowPropAndroid]} onPress={async () => {
+                    try {
+                        let result = await authHandler.onLogin();
+                        globalContext.setUserID(result.userID);
+                        globalContext.setRefreshToken(result.refreshToken);
+                        globalContext.setAuthToken(result.accessToken);
+                        AsyncStorage.setItem('alreadyLaunched', 'true')
+                        props.onComplete()
+                    } catch (error) {
+                        if (error instanceof Error) {
+                            Alert.alert(error.message)
+                        }
+                    }
+                }} underlayColor="#9663ff">
                     <View style={styles.spotifyButton}>
-                        <Image source={require('./images/spotify-logo.png')} style={{width: 22, height: 33, resizeMode: 'stretch'}}/>
+                        <Image source={require('./images/spotify-logo.png')} style={{ width: 22, height: 33, resizeMode: 'stretch' }} />
                         <Text style={styles.spotifyText}>CONNECT SPOTIFY</Text>
                     </View>
                 </TouchableHighlight>
@@ -255,7 +275,7 @@ const styles = StyleSheet.create({
     },
     shadowPropIOS: {
         shadowColor: '#4D00CB',
-        shadowOffset: {width: 0, height: -4},
+        shadowOffset: { width: 0, height: -4 },
         shadowOpacity: 0.13,
         shadowRadius: 6
     },

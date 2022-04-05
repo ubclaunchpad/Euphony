@@ -79,11 +79,10 @@ function App() {
       AsyncStorage.setItem('@userID', userID)
     }
   }, [userID]);
-  
-  React.useEffect(() => {
+
+  React.useLayoutEffect(() => {
     AsyncStorage.getItem('alreadyLaunched')
       .then(value => {
-        console.log("Onboarding " + value)
         setIsLoading(false);
         if (value) {
           setIsFirstLaunch(false);
@@ -98,9 +97,12 @@ function App() {
   }
   else if (isFirstLaunch == true) {
     // First launch, onboarding screen
-    return <OnboardingScreen onComplete={() => {
-      setIsFirstLaunch(false);
-    }} />;
+    return (<AppContext.Provider value={userSettings}>
+      <OnboardingScreen onComplete={() => {
+        setIsFirstLaunch(false);
+      }} />
+    </AppContext.Provider>);
+
   } else {
     // Rest of the app (what you get once onboarding is over)
     return (
