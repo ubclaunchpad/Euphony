@@ -80,10 +80,9 @@ function App() {
     }
   }, [userID]);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     AsyncStorage.getItem('alreadyLaunched')
       .then(value => {
-        console.log("Onboarding " + value)
         setIsLoading(false);
         if (value) {
           setIsFirstLaunch(false);
@@ -93,15 +92,17 @@ function App() {
       })
   }, [])
 
-
   if (isLoading) {
     return <ActivityIndicator size="large" color="#7432FF"></ActivityIndicator>
   }
   else if (isFirstLaunch == true) {
     // First launch, onboarding screen
-    return <OnboardingScreen onComplete={() => {
-      setIsFirstLaunch(false);
-    }} />;
+    return (<AppContext.Provider value={userSettings}>
+      <OnboardingScreen onComplete={() => {
+        setIsFirstLaunch(false);
+      }} />
+    </AppContext.Provider>);
+
   } else {
     // Rest of the app (what you get once onboarding is over)
     return (
@@ -122,15 +123,11 @@ function App() {
             headerLargeTitleStyle: {
               fontFamily: 'Raleway-ExtraBold',
             },
-
+            header: (props) => <CustomHeader {...props} />
           }}>
             <Stack.Screen name="Filters" component={FilterScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Playlist" component={AlbumScreen} />
-            <Stack.Screen name="PlaylistInfo" component={PlaylistInfo}
-              options={() => ({
-                title: "Results Info"
-              })} />
 
           </Stack.Navigator>
         </NavigationContainer>
