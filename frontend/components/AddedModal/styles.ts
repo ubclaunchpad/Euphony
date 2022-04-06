@@ -36,6 +36,14 @@ const styles = StyleSheet.create({
         fontFamily: 'Avenir',
         textAlign: 'center'
     },
+    link: {
+        color: '#3700AB',
+        fontSize: 14,
+        fontFamily: 'Avenir',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'underline'
+    },
     topContainer: {
         alignItems: 'center',
         flex: 3,

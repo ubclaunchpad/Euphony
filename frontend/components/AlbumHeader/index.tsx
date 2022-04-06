@@ -92,7 +92,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
       <View style={styles.container}>
         {/* cover image */}
         <View style={styles.center}>
-          <Shadow distance={10} containerViewStyle={{ marginVertical: 10 }} startColor={'hsla(252,56.5%,24.3%, 0.2)'} radius={3}>
+          <Shadow distance={10} containerViewStyle={{ marginVertical: 10 }} startColor={'hsla(252,56.5%,24.3%, 0.1)'} radius={3}>
             {props.album.length >= 4 ?
               <View style={styles.image}>
                 <View style={{ flexDirection: 'row' }}>
@@ -152,21 +152,18 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
           <View style={styles.headerText}>
             {/* Name */}
             <View>
-              <View>
-
-                <View style={styles.creatorContainer}>
-                  {/* TODO: need to rename style names*/}
-                  {props.album.length == 1 ?
-                    <Text style={styles.middleText}>{props.album.length} song</Text>
-                    : <Text style={styles.middleText}>{props.album.length} songs</Text>
-                  }
-                  <Entypo
-                    name="dot-single"
-                    size={25}
-                    color={'#867CC0'}
-                  />
-                  <Text style={styles.middleText}>{duration}</Text>
-                </View>
+              <View style={styles.creatorContainer}>
+                {/* TODO: need to rename style names*/}
+                {props.album.length == 1 ?
+                  <Text style={styles.middleText}>{props.album.length} song</Text>
+                  : <Text style={styles.middleText}>{props.album.length} songs</Text>
+                }
+                <Entypo
+                  name="dot-single"
+                  size={25}
+                  color={'#867CC0'}
+                />
+                <Text style={styles.middleText}>{duration}</Text>
               </View>
             </View>
             {/* creator... number of likes */}
@@ -190,7 +187,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
         {/* play button */}
         <TouchableOpacity onPress={createThreeButtonAlert} style={{ flexDirection: 'row', marginTop: 10 }}>
-          <Shadow viewStyle={{ alignSelf: 'stretch' }}>
+          <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{ alignSelf: 'stretch' }}>
             <View style={styles.button}>
               <MaterialCommunityIcons name="spotify" size={30} color={'white'} />
               <Text style={styles.buttonText}>ADD TO SPOTIFY</Text>
@@ -201,7 +198,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.findInPlaylist} onPress={() => { focusFindInput.current.focus() }}>
+      {/* <TouchableOpacity style={styles.findInPlaylist} onPress={() => { focusFindInput.current.focus() }}>
         <View style={styles.findContents}>
           <Feather name="search" size={25} color={'#3700AB'} />
           <TextInput
@@ -216,7 +213,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
             ref={focusFindInput}
             style={[styles.promptText, styles.gapAfterIcon]} />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
