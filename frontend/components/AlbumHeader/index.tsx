@@ -3,10 +3,8 @@ import {
   Text,
   TextInput,
   View,
-  Image,
   TouchableOpacity,
   Switch,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { Album } from '../../types';
@@ -21,6 +19,7 @@ import { Shadow } from 'react-native-shadow-2';
 import FastImage from 'react-native-fast-image';
 
 import filter from 'lodash.filter';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export type AlbumHeaderProps = {
   isLoading: boolean
@@ -36,7 +35,10 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const [toggle, setToggle] = useState(false);
 
-  const toggleSwitch = () => props.setIsPrivatePlaylist(previousState => !previousState);
+  const toggleSwitch = () => {
+    ReactNativeHapticFeedback.trigger("soft");
+    props.setIsPrivatePlaylist(previousState => !previousState);
+  }
 
   const [title, setTitle] = useState(props.name ? props.name : "My Playlist");
 

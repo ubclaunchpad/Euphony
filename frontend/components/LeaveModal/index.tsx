@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Image, View, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Svg, {
     Circle,
@@ -11,6 +9,7 @@ import Svg, {
   } from 'react-native-svg';
 
 import { Shadow } from 'react-native-shadow-2';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export type Props = {};
 
@@ -23,6 +22,10 @@ const LeaveModal = (props: Props) => {
     const updateCancel = () => { 
         props.onCancel();
     }
+
+    useEffect(() => {
+        ReactNativeHapticFeedback.trigger("notificationError");
+    }, []);
 
     return (
         <View style={styles.container}>

@@ -14,6 +14,8 @@ import UserInfo from '../networking/UserInfo';
 import FastImage from 'react-native-fast-image';
 import authHandler from '../networking/AppAuth';
 import { useFocusEffect } from '@react-navigation/native';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 const defaultProfileImage = require('./images/profile.png');
 
 export type FilterWeatherInfo = {
@@ -43,6 +45,8 @@ function FilterScreen({ navigation }: any) {
   const [locInfo, setLocInfo] = React.useState<FilterWeatherInfo | null>(null);
   const [networkError, setNetworkError] = React.useState<string | null>(null);
   var messageText;
+
+  const focusTitleInput = React.useRef(null);
 
   if (networkError) {
     messageText =
@@ -119,7 +123,8 @@ function FilterScreen({ navigation }: any) {
       headerRight: () => (
         <View style={{}}>
           <TouchableOpacity onPress={() => {
-            headerTapped()
+            headerTapped();
+            ReactNativeHapticFeedback.trigger("impactLight");
           }}
             style={{ paddingVertical: 5 }}>
             <FastImage source={userInfo ? userInfo.getProfileImage() : defaultProfileImage} style={{ width: 45, height: 45, borderRadius: 35, }} />
@@ -158,32 +163,40 @@ function FilterScreen({ navigation }: any) {
           title="logout"
           onPress={() => authContext.setAuthToken(undefined)}
         /> */}
+        <TouchableWithoutFeedback onPress={() => { focusTitleInput.current.focus(); ReactNativeHapticFeedback.trigger("soft"); }}>
         <View style={styles.playlistNameContainer}>
 
           <Text style={styles.title}>Playlist Name</Text>
           <View style={styles.playlistNameContainerInner}>
-            <TextInput
-              onChangeText={
-                (text) => { setTextLength(MAX_LENGTH - text.length); onChangeText(text) }
-              }
-              value={text}
-              style={styles.textInput}
-              placeholder="My Playlist"
-              placeholderTextColor={'#867CC0'}
-              maxLength={MAX_LENGTH} //TODO confirm this
-            />
+              <TextInput
+                onChangeText={
+                  (text) => { setTextLength(MAX_LENGTH - text.length); onChangeText(text) }
+                }
+                value={text}
+                style={styles.textInput}
+                placeholder="My Playlist"
+                placeholderTextColor={'#867CC0'}
+                maxLength={MAX_LENGTH}
+                onPressIn={() => { ReactNativeHapticFeedback.trigger("soft"); }}
+                ref={focusTitleInput}
+              />
+            
             <Text style={styles.textInput}
             >{textLength}</Text>
           </View>
 
         </View>
+        </TouchableWithoutFeedback>
         <Carousel
           title={"Genre"}
-          description={"Choose a genre from the ones below"}
+          description={"Choose one or more genres from the ones below"}
           showIncomplete={showIncomplete}
           choices={genreChoices}
           selectedChoice={genres}
-          onChange={(choice) => { (choice < 0 || Object.is(choice, -0)) ? setGenres(genres & ~(1 << -choice)) : setGenres(genres | (1 << choice)) }}
+          onChange={(choice) => { 
+            (choice < 0 || Object.is(choice, -0)) ? setGenres(genres & ~(1 << -choice)) : setGenres(genres | (1 << choice));
+            ReactNativeHapticFeedback.trigger("soft");
+          }}
         />
         <Carousel
           title={"Mood"}
@@ -191,7 +204,8 @@ function FilterScreen({ navigation }: any) {
           showIncomplete={showIncomplete}
           selectedChoice={mood}
           choices={moodChoices}
-          onChange={(choice) => { setMood(choice) }}
+          onChange={(choice) => { setMood(choice);
+            ReactNativeHapticFeedback.trigger("soft"); }}
         />
         <Carousel
           title="Activity"
@@ -199,14 +213,16 @@ function FilterScreen({ navigation }: any) {
           showIncomplete={showIncomplete}
           choices={activityChoices}
           selectedChoice={activity}
-          onChange={(choice) => { setActivity(choice) }}
+          onChange={(choice) => { setActivity(choice);
+            ReactNativeHapticFeedback.trigger("soft"); }}
         />
         <LocationPicker
           title="Location"
           description="See what people are listening to in your area"
           onChange={(lat, lng) => {
-            setLat(lat)
-            setLong(lng)
+            setLat(lat);
+            setLong(lng);
+            ReactNativeHapticFeedback.trigger("notificationSuccess");
           }}
           locInfoObtained={setLocInfo}
         />
@@ -220,7 +236,9 @@ function FilterScreen({ navigation }: any) {
           title="Playlist length"
           description="How many tracks do you want in your playlist?"
           value={playlistLength}
-          onChange={(value) => { setPlaylistLength(value) }}
+          onChange={(value) => { setPlaylistLength(value);
+            ReactNativeHapticFeedback.trigger("soft");
+          }}
         />
       </ScrollView>
 
@@ -233,6 +251,7 @@ function FilterScreen({ navigation }: any) {
                 console.log(mood, genres, activity, playlistLength, text);
 
                 if (mood !== -1 && genres !== 0 && activity !== -1) {
+                  ReactNativeHapticFeedback.trigger("impactMedium");
                   navigation.navigate('Playlist', {
                     filters: {
                       "genres": genres,

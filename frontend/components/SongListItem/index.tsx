@@ -10,7 +10,7 @@ import {Song} from "../../types";
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-import { Shadow } from 'react-native-shadow-2';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export type SongListItemProps = {
     song: Song,
@@ -40,7 +40,10 @@ const SongListItem = (props: SongListItemProps) => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.rightContainer} onPress={() => deleteSong(song.id)}>
+                <TouchableOpacity style={styles.rightContainer} onPress={() => {
+                    deleteSong(song.id);
+                    ReactNativeHapticFeedback.trigger("soft");
+                }}>
                     <IonIcons
                         name="remove-circle-outline"
                         size={25}
