@@ -309,12 +309,12 @@ export async function getEuphonyPlaylistsByUser(req: any, res: any) {
 		// get user's euphony playlists
 		const userEuphonyPlaylists = await getUserEuphonyPlaylists(userId);
 
-		let euphonyPlaylists: any[] = [];
+		const euphonyPlaylists: any[] = [];
 		// get all user's playlists
-		userEuphonyPlaylists.forEach(async (playlist: any) => {
+		for (const playlist of userEuphonyPlaylists) {
 			const euphonyPlaylist = await spotifyApi.getPlaylist(playlist.playlistId);
-			if (euphonyPlaylist.body) euphonyPlaylists.push(euphonyPlaylist.body);
-		});
+			if (euphonyPlaylist) euphonyPlaylists.push(euphonyPlaylist.body);
+		}
 
 		// return all euphony playlists
 		return res.status(200).send({
