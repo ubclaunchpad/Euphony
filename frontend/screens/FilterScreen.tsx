@@ -12,7 +12,7 @@ import JGButton from '../components/shared/JGButton/JGButton';
 import { useLayoutEffect } from 'react';
 import UserInfo from '../networking/UserInfo';
 import FastImage from 'react-native-fast-image';
-import authHandler from '../networking/AppAuth';
+import { authHandler } from '../networking/Endpoints';
 import { useFocusEffect } from '@react-navigation/native';
 const defaultProfileImage = require('./images/profile.png');
 
