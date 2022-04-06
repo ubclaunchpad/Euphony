@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: 15,
-        fontWeight: 'bold',
-        margin: 10
+        margin: 10,
+        fontFamily: "Roboto-Bold",
     },
     tracksHeader: {
         marginLeft: 20,
