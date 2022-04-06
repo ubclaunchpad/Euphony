@@ -40,6 +40,18 @@ export const createTables = async () => {
 
 	await client.query(
 		`
+			CREATE TABLE IF NOT EXISTS "euphonyPlaylists" (
+				"playlistId" varchar(255) NOT NULL,
+				"userId" varchar(255) NOT NULL,
+
+				PRIMARY KEY ("playlistId"),
+				FOREIGN KEY ("userId") REFERENCES users("userId")
+			);
+		`
+	);
+
+	await client.query(
+		`
 			CREATE TABLE IF NOT EXISTS "migrations" (
 				id SERIAL PRIMARY KEY,
 				"lastMigration" TIMESTAMPTZ

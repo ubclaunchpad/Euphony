@@ -8,6 +8,7 @@ import {
 import {
 	getInputForML,
 	createSpotifyPlaylist,
+	getEuphonyPlaylistsByUser,
 } from './route-helpers/spotify-helpers/spotify-helpers';
 import {
 	getAudioFeaturesForTrack,
@@ -32,6 +33,8 @@ router.get('/getMe', getMe);
 router.get('/getInputForML', getInputForML);
 
 router.post('/createSpotifyPlaylist', createSpotifyPlaylist);
+
+router.get('/getEuphonyPlaylistsByUser', getEuphonyPlaylistsByUser);
 
 /**
  * UNUSED ENDPOINTS, ONLY HERE FOR REFERENCE
