@@ -53,8 +53,9 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   const focusTitleInput = useRef(null);
   const focusFindInput = useRef(null);
 
-  const createThreeButtonAlert = () => {
+  const addToSpotify = () => {
     props.updateSaved();
+    ReactNativeHapticFeedback.trigger("impactLight");
   }
 
   let duration = moment.duration(props.album.reduce((a, b) => a + b.duration, 0), "milliseconds").format("d[d] h[h] m[m] s[s]", {
@@ -191,7 +192,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         </View>
 
         {/* play button */}
-        <TouchableOpacity onPress={createThreeButtonAlert} style={{ flexDirection: 'row', marginTop: 10 }}>
+        <TouchableOpacity onPress={addToSpotify} style={{ flexDirection: 'row', marginTop: 10 }}>
           <Shadow viewStyle={{ alignSelf: 'stretch' }}>
             <View style={styles.button}>
               <MaterialCommunityIcons name="spotify" size={30} color={'white'} />

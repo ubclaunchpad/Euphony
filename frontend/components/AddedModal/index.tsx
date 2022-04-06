@@ -16,6 +16,7 @@ export type Props = {};
 const AddedModal = (props: Props) => {
 
     const update = () => { 
+        ReactNativeHapticFeedback.trigger("soft");
         props.onPress();
     }
 
