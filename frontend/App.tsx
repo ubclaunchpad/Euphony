@@ -8,8 +8,7 @@ import AlbumScreen from './screens/AlbumScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import AppContext from './AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import authHandler from './networking/AppAuth';
-import Endpoints from './networking/Endpoints';
+import { authHandler } from './networking/Endpoints';
 import CustomHeader from './components/CustomHeader';
 
 const Stack = createNativeStackNavigator();

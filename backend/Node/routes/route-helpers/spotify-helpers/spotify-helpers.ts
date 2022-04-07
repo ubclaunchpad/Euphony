@@ -255,7 +255,7 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 
 		// Create a private playlist by default
 		const playlist = await spotifyApi.createPlaylist(req.body.name, {
-			description: 'Playlist generated from super developers ;)',
+			description: 'Created by Euphony. www.alanyan.ca/Euphony/',
 			public: req.body.public || false,
 		});
 

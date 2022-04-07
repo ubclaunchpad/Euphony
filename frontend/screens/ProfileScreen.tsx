@@ -62,14 +62,6 @@ const ProfileScreen = ({ route, navigation }) => {
     // compile all the playlists into text elements for display
     useEffect(() => {
         const playlists = getValidUserInfo(userInfo).getPlaylists();
-        // let playlistTexts = [];
-
-        // for (let i = 0; i < playlists.length; i++) {
-        //     playlistTexts.push(<Text key={i} style={styles.item}>{playlists[i]}</Text>);
-        // }
-
-        // console.log(playlistTexts.length)
-
         setPlaylists(playlists);
     }, [])
 
@@ -110,6 +102,7 @@ const ProfileScreen = ({ route, navigation }) => {
                                                 style={{marginTop: 10, height: 250, flexGrow: 0}}
                                                 removeClippedSubviews={true}
                                                 initialNumToRender={2}
+                                                inverted={true}
                                             />
                                         </View>
                                         </> : 

@@ -487,6 +487,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		A3825666AFE06C2EB7ADE573 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EA1B09830CFC66908D99948A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

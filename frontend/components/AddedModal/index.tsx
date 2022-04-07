@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Image, View, TouchableOpacity } from 'react-native';
+import { Text, Image, View, TouchableOpacity, Linking } from 'react-native';
 
 import styles from './styles';
 
@@ -47,12 +47,15 @@ const AddedModal = (props: Props) => {
             </View>
             <View style={styles.middleContainer}>
                 <Text style={styles.title}>{props.name} added to Spotify!</Text>
-                <Text style={styles.subheader}>Open Spotify to check out your newly added playlist</Text>
+                <TouchableOpacity onPress={() => Linking.openURL('https://open.spotify.com/collection/playlists')}>
+                    <Text style={styles.subheader}>
+                        <Text style={styles.link}>Open Spotify</Text> to check out your newly added playlist</Text>
+                </TouchableOpacity>
                 
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity onPress={update}>
-                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                    <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{alignSelf: 'stretch'}}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>OKAY</Text>
                         </View>
