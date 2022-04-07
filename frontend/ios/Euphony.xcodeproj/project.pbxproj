@@ -268,7 +268,8 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				FAE360C14AC89A1B7567FBE3 /* [CP] Embed Pods Frameworks */,
-				8DC4F98BCF5560D9F4B5DB0E /* [CP] Copy Pods Resources */,
+				8DC4F98BCF5560D9F4B5DB0E /* [CP] Check Pods Manifest.lock */,
+				1B923D0B611770BA092FB284 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -409,6 +410,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		1B923D0B611770BA092FB284 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony-EuphonyTests/Pods-Euphony-EuphonyTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5F3FF2A19D5527CBBF8A0777 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -448,7 +466,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8DC4F98BCF5560D9F4B5DB0E /* [CP] Copy Pods Resources */ = {
+		8DC4F98BCF5560D9F4B5DB0E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
