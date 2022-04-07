@@ -12,7 +12,7 @@ import JGButton from '../components/shared/JGButton/JGButton';
 import { useLayoutEffect } from 'react';
 import UserInfo from '../networking/UserInfo';
 import FastImage from 'react-native-fast-image';
-import authHandler from '../networking/AppAuth';
+import { authHandler } from '../networking/Endpoints';
 import { useFocusEffect } from '@react-navigation/native';
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';

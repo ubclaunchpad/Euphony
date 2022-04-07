@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SafeAreaView, TouchableOpacity, StyleSheet, Button, Text, View, Image, ImageBackground } from 'react-native';
-import authHandler from '../../networking/AppAuth';
+import { authHandler } from '../../networking/Endpoints';
 import AppContext from '../../AppContext';
 import JGButton, { JGButtonImageType } from '../../components/shared/JGButton/JGButton';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';

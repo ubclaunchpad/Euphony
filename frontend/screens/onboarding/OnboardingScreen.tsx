@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SafeAreaView, TouchableHighlight, StyleSheet, Button, Text, View, Image, ImageBackground, Alert, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../AppContext';
-import authHandler from '../../networking/AppAuth';
+import { authHandler } from '../../networking/Endpoints';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 function OnboardingScreen(props) {
