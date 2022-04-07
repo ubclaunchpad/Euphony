@@ -64,7 +64,7 @@ const ProfileScreen = ({ route, navigation }) => {
     // compile all the playlists into text elements for display
     useEffect(() => {
         const playlists = getValidUserInfo(userInfo).getPlaylists();
-        setPlaylists(playlists);
+        setPlaylists(playlists.reverse());
     }, [])
 
     return (
@@ -101,10 +101,10 @@ const ProfileScreen = ({ route, navigation }) => {
                                                 data={Playlists}
                                                 renderItem={({ item }) => <PlaylistItem playlist={item}/>}
                                                 keyExtractor={item => item.id}
-                                                style={{marginTop: 10, height: 250, flexGrow: 0}}
+                                                style={{marginTop: 10, maxHeight: 250, flexGrow: 0}}
                                                 removeClippedSubviews={true}
                                                 initialNumToRender={2}
-                                                inverted={true}
+                                                inverted={false}
                                             />
                                         </View>
                                         </> : 
