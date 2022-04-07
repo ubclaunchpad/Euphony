@@ -37,7 +37,7 @@ class UserInfo {
             let user = await Endpoints.getMe(context);
             this.data.name = user.body.display_name == false ? user.body.id : user.body.display_name;
             // if the user does NOT have an image on Spotify, use the default. otherwise, grab the Spotify pfp
-            this.data.profileImageURL = user.body.images.length === 0 ? "null_string" : user.body.images[0].url;
+            this.data.profileImageURL = user.body.images.length === 0 ? null : user.body.images[0].url;
             this.data.playlists = ["Liked Songs", "On Repeat", "Time Capsule", "Playlist Name 1", "Playlist Name 2"];
             this.data.spotifyRedirect = user.body.external_urls.spotify;
 
@@ -82,6 +82,9 @@ class UserInfo {
 
     getProfileImage(): object {
         if (this.checkAccessTokenValid()) {
+            if (this.data.profileImageURL == null) {
+                return defaultProfileImage;
+            }
             return { uri: this.data.profileImageURL };
         }
         return defaultProfileImage;
