@@ -60,7 +60,7 @@ export type WeatherInfo = {
     weatherDesc: string,
 }
 
-let baseURL = __DEV__ ? "https://euphony-backend-2e3yo.ondigitalocean.app/" : "https://euphony-backend-2e3yo.ondigitalocean.app/"
+let baseURL = __DEV__ ? "http://localhost:4000/" : "https://euphony-backend-2e3yo.ondigitalocean.app/"
 
 enum APIReqType {
     Get = "GET",
@@ -220,6 +220,11 @@ export default class Endpoints {
         const endpoint = `spotify/createSpotifyPlaylist`;
         return obtainCredentials(context).then(() => defaultHandler(context, endpoint, APIReqType.Post, [2], true, body))
 
+    }
+
+    static async getEuphonyPlaylistsByUser(context: GlobalContent): Promise<any> {
+        const endpoint = `spotify/getEuphonyPlaylistsByUser`;
+        return obtainCredentials(context).then(() => defaultHandler(context, endpoint, APIReqType.Get))
     }
 
 }

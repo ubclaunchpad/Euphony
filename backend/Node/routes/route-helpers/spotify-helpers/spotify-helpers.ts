@@ -7,6 +7,11 @@ import {
 	Track,
 } from './spotify-mapper';
 import { isAuth } from './spotify-user-auth-helpers';
+import {
+	getUserEuphonyPlaylists,
+	insertPlaylist,
+	removeUserEuphonyPlaylistFromPg,
+} from '../../../src/db/playlists';
 
 // scopes for spotify
 export const scopes = [
@@ -32,11 +37,14 @@ export const scopes = [
 ];
 
 const port = process.env.PORT || 4000;
-const mlServer = process.env.ML_SERVER || "localhost:5000";
+const mlServer = process.env.ML_SERVER || 'localhost:5000';
 // TODO (later): change 'localhost' after : to whatever prod's using
-const apiPrefix = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
-	}:${port}/`;
-const apiPrefixML = `http://${process.env.NODE_ENV === 'development' ? 'localhost:5000' : mlServer}/`;
+const apiPrefix = `http://${
+	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
+}:${port}/`;
+const apiPrefixML = `http://${
+	process.env.NODE_ENV === 'development' ? 'localhost:5000' : mlServer
+}/`;
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
 const NodeServerAPIs = {
@@ -116,7 +124,7 @@ export async function getInputForML(req: any, res: any, next: any) {
 		}
 	} catch (error: any) {
 		if (axios.isAxiosError(error) && error.response) {
-			return res.status(error.response.status).send("Hi");
+			return res.status(error.response.status).send('Hi');
 		} else {
 			return res.status(404).send(error);
 		}
@@ -172,38 +180,39 @@ export async function getRecommendations(req: any, res: any) {
 		let numSeeds = 0;
 
 		// Get the seed genres from the user
-		/* 
-		 *	genres is a bitmask where each bit's position from the right is the index of the 
+		/*
+		 *	genres is a bitmask where each bit's position from the right is the index of the
 		 *	corresponding element in Genres = ['pop', 'r-n-b', 'indie', 'hip-hop', 'jazz']
 		 *		0b     1 : pop
 		 *		0b    10 : r-n-b
-		 *		0b   100 : indie 
-		 *		0b  1000 : hip-hop 
+		 *		0b   100 : indie
+		 *		0b  1000 : hip-hop
 		 *		0b 10000 : jazz
 		 *	so pop + r-n-b = 0b 11, r-n-b + indie + hip-hop = 0b 1110
 		 */
-		let seedGenres = ''; 
-		let tempG = genres;	
-		Genres.forEach(
-			(element) => { 
-				if ((tempG & 1) == 1) {		
-					numSeeds++;
-					seedGenres += element;
-					if ((tempG >> 1) != 0) { seedGenres += ',';}
+		let seedGenres = '';
+		let tempG = genres;
+		Genres.forEach(element => {
+			if ((tempG & 1) == 1) {
+				numSeeds++;
+				seedGenres += element;
+				if (tempG >> 1 != 0) {
+					seedGenres += ',';
 				}
-				tempG >>= 1;
-			})
+			}
+			tempG >>= 1;
+		});
 
 		// Get the track ids to pass as seed_tracks into the recommendation API
 		let numTracks = Math.round((maxSeeds - numSeeds) / 2);
 		numSeeds += numTracks;
 		const seedTracksIds = trackIds.slice(0, numTracks).join(',');
-		
+
 		// Get the top artist ids (by # of occurences in the supplied tracks) to pass as seed_artists into the recommendation API
 		const seedArtistIds = await getSeedArtistIdsFromTopTracks(
 			trackIds,
 			auth.access_token!,
-			(maxSeeds - numSeeds)
+			maxSeeds - numSeeds
 		);
 		/**
 		 * Construct the recommendations by starting out with the base (required) filters (seed artist(s), genre(s), track(s))
@@ -250,8 +259,11 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 			public: req.body.public || false,
 		});
 
+		// Store this playlist in Pg
+		const insertPlaylistToPg = await insertPlaylist(playlist.body);
+
 		// Adding tracks to the newly created playlist
-		if (playlist) {
+		if (playlist && insertPlaylistToPg) {
 			const trackUris = req.body.trackIds.map(
 				(trackId: string) => `spotify:track:${trackId}`
 			);
@@ -281,6 +293,64 @@ export async function createSpotifyPlaylist(req: any, res: any) {
 		} else {
 			return res.status(204).send('error creating playlist');
 		}
+	} catch (error) {
+		return res.status(404).send({ error: error });
+	}
+}
+
+export async function getEuphonyPlaylistsByUser(req: any, res: any) {
+	let spotifyApi = createSpotifyWebApi();
+	const auth = await isAuth(req, spotifyApi);
+	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
+
+	try {
+		const userId = req.headers['userid'];
+		if (!userId) return res.status(400).send('Invalid User');
+
+		// get user's euphony playlists
+		const userEuphonyPlaylists = await getUserEuphonyPlaylists(userId);
+
+		const euphonyPlaylists: any[] = [];
+		// get all user's playlists
+		for (const playlist of userEuphonyPlaylists) {
+			const euphonyPlaylist = await spotifyApi.getPlaylist(playlist.playlistId);
+			if (euphonyPlaylist) euphonyPlaylists.push(euphonyPlaylist.body);
+		}
+
+		// return all euphony playlists
+		return res.status(200).send({
+			body: euphonyPlaylists,
+			access_token: auth.access_token,
+		});
+	} catch (error) {
+		return res.status(404).send({ error: error });
+	}
+}
+
+export async function deleteEuphonyPlaylistsByIds(req: any, res: any) {
+	let spotifyApi = createSpotifyWebApi();
+	const auth = await isAuth(req, spotifyApi);
+	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
+
+	try {
+		const userId = req.headers['userid'];
+		if (!userId) return res.status(400).send('Invalid User');
+
+		if (!req.body.playlistIds)
+			return res
+				.status(400)
+				.send('please provide ids of the playlists to be deleted');
+
+		// TODO: better error handling
+		for (const playlistId of req.body.playlistIds) {
+			await spotifyApi.unfollowPlaylist(playlistId);
+			await removeUserEuphonyPlaylistFromPg(playlistId, userId);
+		}
+
+		return res.status(200).send({
+			body: 'successfully removed the Euphony playlists',
+			access_token: auth.access_token,
+		});
 	} catch (error) {
 		return res.status(404).send({ error: error });
 	}
