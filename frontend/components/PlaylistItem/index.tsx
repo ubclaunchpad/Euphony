@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Linking } from 'react-native';
 import FastImage from 'react-native-fast-image'
 import moment from 'moment';
 import "moment-duration-format";
@@ -24,7 +24,7 @@ const PlaylistItem = (props: any) => {
     console.log(playlist);
 
     return (
-        <View>
+        <TouchableOpacity onPress={() => {Linking.openURL(playlist.external_urls.spotify)}}>
             <View style={styles.container}>
                 <View style={styles.leftContainer}>
                     <FastImage source={{ uri: playlist.images[0].url }} style={styles.image}/>
@@ -54,7 +54,7 @@ const PlaylistItem = (props: any) => {
                     />
                 </TouchableOpacity> */}
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
