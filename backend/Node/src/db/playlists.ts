@@ -39,3 +39,25 @@ export const getUserEuphonyPlaylists = async (userId: string) => {
 		return false;
 	}
 };
+
+export const removeUserEuphonyPlaylistFromPg = async (
+	playlistId: string,
+	userId: string
+) => {
+	try {
+		const removeUserEuphonyPlaylist = await client.query(
+			`
+			DELETE FROM "euphonyPlaylists"
+			WHERE "euphonyPlaylists"."playlistId" = $1 AND "euphonyPlaylists"."userId" = $2;
+    `,
+			[playlistId, userId]
+		);
+
+		if (removeUserEuphonyPlaylist) return true;
+
+		return false;
+	} catch (e) {
+		console.log(e);
+		return false;
+	}
+};

@@ -9,6 +9,7 @@ import {
 	getInputForML,
 	createSpotifyPlaylist,
 	getEuphonyPlaylistsByUser,
+	deleteEuphonyPlaylistsByIds,
 } from './route-helpers/spotify-helpers/spotify-helpers';
 import {
 	getAudioFeaturesForTrack,
@@ -35,6 +36,8 @@ router.get('/getInputForML', getInputForML);
 router.post('/createSpotifyPlaylist', createSpotifyPlaylist);
 
 router.get('/getEuphonyPlaylistsByUser', getEuphonyPlaylistsByUser);
+
+router.delete('/deleteEuphonyPlaylistsByIds', deleteEuphonyPlaylistsByIds);
 
 /**
  * UNUSED ENDPOINTS, ONLY HERE FOR REFERENCE
