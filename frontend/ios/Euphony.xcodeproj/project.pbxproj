@@ -410,6 +410,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphony/Pods-Euphony-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+
 		1B923D0B611770BA092FB284 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

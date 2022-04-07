@@ -17,6 +17,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 import Endpoints from '../networking/Endpoints';
 
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
 const AlbumScreen = ({ route, navigation }) => {
   const context = React.useContext(AppContext);
   const { filters, coords, initName, locInfo } = route.params;
@@ -201,6 +203,12 @@ const AlbumScreen = ({ route, navigation }) => {
 
     }), [navigation, saved, error]
   );
+
+  React.useEffect(() => {
+    if (!isLoading && !error) {
+      ReactNativeHapticFeedback.trigger("notificationSuccess");
+    }
+  }, [isLoading, error]);
 
   if (isLoading) {
     return (

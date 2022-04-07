@@ -3,10 +3,8 @@ import {
   Text,
   TextInput,
   View,
-  Image,
   TouchableOpacity,
   Switch,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { Album } from '../../types';
@@ -21,6 +19,7 @@ import { Shadow } from 'react-native-shadow-2';
 import FastImage from 'react-native-fast-image';
 
 import filter from 'lodash.filter';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export type AlbumHeaderProps = {
   isLoading: boolean
@@ -36,7 +35,10 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
 
   const [toggle, setToggle] = useState(false);
 
-  const toggleSwitch = () => props.setIsPrivatePlaylist(previousState => !previousState);
+  const toggleSwitch = () => {
+    ReactNativeHapticFeedback.trigger("soft");
+    props.setIsPrivatePlaylist(previousState => !previousState);
+  }
 
   const [title, setTitle] = useState(props.name ? props.name : "My Playlist");
 
@@ -51,8 +53,9 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
   const focusTitleInput = useRef(null);
   const focusFindInput = useRef(null);
 
-  const createThreeButtonAlert = () => {
+  const addToSpotify = () => {
     props.updateSaved();
+    ReactNativeHapticFeedback.trigger("impactLight");
   }
 
   let duration = moment.duration(props.album.reduce((a, b) => a + b.duration, 0), "milliseconds").format("d[d] h[h] m[m] s[s]", {
@@ -186,7 +189,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
         </View>
 
         {/* play button */}
-        <TouchableOpacity onPress={createThreeButtonAlert} style={{ flexDirection: 'row', marginTop: 10 }}>
+        <TouchableOpacity onPress={addToSpotify} style={{ flexDirection: 'row', marginTop: 10 }}>
           <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{ alignSelf: 'stretch' }}>
             <View style={styles.button}>
               <MaterialCommunityIcons name="spotify" size={30} color={'white'} />

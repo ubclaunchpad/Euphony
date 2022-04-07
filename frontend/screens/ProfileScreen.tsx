@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserInfo, { dataType } from '../networking/UserInfo';
 import PlaylistItem from '../components/PlaylistItem';
 
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
 function getValidUserInfo(userInfo: any) {
     if (checkValidUserInfo(userInfo)) { return UserInfo }
     return userInfo;
@@ -45,7 +47,7 @@ const ProfileScreen = ({ route, navigation }) => {
             header: undefined,
             headerLeft: () => (
                 <View>
-                    <TouchableOpacity onPress={() => navigation.goBack()}
+                    <TouchableOpacity onPress={() => { navigation.goBack(); ReactNativeHapticFeedback.trigger("soft");}}
                         style={{ paddingRight: 8 }}>
                         <MaterialIcons
                             name="arrow-back-ios"
@@ -115,6 +117,7 @@ const ProfileScreen = ({ route, navigation }) => {
                                     
                                     <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
                                         navigation.goBack();
+                                        ReactNativeHapticFeedback.trigger("soft");
                                         AsyncStorage.removeItem('@token');
                                         AsyncStorage.removeItem('@userId');
                                         globalContext.setUserID(null);

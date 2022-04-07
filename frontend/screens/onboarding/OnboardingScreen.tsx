@@ -3,10 +3,16 @@ import { SafeAreaView, TouchableHighlight, StyleSheet, Button, Text, View, Image
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../AppContext';
 import { authHandler } from '../../networking/Endpoints';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 function OnboardingScreen(props) {
     const globalContext = React.useContext(AppContext);
     const [page, setPage] = React.useState(<ScrollA />);
+
+    // trigger haptic feedback whenever the page changes
+    React.useEffect(() => {
+        ReactNativeHapticFeedback.trigger("soft");
+    }, [page]);
 
     return (
         <SafeAreaView style={styles.main}>
@@ -119,6 +125,7 @@ function OnboardingScreen(props) {
                         globalContext.setAuthToken(result.accessToken);
                         AsyncStorage.setItem('alreadyLaunched', 'true')
                         props.onComplete()
+                        ReactNativeHapticFeedback.trigger("notificationSuccess");
                     } catch (error) {
                         if (error instanceof Error) {
                             Alert.alert(error.message)

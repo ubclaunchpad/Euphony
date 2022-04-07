@@ -3,6 +3,7 @@ import { SafeAreaView, TouchableOpacity, StyleSheet, Button, Text, View, Image, 
 import { authHandler } from '../../networking/Endpoints';
 import AppContext from '../../AppContext';
 import JGButton, { JGButtonImageType } from '../../components/shared/JGButton/JGButton';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export default function LoginScreen({ dismissAction }: { dismissAction: () => void }) {
     const authContext = React.useContext(AppContext);
@@ -60,6 +61,7 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
                             authContext.setUserID(result.userID);
                             authContext.setRefreshToken(result.refreshToken);
                             authContext.setAuthToken(result.accessToken);
+                            ReactNativeHapticFeedback.trigger("notificationSuccess");
                         } catch (error) {
                             if (error instanceof Error) {
                                 setErrorMessage(error.message)

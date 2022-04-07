@@ -13,6 +13,8 @@ target 'Euphony' do
   )
 
 
+  pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+
   target 'EuphonyTests' do
     inherit! :complete
     # Pods for testing

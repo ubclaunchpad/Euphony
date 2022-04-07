@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Image, View, TouchableOpacity, Linking } from 'react-native';
 
 import styles from './styles';
 
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Svg, {
     Circle,
-    Ellipse,
   } from 'react-native-svg';
 
 import { Shadow } from 'react-native-shadow-2';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export type Props = {};
 
 const AddedModal = (props: Props) => {
 
     const update = () => { 
+        ReactNativeHapticFeedback.trigger("soft");
         props.onPress();
     }
+
+    useEffect(() => {
+        ReactNativeHapticFeedback.trigger("notificationSuccess");
+    }, []);
 
     return (
         <View style={styles.container}>
