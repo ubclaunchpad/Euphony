@@ -10,6 +10,7 @@ import { isAuth } from './spotify-user-auth-helpers';
 import {
 	getUserEuphonyPlaylists,
 	insertPlaylist,
+	removeUserEuphonyPlaylistFromPg,
 } from '../../../src/db/playlists';
 
 // scopes for spotify
@@ -319,6 +320,35 @@ export async function getEuphonyPlaylistsByUser(req: any, res: any) {
 		// return all euphony playlists
 		return res.status(200).send({
 			body: euphonyPlaylists,
+			access_token: auth.access_token,
+		});
+	} catch (error) {
+		return res.status(404).send({ error: error });
+	}
+}
+
+export async function deleteEuphonyPlaylistsByIds(req: any, res: any) {
+	let spotifyApi = createSpotifyWebApi();
+	const auth = await isAuth(req, spotifyApi);
+	if (!(await auth).success) return res.status(401).send(auth.statusMessage);
+
+	try {
+		const userId = req.headers['userid'];
+		if (!userId) return res.status(400).send('Invalid User');
+
+		if (!req.body.playlistIds)
+			return res
+				.status(400)
+				.send('please provide ids of the playlists to be deleted');
+
+		// TODO: better error handling
+		for (const playlistId of req.body.playlistIds) {
+			await spotifyApi.unfollowPlaylist(playlistId);
+			await removeUserEuphonyPlaylistFromPg(playlistId, userId);
+		}
+
+		return res.status(200).send({
+			body: 'successfully removed the Euphony playlists',
 			access_token: auth.access_token,
 		});
 	} catch (error) {
