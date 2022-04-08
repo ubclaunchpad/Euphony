@@ -37,14 +37,10 @@ export const scopes = [
 ];
 
 const port = process.env.PORT || 4000;
-const mlServer = process.env.ML_SERVER || 'localhost:5000';
-// TODO (later): change 'localhost' after : to whatever prod's using
-const apiPrefix = `http://${
-	process.env.NODE_ENV === 'development' ? 'localhost' : 'localhost'
-}:${port}/`;
-const apiPrefixML = `http://${
-	process.env.NODE_ENV === 'development' ? 'localhost:5000' : mlServer
-}/`;
+const mlServerPort = process.env.TZML_SERVER_PORT || 5000;
+const apiPrefix = process.env.NODE_ENV === 'development' ? 'https://euphony-launchpad.herokuapp.com/' : `http://localhost:${port}/`;
+const apiPrefixML = process.env.NODE_ENV === 'development' ? 'http://128.199.8.178/' : `http://localhost:${mlServerPort}/`;
+
 const spotifyAPIPrefix = 'https://api.spotify.com/v1/';
 
 const NodeServerAPIs = {
@@ -164,8 +160,7 @@ export async function getRecommendations(req: any, res: any) {
 	});
 
 	try {
-		// TODO: move these endpoints somewhere nice, ML server port num should be set and loaded
-		const MLServerRes = await axios.post(MLServerAPIs.recommendPlaylist, {
+		const MLServerRes = await axios.post(MLServerAPIs.recommendPlaylist, JSON.stringify({
 			location,
 			pop,
 			clouds,
@@ -173,6 +168,10 @@ export async function getRecommendations(req: any, res: any) {
 			mood,
 			activity,
 			audio_features,
+		}), {
+			headers: {
+				'Content-Type': 'application/json',
+			}
 		});
 
 		// Max 5 seed values
@@ -235,8 +234,8 @@ export async function getRecommendations(req: any, res: any) {
 		res
 			.status(200)
 			.send({ body: formattedTracks, access_token: auth.access_token });
-	} catch (err) {
-		res.status(404).send(err);
+	} catch (err: any) {
+		res.status(404).send(err.response.data);
 	}
 }
 
