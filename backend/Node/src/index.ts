@@ -16,6 +16,7 @@ require('dotenv').config();
 // postgres db
 export const client = new Client({
 	connectionString: process.env.DATABASE_URL,
+	ssl: { rejectUnauthorized: false }
 });
 
 const port = process.env.PORT;
