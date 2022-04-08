@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     searchText: {
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: 15,
-        fontWeight: 'bold',
-        margin: 10
+        margin: 10,
+        fontFamily: "Roboto-Bold",
     },
     tracksHeader: {
         marginLeft: 20,
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         marginRight: 13,
         marginTop: 6,
-        marginLeft: 13,
-        marginBottom: 2
+        marginLeft: Platform.OS === 'ios' ? 13 : 11,
+        marginBottom: Platform.OS === 'ios' ? 2 : -4,
     },
     headerText: {
         flexDirection: 'row',

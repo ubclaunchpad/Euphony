@@ -4,7 +4,7 @@ paths:
       tags:
         - TheOne
       summary: get the recommended tracks from our backend algorithm
-      description: get the weather, location, mood, activity, user's spotify preferences and input that to the ML server. The ML server will return the best recommended tracks.
+      description: get the weather, location, genre, mood, activity, user's spotify preferences and input that to the ML server. The ML server will return the best recommended tracks.
 
       parameters:
         - name: userId
@@ -40,6 +40,11 @@ paths:
 
       requestBody:
         description: All fields are optional <br>
+          genres = bitmask (ie. pop + r&b -> 3(0b 11), r&b + indie + hip-hop -> 14(0b 1110)) <br>
+            pop ------> 1(0b 0001) <br>
+            r&b ------> 2(0b 0010) <br>
+            indie ----> 4(0b 0100) <br>
+            hip-hop  -> 8(0b 1000) <br>
           mood = enum [HAPPY(0), MELANCHOLY(1), COMPASSION(2), LONELINESS(3), ANGER(4)] <br>
           activity = enum [WORK_OUT(0), STUDY(1), RELAX(2), PARTY(3), CHILL(4), BED(5)] <br>
           limit = the number of songs you want to get back, if not specified, will default to 10
@@ -48,6 +53,9 @@ paths:
             schema:
               type: object
               properties:
+                genres:
+                  type: integer
+                  example: 1
                 mood:
                   type: integer
                   example: 0

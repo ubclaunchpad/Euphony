@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ActivityIndicator, Linking } from 'react-native';
+import { StatusBar, SafeAreaView, TouchableOpacity, View, Text, StyleSheet, Image, ActivityIndicator, Linking, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/elements';
 
@@ -9,6 +9,9 @@ import AppContext from '../AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import UserInfo, { dataType } from '../networking/UserInfo';
+import PlaylistItem from '../components/PlaylistItem';
+
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 function getValidUserInfo(userInfo: any) {
     if (checkValidUserInfo(userInfo)) { return UserInfo }
@@ -44,7 +47,7 @@ const ProfileScreen = ({ route, navigation }) => {
             header: undefined,
             headerLeft: () => (
                 <View>
-                    <TouchableOpacity onPress={() => navigation.goBack()}
+                    <TouchableOpacity onPress={() => { navigation.goBack(); ReactNativeHapticFeedback.trigger("soft");}}
                         style={{ paddingRight: 8 }}>
                         <MaterialIcons
                             name="arrow-back-ios"
@@ -61,13 +64,7 @@ const ProfileScreen = ({ route, navigation }) => {
     // compile all the playlists into text elements for display
     useEffect(() => {
         const playlists = getValidUserInfo(userInfo).getPlaylists();
-        let playlistTexts = [];
-
-        for (let i = 0; i < playlists.length && i < 5; i++) {
-            playlistTexts.push(<Text key={i} style={styles.item}>{playlists[i]}</Text>);
-        }
-
-        setPlaylists(playlistTexts);
+        setPlaylists(playlists.reverse());
     }, [])
 
     return (
@@ -76,7 +73,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
             <LinearGradient colors={['#843CDE', '#4A18DD', '#2E1181']} style={{ flex: 1 }}>
                 {isLoading == true ? <ActivityIndicator size="large" color="#5500dc" /> :
-                    <SafeAreaView style={{ alignItems: 'center', marginTop: headerHeight }}>
+                    <SafeAreaView style={{ alignItems: 'center', marginTop: headerHeight, flex: 1 }}>
                         <View style={{ backgroundColor: 'white', marginTop: 20, width: 340, borderRadius: 15, padding: 25 }}>
                             <View style={styles.playlistInformation}>
                                 <Image source={getValidUserInfo(userInfo).getProfileImage()} style={styles.image} />
@@ -94,19 +91,33 @@ const ProfileScreen = ({ route, navigation }) => {
                                     </View>
                                     <View>
                                         <Text style={styles.playlistTitle}>Your Playlists</Text>
-                                        <Text style={styles.redirectText}>List of Spotify playlists used to personalize results for you</Text>
+                                        <Text style={styles.redirectText}>List of Spotify playlists created by Euphony</Text>
                                     </View>
-                                    <View style={styles.divider}>
-                                        <View style={styles.line} />
-                                    </View>
-                                    <View>
-                                        {Playlists}
-                                    </View>
-                                    <View style={styles.divider}>
-                                        <View style={styles.line} />
-                                    </View>
+                                    { Playlists.length != 0 ? 
+                                        <>
+                                        <View>
+                                            {/* {Playlists} */}
+                                            <FlatList 
+                                                data={Playlists}
+                                                renderItem={({ item }) => <PlaylistItem playlist={item}/>}
+                                                keyExtractor={item => item.id}
+                                                style={{marginTop: 10, maxHeight: 250, flexGrow: 0}}
+                                                removeClippedSubviews={true}
+                                                initialNumToRender={2}
+                                                inverted={false}
+                                            />
+                                        </View>
+                                        </> : 
+                                        <>
+                                        <View style={styles.divider}>
+                                            <View style={styles.line} />
+                                        </View>
+                                        <Text style={styles.item}>No playlists found. Create playlists from 'Filters' to get started!</Text>
+                                        </> }
+                                    
                                     <TouchableOpacity style={{ flexDirection: 'row', marginTop: 10 }} onPress={() => {
                                         navigation.goBack();
+                                        ReactNativeHapticFeedback.trigger("soft");
                                         AsyncStorage.removeItem('@token');
                                         AsyncStorage.removeItem('@userId');
                                         globalContext.setUserID(null);

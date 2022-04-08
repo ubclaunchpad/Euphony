@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Image, View, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Svg, {
     Circle,
@@ -11,6 +9,7 @@ import Svg, {
   } from 'react-native-svg';
 
 import { Shadow } from 'react-native-shadow-2';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export type Props = {};
 
@@ -23,6 +22,10 @@ const LeaveModal = (props: Props) => {
     const updateCancel = () => { 
         props.onCancel();
     }
+
+    useEffect(() => {
+        ReactNativeHapticFeedback.trigger("notificationError");
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -57,14 +60,14 @@ const LeaveModal = (props: Props) => {
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity onPress={updateLeave}>
-                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                    <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{alignSelf: 'stretch'}}>
                         <View style={styles.buttonLeave}>
                             <Text style={styles.buttonLeaveText}>LEAVE</Text>
                         </View>
                     </Shadow>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={updateCancel}>
-                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                    <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{alignSelf: 'stretch'}}>
                         <View style={styles.buttonCancel}>
                             <Text style={styles.buttonCancelText}>CANCEL</Text>
                         </View>

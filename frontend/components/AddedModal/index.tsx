@@ -1,24 +1,28 @@
-import React from 'react';
-import { Text, Image, View, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, Image, View, TouchableOpacity, Linking } from 'react-native';
 
 import styles from './styles';
 
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Svg, {
     Circle,
-    Ellipse,
   } from 'react-native-svg';
 
 import { Shadow } from 'react-native-shadow-2';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 export type Props = {};
 
 const AddedModal = (props: Props) => {
 
     const update = () => { 
+        ReactNativeHapticFeedback.trigger("soft");
         props.onPress();
     }
+
+    useEffect(() => {
+        ReactNativeHapticFeedback.trigger("notificationSuccess");
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -47,12 +51,15 @@ const AddedModal = (props: Props) => {
             </View>
             <View style={styles.middleContainer}>
                 <Text style={styles.title}>{props.name} added to Spotify!</Text>
-                <Text style={styles.subheader}>Open Spotify to check out your newly added playlist</Text>
+                <TouchableOpacity onPress={() => Linking.openURL('https://open.spotify.com/collection/playlists')}>
+                    <Text style={styles.subheader}>
+                        <Text style={styles.link}>Open Spotify</Text> to check out your newly added playlist</Text>
+                </TouchableOpacity>
                 
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity onPress={update}>
-                    <Shadow viewStyle={{alignSelf: 'stretch'}}>
+                    <Shadow startColor={'hsla(252,56.5%,24.3%, 0.1)'} viewStyle={{alignSelf: 'stretch'}}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>OKAY</Text>
                         </View>
