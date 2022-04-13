@@ -60,7 +60,7 @@ const ChoiceComponent = (props: Props) => {
 
             <View style={styles.container}>
 
-                <ImageBackground style={{ borderRadius: 16, overflow: 'hidden' }} resizeMode='cover' source={props.selected ? require('./images/background-selected.png') : require('./images/background-unselected.png')}>
+                <ImageBackground style={{ overflow: 'hidden' }} resizeMode='cover' source={props.selected ? require('./images/background-selected.png') : require('./images/background-unselected.png')}>
 
                     <View style={[styles.image, highlight]}>
                         {image}
