@@ -5,15 +5,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 6,
         marginBottom: 6,
-        borderRadius: 19,
+        borderRadius: 3,
         padding: 10,
         backgroundColor: '#E3DEF9',
     },
     image: {
         width: 45,
         height: 45,
-        borderRadius: 12,
-        borderWidth: 1,
         borderColor: 'hsla(252, 64%, 86%, 0.6)'
     },
     info: {
@@ -29,7 +27,7 @@ const styles = StyleSheet.create({
     },
     artist: {
         color: '#867CC0',
-        marginRight: 5,
+        marginRight: 8,
         fontSize: 14,
         fontFamily: 'Avenir-Medium'
     },
@@ -60,6 +58,10 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    sub: {
+        flexDirection: "row",
         alignItems: 'center',
     },
 })
