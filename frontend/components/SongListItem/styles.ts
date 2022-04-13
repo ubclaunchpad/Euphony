@@ -6,13 +6,11 @@ const styles = StyleSheet.create({
         margin: 6,
         marginLeft: 20,
         marginRight: 20,
-        borderRadius: 19,
         padding: 10
     },
     image: {
         width: 55,
         height: 55,
-        borderRadius: 12,
         borderWidth: 1,
         borderColor: 'hsla(252, 64%, 86%, 0.6)'
     },
@@ -28,7 +26,7 @@ const styles = StyleSheet.create({
     },
     artist: {
         color: '#867CC0',
-        marginRight: 5,
+        marginLeft: 5,
         fontSize: 14,
         fontFamily: 'Avenir-Medium'
     },
@@ -37,7 +35,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     duration: {
-        marginLeft: 5,
         color: '#867CC0',
         fontFamily: 'Avenir-Medium'
     },

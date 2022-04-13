@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Text, View, TouchableOpacity, Linking } from 'react-native';
 import FastImage from 'react-native-fast-image'
-import moment from 'moment';
 import "moment-duration-format";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
 import {Song} from "../../types";
@@ -41,7 +41,10 @@ const PlaylistItem = (props: any) => {
                                 />
                             <Text style={styles.duration}>{playlist.tracks.total} songs</Text>
                         </View>
-                        <Text style={styles.artist}>{playlist.owner.display_name}</Text>
+                        <View style={styles.sub}>
+                            <Text style={styles.artist}>{playlist.owner.display_name}</Text>
+                            <MaterialCommunityIcons name="spotify" size={25} color={'black'} />
+                        </View>
                     </View>
                 </View>
                 {/* Add back after demo, for a deletion feature */}
