@@ -30,6 +30,7 @@ const images = {
     "r_and_b": require('./images/r_and_b.png'),
     "indie": require('./images/indie.png'),
     "hiphop": require('./images/hiphop.png'),
+    "jazz": require('./images/jazz.png'),
 }
 
 const ChoiceComponent = (props: Props) => {

@@ -22,6 +22,7 @@ export interface Track {
     name: string;
     artists: Artist[] | null;
     duration: string;
+    album: string;
 }
 
 export function parseAlbum(spotifyTrackResp: {[key: string]: any }): Album {
@@ -45,7 +46,8 @@ export function parseTrack(spotifyTrackResp: {[key: string]: any }): Track {
             spotify_url: a.external_urls.spotify
 
         })),
-        duration: spotifyTrackResp.duration_ms
+        duration: spotifyTrackResp.duration_ms,
+        album: spotifyTrackResp.album.name,
     }
 }
 

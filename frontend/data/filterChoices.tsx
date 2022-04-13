@@ -27,7 +27,7 @@ export const genreChoices: [Choice] = [ //TODO update
   {
     id: '5',
     label: "Jazz",
-    imageUri: 'hiphop',
+    imageUri: 'jazz',
     isGenre: true,
   }
 ];
