@@ -1,13 +1,18 @@
 import * as React from 'react';
-import { SafeAreaView, TouchableOpacity, StyleSheet, Button, Text, View, Image, ImageBackground } from 'react-native';
+import { SafeAreaView, TouchableOpacity, StyleSheet, Button, Text, View, Image, ImageBackground, Linking } from 'react-native';
+
 import { authHandler } from '../../networking/Endpoints';
 import AppContext from '../../AppContext';
+
 import JGButton, { JGButtonImageType } from '../../components/shared/JGButton/JGButton';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import CheckBox from '@react-native-community/checkbox';
 
 export default function LoginScreen({ dismissAction }: { dismissAction: () => void }) {
     const authContext = React.useContext(AppContext);
     let [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+
+    const [toggleCheckbox, setToggleCheckbox] = React.useState(false);
 
     let errorBody: Element | null = <Text style={{
         color: 'red',
@@ -51,10 +56,26 @@ export default function LoginScreen({ dismissAction }: { dismissAction: () => vo
 
                             <Text style={styles.baseText}>For more personalized results, we recommend that you connect your Spotify account.</Text>
                         </View>
-
-
                     </View>
-                    <JGButton style={{ marginTop: 20 }} icon={JGButtonImageType.Spotify} title="CONNECT SPOTIFY" onClick={async () => {
+                    {/* Add checkbox for user to consent to privacy policy */}
+                    <View style={styles.privacyPolicyContainer}>
+                        
+                        <CheckBox
+                            value={toggleCheckbox}
+                            onValueChange={value =>
+                                setToggleCheckbox(!toggleCheckbox)
+                            }
+                        />
+                        <Text style={styles.baseText}>I have read and agree {'\n'}to 
+                            the <Text onPress={() => Linking.openURL('https://alanyan.ca/Euphony/privacy')} style={styles.underline}>Privacy Policy</Text>
+                        </Text>
+                    </View>
+
+                    <JGButton clickable={toggleCheckbox} style={{ marginTop: 20 }} icon={JGButtonImageType.Spotify} title="CONNECT SPOTIFY" onClick={async () => {
+                        if (!toggleCheckbox) {  
+                            setErrorMessage("Please agree to the privacy policy before continuing.");
+                            return;
+                        }
                         try {
                             setErrorMessage(null);
                             let result = await authHandler.onLogin();
@@ -119,7 +140,16 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginHorizontal: 40,
-    }
+    },
+    privacyPolicyContainer: {
+        justifyContent: "space-evenly", 
+        alignItems: "center", 
+        flexDirection: "row", 
+        alignContent: "center",
+    },
+    underline: {
+        textDecorationLine: 'underline'
+    },
 });
 
 
