@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { SafeAreaView, TouchableHighlight, StyleSheet, Button, Text, View, Image, ImageBackground, Alert, StatusBar } from 'react-native';
+import { SafeAreaView, TouchableHighlight, StyleSheet, Button, Text, View, Image, ImageBackground, Alert, StatusBar, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../AppContext';
 import { authHandler } from '../../networking/Endpoints';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import CheckBox from '@react-native-community/checkbox';
 
 function OnboardingScreen(props) {
     const globalContext = React.useContext(AppContext);
@@ -90,6 +91,8 @@ function OnboardingScreen(props) {
     }
 
     function ScrollC() {
+        const [toggleCheckbox, setToggleCheckbox] = React.useState(false);
+
         return (
             <View style={styles.cardContainer}>
                 <Text style={styles.skipText} onPress={() => {
@@ -111,6 +114,19 @@ function OnboardingScreen(props) {
                     <View style={styles.pageIndicator}>
                         <Text style={styles.pageIndicatorTxt}>3 of 3</Text>
                     </View>
+
+                    {/* Add checkbox for user to consent to privacy policy */}
+                    <View style={styles.privacyPolicyContainer}>
+                        <CheckBox
+                            value={toggleCheckbox}
+                            onValueChange={() =>
+                                setToggleCheckbox(!toggleCheckbox)
+                            }
+                        />
+                        <Text style={styles.baseText}>I have read and agree {'\n'}to 
+                            the <Text onPress={() => Linking.openURL('https://alanyan.ca/Euphony/privacy')} style={styles.underline}>Privacy Policy</Text>
+                        </Text>
+                    </View>
                 </View>
 
                 <TouchableHighlight style={styles.leftButton} onPress={() => setPage(<ScrollB />)} underlayColor="#9663ff">
@@ -118,6 +134,10 @@ function OnboardingScreen(props) {
                 </TouchableHighlight>
 
                 <TouchableHighlight style={[styles.spotifyButtonContainer, styles.shadowPropIOS, styles.shadowPropAndroid]} onPress={async () => {
+                    if (!toggleCheckbox) {
+                        Alert.alert("Please agree to the privacy policy before continuing.");
+                        return;
+                    }
                     try {
                         let result = await authHandler.onLogin();
                         globalContext.setUserID(result.userID);
@@ -132,7 +152,7 @@ function OnboardingScreen(props) {
                         }
                     }
                 }} underlayColor="#9663ff">
-                    <View style={styles.spotifyButton}>
+                    <View style={[styles.spotifyButton, toggleCheckbox ? styles.clickableTrue : styles.clickableFalse]}>
                         <Image source={require('./images/spotify-logo.png')} style={{ width: 22, height: 33, resizeMode: 'stretch' }} />
                         <Text style={styles.spotifyText}>CONNECT SPOTIFY</Text>
                     </View>
@@ -146,7 +166,8 @@ function OnboardingScreen(props) {
 const styles = StyleSheet.create({
     main: {
         backgroundColor: 'white',
-        flex: 1
+        flex: 1,
+        paddingTop: 20,
     },
     cardContainer: {
         display: "flex",
@@ -298,10 +319,24 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         borderRadius: 50,
-        backgroundColor: "#7432FF",
         paddingRight: 25,
         paddingLeft: 25
-    }
+    },
+    privacyPolicyContainer: {
+        justifyContent: "space-evenly", 
+        alignItems: "center", 
+        flexDirection: "row", 
+        alignContent: "center",
+    },
+    underline: {
+        textDecorationLine: 'underline'
+    },
+    clickableTrue: {
+        backgroundColor: "#7432FF",
+    },
+    clickableFalse: {
+        backgroundColor: "#483b63",
+    },
 });
 
 

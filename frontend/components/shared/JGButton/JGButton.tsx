@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Image, Text, StyleSheet, ViewStyle, StyleProp, 
 
 export type JGButtonProps = {
     title?: string;
+    clickable?: boolean;
     icon?: JGButtonImageType;
     style?: StyleProp<ViewStyle>;
     fillParent?: boolean;
@@ -17,6 +18,7 @@ export default function JGButton(props: JGButtonProps) {
     // let image = props.imagePath ? <Image source={require(props.imagePath)} style={{ width: 20, height: 20 }} /> : null;
     let isLoading = props.isLoading ?? false;
     let wrapperStyle = props.fillParent ? { ...styles.wrapperView, ...styles.fullWidth } : styles.wrapperView;
+    let clickableStyle = props.clickable || props.clickable == null ? { ...styles.clickableTrue } : { ...styles.clickableFalse };
     let imagePath = props.icon ? require("./images/spotify-logo.png") : null;
     console.log(imagePath);
     let image = props.icon ? <Image style={styles.image} source={imagePath} /> : null;
@@ -29,7 +31,7 @@ export default function JGButton(props: JGButtonProps) {
     return (
         <View style={props.style}>
             <TouchableOpacity onPress={props.onClick}>
-                <View style={wrapperStyle}>
+                <View style={[wrapperStyle, clickableStyle]}>
                     {image}
                     {title}
                     {loadingView}
@@ -54,11 +56,16 @@ const styles = StyleSheet.create({
     wrapperView: {
         flex: 0,
         flexDirection: "row",
-        backgroundColor: "#7432FF",
         paddingHorizontal: 20,
         borderRadius: 50,
         alignItems: "center",
         justifyContent: "center",
+    },
+    clickableTrue: {
+        backgroundColor: "#7432FF",
+    },
+    clickableFalse: {
+        backgroundColor: "#483b63",
     },
     fullWidth: {
         width: "100%",
