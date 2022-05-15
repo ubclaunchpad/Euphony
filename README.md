@@ -6,8 +6,21 @@
   Playlists Made For The Moment You Are In.
  </p>
 <p align="center">
-<img src="https://user-images.githubusercontent.com/2137780/162273387-c596a7f2-efa6-4047-a41f-f20014851309.png" width="600">
+<a href="https://www.youtube.com/watch?v=78rMSg4dj6I">
+<p align = "center">
+  YouTube Demonstration
+ </p>
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/2137780/162273387-c596a7f2-efa6-4047-a41f-f20014851309.png" width="600"> 
 </p>
+</a>
+
+## Download
+
+| iOS | Android |
+|:-:|:-:|
+| [<img src="assets/appstore-badge.png" height="50">](https://apps.apple.com/us/app/euphony/id1617335531) | [<img src="assets/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=com.alanyan.euphony) |
+
 
 ## About
 
