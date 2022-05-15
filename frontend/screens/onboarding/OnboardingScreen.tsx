@@ -16,13 +16,13 @@ function OnboardingScreen(props) {
     }, [page]);
 
     return (
-        <SafeAreaView style={styles.main}>
+        <View style={styles.main}>
             <StatusBar translucent barStyle="dark-content" backgroundColor="transparent" />
 
             <ImageBackground source={require('./images/onboarding-background.png')} style={{ flex: 1 }}>
                 {page}
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 
     function ScrollA() {
